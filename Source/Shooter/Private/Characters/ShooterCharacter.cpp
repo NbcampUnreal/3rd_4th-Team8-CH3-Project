@@ -8,8 +8,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "ShooterGamePlayTag.h"
+#include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Components/Input/ShooterInputComponent.h"
 #include "Components/Combat/ShooterCombatComponent.h"
+#include "Components/UI/ShooterUIComponent.h"
+#include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 
 AShooterCharacter::AShooterCharacter()
 {
@@ -36,6 +39,7 @@ AShooterCharacter::AShooterCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	ShooterCombatComponent = CreateDefaultSubobject<UShooterCombatComponent>(TEXT("ShooterCombatComponent"));
+	ShooterUIComponent = CreateDefaultSubobject<UShooterUIComponent>(TEXT("ShooterUIComponent"));
 }
 
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -76,12 +80,44 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		this,
 		&ThisClass::Input_Look
 	);
+
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
 		ShooterGamePlayTags::InputTag_Jump,
 		ETriggerEvent::Triggered,
 		this,
 		&ThisClass::Input_Jump
+	);
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Crouch,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Crouch
+	);
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Walk,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Walk
+	);
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Sprint,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Sprint
+	);
+
+	ShooterInputComponent->BindAbilityInputAction(
+		InputConfigDataAsset,
+		this,
+		&ThisClass::Input_AbilityInputPressed,
+		&ThisClass::Input_AbilityInputReleased
 	);
 }
 
@@ -93,6 +129,13 @@ void AShooterCharacter::BeginPlay()
 void AShooterCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	if (!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(ShooterAbilitySystemComponent);
+		}
+	}
 }
 
 void AShooterCharacter::Input_Move(const FInputActionValue& InputActionValue)
@@ -132,6 +175,64 @@ void AShooterCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AShooterCharacter::Input_Crouch(const FInputActionValue& InputActionValue)
+{
+	if (GetCharacterMovement()->IsCrouching())
+	{
+		UnCrouch();
+	}
+	else
+	{
+		{
+			Crouch();
+		}
+	}
+}
+
+void AShooterCharacter::Input_Walk(const FInputActionValue& InputActionValue)
+{
+	if (IsInputPressed(InputActionValue))
+	{
+		bIsWalking = !bIsWalking; // 토글
+
+		if (bIsWalking)
+		{
+			SetMaxWalkSpeed(200.f); // 걷기
+		}
+		else
+		{
+			SetMaxWalkSpeed(550.f); // 달리기
+		}
+	}
+}
+
+void AShooterCharacter::Input_Sprint(const FInputActionValue& InputActionValue)
+{
+	if (IsInputPressed(InputActionValue))
+	{
+		bIsSprint = !bIsSprint;
+
+		if (bIsSprint)
+		{
+			SetMaxWalkSpeed(600.f); // 스프린트
+		}
+		else
+		{
+			SetMaxWalkSpeed(550.f); // 달리기
+		}
+	}
+}
+
+bool AShooterCharacter::IsInputPressed(const FInputActionValue& InputActionValue)
+{
+	return InputActionValue.Get<bool>();
+}
+
+void AShooterCharacter::SetMaxWalkSpeed(const float NewMaxWalkSpeed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = NewMaxWalkSpeed;
+}
+
 void AShooterCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 {
 	// 입력이 true일 때만 점프 실행 (버튼이 눌린 순간)
@@ -139,4 +240,14 @@ void AShooterCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 	{
 		Jump();
 	}
+}
+
+void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AShooterCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	ShooterAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }

@@ -3,6 +3,7 @@
 
 #include "Characters/ShooterBaseCharacter.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
+#include "AbilitySystem/ShooterAttributeSet.h"
 
 AShooterBaseCharacter::AShooterBaseCharacter()
 {
@@ -12,6 +13,8 @@ AShooterBaseCharacter::AShooterBaseCharacter()
 	ShooterAbilitySystemComponent = CreateDefaultSubobject<UShooterAbilitySystemComponent>(
 		TEXT("ShooterAbilitySystemComponent"));
 
+	ShooterAttributeSet = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
+
 	GetMesh()->bReceivesDecals = true;
 }
 
@@ -20,7 +23,24 @@ UAbilitySystemComponent* AShooterBaseCharacter::GetAbilitySystemComponent() cons
 	return nullptr;
 }
 
+UPawnCombatComponent* AShooterBaseCharacter::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
+
+UPawnUIComponent* AShooterBaseCharacter::GetPawnUIComponent() const
+{
+	return nullptr;
+}
+
 void AShooterBaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	if (ShooterAbilitySystemComponent)
+	{
+		// 액터정보를 설정하는 부분
+		ShooterAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("start up 데이터를 character에 할당하는 것을 잊었습니다 %s!"), *GetName());
+	}
 }
