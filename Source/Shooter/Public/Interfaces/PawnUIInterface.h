@@ -26,4 +26,7 @@ class SHOOTER_API IPawnUIInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual UPawnUIComponent* GetPawnUIComponent() const = 0;
+	virtual UShooterUIComponent* GetHeroUIComponent() const;
+	virtual UEnemyUIComponent* GetEnemyUIComponent() const;
 };

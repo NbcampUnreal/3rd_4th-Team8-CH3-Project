@@ -10,4 +10,7 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Mouse, "InputTag.Look.Mouse");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Gamepad, "InputTag.Look.Gamepad");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Jump, "InputTag.Jump");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Crouch, "InputTag.Crouch");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Walk, "InputTag.Walk");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sprint, "InputTag.Sprint");
 }

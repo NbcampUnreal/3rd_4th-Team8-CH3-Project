@@ -79,7 +79,7 @@ void UShooterInputComponent::BindAbilityInputAction(
 			AbilityInputActionConfig.InputAction,
 			ETriggerEvent::Completed,
 			ContextObject,
-			InputPressedFunc,
+			InputReleasedFunc,
 			AbilityInputActionConfig.InputTag
 		);
 	}
