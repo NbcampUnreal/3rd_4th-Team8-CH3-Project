@@ -16,5 +16,4 @@ UShooterAttributeSet::UShooterAttributeSet()
 
 void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	// TODO: ui 변경에 대한 로직 작성 필요
 }

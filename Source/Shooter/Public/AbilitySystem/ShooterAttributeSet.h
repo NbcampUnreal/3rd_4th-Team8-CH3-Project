@@ -11,13 +11,13 @@
 class IPawnUIInterface;
 
 /**
- * �־��� Ŭ����(ClassName)�� ��Ʈ����Ʈ(PropertyName)�� ����
- * �ʿ��� Getter, Setter, Initializer ��ƿ��Ƽ �Լ��� �ڵ����� �����մϴ�.
+ * 주어진 클래스(ClassName)의 어트리뷰트(PropertyName)에 대해
+ * 필요한 Getter, Setter, Initializer 유틸리티 함수를 자동으로 생성합니다.
  *
- * - FGameplayAttribute�� �������� ���� �Լ�
- * - ��Ʈ����Ʈ �� ��ȸ �Լ�
- * - ��Ʈ����Ʈ �� ���� �Լ�
- * - ��Ʈ����Ʈ �ʱ�ȭ �Լ�
+ * - FGameplayAttribute를 가져오는 정적 함수
+ * - 어트리뷰트 값 조회 함수
+ * - 어트리뷰트 값 설정 함수
+ * - 어트리뷰트 초기화 함수
  */
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
