@@ -2,6 +2,9 @@
 
 
 #include "AbilitySystem/ShooterAttributeSet.h"
+#include "Characters/ShooterBaseCharacter.h"
+#include "GameplayEffect.h"
+#include "GameplayEffectExtension.h"
 
 UShooterAttributeSet::UShooterAttributeSet()
 {
