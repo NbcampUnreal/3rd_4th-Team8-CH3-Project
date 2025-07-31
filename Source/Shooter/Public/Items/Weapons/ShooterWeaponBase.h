@@ -7,11 +7,7 @@
 #include "ShooterGamePlayTag.h"
 #include "ShooterWeaponBase.generated.h"
 
-class UStaticMeshComponent;
-class UGameplayAbility;
 class UShooterGameplayAbility;
-class UShooterAbilitySystemComponent;
-class UAttributeSet;
 
 UCLASS()
 class SHOOTER_API AShooterWeaponBase : public AActor
@@ -42,9 +38,6 @@ public:
 	void GiveAbilityToOwner(AActor* NewOwner);
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	// 선택 가능한 AttributeSet 클래스 (블루프린트에서 지정)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|GAS")
 	TSubclassOf<UAttributeSet> WeaponAttributeSetClass;
@@ -56,10 +49,4 @@ protected:
 	// 총알이 발사 위치
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
 	USceneComponent* MuzzleLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
-	AActor* OwnerActor;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
-	UShooterAbilitySystemComponent* OwnerASC;
 };

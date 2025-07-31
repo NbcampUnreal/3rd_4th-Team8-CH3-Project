@@ -3,8 +3,9 @@
 
 #include "Items/Weapons/ShooterWeaponBase.h"
 #include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
-#include "Items/Weapons/WeaponAttributeSet.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
+#include "Items/Weapons/WeaponAttributeSet.h"
+#include "ShooterGamePlayTag.h"
 #include "Characters/ShooterBaseCharacter.h"
 
 
@@ -22,20 +23,12 @@ AShooterWeaponBase::AShooterWeaponBase()
 	MuzzleLocation->SetupAttachment(RootComponent);
 }
 
-// Called when the game starts or when spawned
-void AShooterWeaponBase::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-
 void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 {
 	if (!NewOwner) return;
-	OwnerActor = NewOwner;
 	AShooterBaseCharacter* OwnwerCharacter = Cast<AShooterBaseCharacter>(NewOwner);
 
-	OwnerASC = OwnwerCharacter->GetShooterAbilitySystemComponent();
+	UShooterAbilitySystemComponent* OwnerASC = OwnwerCharacter->GetShooterAbilitySystemComponent();
 
 	if (!OwnerASC) return;
 
@@ -58,10 +51,9 @@ void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 	Give(ReloadAbilityClass, ShooterGamePlayTags::InputTag_Weapon_Reload);
 	if (WeaponAttributeSetClass)
 	{
-		UWeaponAttributeSet* WeaponAttrSet = NewObject<UWeaponAttributeSet>(OwnerActor, WeaponAttributeSetClass);
+		UWeaponAttributeSet* WeaponAttrSet = NewObject<UWeaponAttributeSet>(NewOwner, WeaponAttributeSetClass);
 		OwnerASC->AddSpawnedAttribute(WeaponAttrSet);
-		UE_LOG(LogTemp, Warning, TEXT("WeaponAttrSet Good"));
+		UE_LOG(LogTemp, Warning, TEXT("WeaponAttrSet Give Owner"));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AbilityGive"));
 }
 
