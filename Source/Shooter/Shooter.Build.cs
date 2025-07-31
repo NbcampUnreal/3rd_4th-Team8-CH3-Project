@@ -15,7 +15,8 @@ public class Shooter : ModuleRules
 			"Engine",
 			"InputCore",
 			"EnhancedInput",
-			"GameplayTags",
+            "GameplayAbilities",
+            "GameplayTags",
 			"GameplayTasks",
 			"AIModule"
 		});
