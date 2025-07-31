@@ -48,6 +48,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     float TargetHealth = TargetAttrSet->GetCurrentHealth();
     float ActivatorAttackPower = ActivatorAttrSet->GetAttackPower();
 
+    // 맞은 ShooterAttributeSet의 Current Health 변수 어빌리티 사용자의 AttackPower만큼 Additive(더하기)
     FGameplayModifierEvaluatedData EvalData(
         UShooterAttributeSet::GetCurrentHealthAttribute(),
         EGameplayModOp::Additive,

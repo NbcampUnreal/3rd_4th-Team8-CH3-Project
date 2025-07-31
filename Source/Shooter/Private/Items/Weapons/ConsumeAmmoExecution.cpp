@@ -22,7 +22,7 @@ void UConsumeAmmoExecution::Execute_Implementation(const FGameplayEffectCustomEx
         return;
     }
 
-    // CurrentAmmo 어트리뷰트에 Override 모드로 변경 요청
+    // WeaponAttributeSet의 CurrentAmmo 변수 -1 만큼 Additive(더하기)
     FGameplayModifierEvaluatedData EvalData(
         UWeaponAttributeSet::GetCurrentAmmoAttribute(),
         EGameplayModOp::Additive,

@@ -25,7 +25,7 @@ void UReloadExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     float MaxAmmo = WeaponAttrSet->GetMaxAmmo();
     float NewAmmo = MaxAmmo;
 
-    // CurrentAmmo 어트리뷰트에 Override 모드로 변경 요청
+    // WeaponAttributeSet의 CurrentAmmo 변수 MaxAmmo로 Override(덮어쓰기)
     FGameplayModifierEvaluatedData EvalData(
         UWeaponAttributeSet::GetCurrentAmmoAttribute(),
         EGameplayModOp::Override,
