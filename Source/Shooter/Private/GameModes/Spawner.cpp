@@ -1,6 +1,6 @@
 ﻿#include "GameModes/Spawner.h"
 #include "Components/BoxComponent.h"
-#include "tmp/TempC.h"
+// #include "tmp/TempC.h"
 
 
 ASpawner::ASpawner()
