@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -14,4 +14,11 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Crouch);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Walk);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Sprint);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Fire);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Reload);
+	
+	/** Ability Tags**/
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Weapon_Equip);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Weapon_Fire);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Weapon_Reload);
 }
