@@ -26,33 +26,33 @@ AShooterWeaponBase::AShooterWeaponBase()
 void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 {
 	if (!NewOwner) return;
+
 	AShooterBaseCharacter* OwnwerCharacter = Cast<AShooterBaseCharacter>(NewOwner);
+	if (!OwnwerCharacter) return;
 
 	UShooterAbilitySystemComponent* OwnerASC = OwnwerCharacter->GetShooterAbilitySystemComponent();
-
 	if (!OwnerASC) return;
 
-	auto Give = [&](TSubclassOf<UGameplayAbility> AbilityClass, FGameplayTag InputTag)
+	for (const auto& Pair : WeaponAbilityMap)
+	{
+		TSubclassOf<UShooterGameplayAbility> AbilityClass = Pair.Key;
+		FGameplayTag InputTag = Pair.Value;
+
+		if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
 		{
-			if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
-			{
-				FGameplayAbilitySpec Spec(AbilityClass, 1);
+			FGameplayAbilitySpec Spec(AbilityClass, 1);
+			Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
+			OwnerASC->GiveAbility(Spec);
 
-				// InputTag를 Spec의 DynamicAbilityTags에 추가
-				Spec.DynamicAbilityTags.AddTag(InputTag);
+			UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(), *InputTag.ToString());
+		}
+	}
 
-				OwnerASC->GiveAbility(Spec);
-
-				UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(), *InputTag.ToString());
-			}
-		};
-
-	Give(FireAbilityClass, ShooterGamePlayTags::InputTag_Weapon_Fire);
-	Give(ReloadAbilityClass, ShooterGamePlayTags::InputTag_Weapon_Reload);
 	if (WeaponAttributeSetClass)
 	{
 		UWeaponAttributeSet* WeaponAttrSet = NewObject<UWeaponAttributeSet>(NewOwner, WeaponAttributeSetClass);
 		OwnerASC->AddSpawnedAttribute(WeaponAttrSet);
+
 		UE_LOG(LogTemp, Warning, TEXT("WeaponAttrSet Give Owner"));
 	}
 }

@@ -2,7 +2,6 @@
 
 
 #include "Items/Weapons/WeaponAttributeSet.h"
-#include "Net/UnrealNetwork.h"
 
 UWeaponAttributeSet::UWeaponAttributeSet()
 {

@@ -17,6 +17,8 @@ class SHOOTER_API UDamageExecution : public UGameplayEffectExecutionCalculation
 public:
     UDamageExecution();
 
-    virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
-        FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+    virtual void Execute_Implementation(
+        const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+        FGameplayEffectCustomExecutionOutput& OutExecutionOutput
+    ) const override;
 };

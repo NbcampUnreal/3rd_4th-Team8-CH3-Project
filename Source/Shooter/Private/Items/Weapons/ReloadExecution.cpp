@@ -8,7 +8,10 @@ UReloadExecution::UReloadExecution()
 {
 }
 
-void UReloadExecution::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
+void UReloadExecution::Execute_Implementation(
+    const FGameplayEffectCustomExecutionParameters& ExecutionParams, 
+    FGameplayEffectCustomExecutionOutput& OutExecutionOutput
+) const
 {
     UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
     if (!TargetASC)

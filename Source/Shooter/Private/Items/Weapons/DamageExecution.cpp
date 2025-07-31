@@ -9,41 +9,28 @@ UDamageExecution::UDamageExecution()
 
 }
 
-void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
+void UDamageExecution::Execute_Implementation(
+    const FGameplayEffectCustomExecutionParameters& ExecutionParams, 
+    FGameplayEffectCustomExecutionOutput& OutExecutionOutput
+) const
 {
     UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
-    if (!TargetASC)
-    {
-        return;
-    }
-    const UShooterAttributeSet* TargetAttrSet = TargetASC->GetSet<UShooterAttributeSet>();
-    if (!TargetAttrSet)
-    {
-        return;
-    }
+    if (!TargetASC) return;
 
-    UAbilitySystemComponent* ActivatorASC = nullptr;
+    const UShooterAttributeSet* TargetAttrSet = TargetASC->GetSet<UShooterAttributeSet>();
+    if (!TargetAttrSet) return;
+
     const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
     const FGameplayEffectContextHandle& ContextHandle = Spec.GetContext();
 
-    AActor* InstigatorActor = ContextHandle.GetInstigator();
-    if (InstigatorActor)
-    {
-        ActivatorASC = InstigatorActor->FindComponentByClass<UAbilitySystemComponent>();
-        if (!ActivatorASC)
-        {
-            return;
-        }
-    }
-    else
-    {
-        return;
-    }
+ 	AActor* InstigatorActor = ContextHandle.GetInstigator();
+	if (!InstigatorActor) return;
+	
+    UAbilitySystemComponent* ActivatorASC = InstigatorActor->FindComponentByClass<UAbilitySystemComponent>();
+	if (!ActivatorASC) return;
+
     const UShooterAttributeSet* ActivatorAttrSet = ActivatorASC->GetSet<UShooterAttributeSet>();
-    if (!ActivatorAttrSet)
-    {
-        return;
-    }
+    if (!ActivatorAttrSet) return;
 
     float TargetHealth = TargetAttrSet->GetCurrentHealth();
     float ActivatorAttackPower = ActivatorAttrSet->GetAttackPower();
