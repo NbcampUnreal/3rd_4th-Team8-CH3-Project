@@ -54,7 +54,7 @@ void AConsumableItembase::OnOverlapCheckBegin(UPrimitiveComponent* OverlappedCom
     UE_LOG(LogTemp, Warning, TEXT("OvelapCheck"));
     AShooterCharacter* ShooterPlayer = Cast<AShooterCharacter>(OtherActor);
     if (!ShooterPlayer) return;
-    
+    TargetCharacter = ShooterPlayer;
     MoveToCharacter(ShooterPlayer);
 
 }
@@ -83,7 +83,7 @@ void AConsumableItembase::PickupItem(AShooterCharacter* Picker)
     UE_LOG(LogTemp, Warning, TEXT("PickupItem"));
     bIsMovingToPlayer = false;
     SetActorTickEnabled(false);
-
+    TargetCharacter = nullptr;
     if (!Picker) return;
     //인벤토리 작업 후 로직 수정 예정
     /*
@@ -113,14 +113,16 @@ void AConsumableItembase::GiveAbilityToOwner(AShooterCharacter* NewOwner)
     {
         TSubclassOf<UShooterGameplayAbility> AbilityClass = Pair.Key;
         FGameplayTag InputTag = Pair.Value;
-
+        
         if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
         {
-            FGameplayAbilitySpec Spec(AbilityClass, 1);
-            Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
-            OwnerASC->GiveAbility(Spec);
+            if (OwnerASC->FindAbilitySpecFromClass(AbilityClass) == nullptr) {
+                FGameplayAbilitySpec Spec(AbilityClass, 1, INDEX_NONE, OwnerASC);
+                Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
+                OwnerASC->GiveAbility(Spec);
 
-            UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(), *InputTag.ToString());
+                UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(), *InputTag.ToString());
+            } 
         }
     }
 }
@@ -130,8 +132,9 @@ void AConsumableItembase::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 
     
-    if (bIsMovingToPlayer)
+    if (bIsMovingToPlayer && TargetCharacter != nullptr)
     {
+        TargetLocation = TargetCharacter->GetActorLocation();
         FVector CurrentLocation = GetActorLocation();
         FVector NewLocation = FMath::VInterpTo(CurrentLocation, TargetLocation, DeltaTime, MoveSpeed);
 

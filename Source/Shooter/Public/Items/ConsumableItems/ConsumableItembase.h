@@ -65,8 +65,12 @@ protected:
     virtual void Tick(float DeltaTime) override;
 
 private:
+    AShooterCharacter* TargetCharacter;
+
     FVector TargetLocation;
+
     bool bIsMovingToPlayer = false;
+
     UPROPERTY(EditAnywhere, Category = "Item")
     float MoveSpeed = 3.f;
 
