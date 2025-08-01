@@ -12,19 +12,28 @@ class SHOOTER_API AShooterBaseGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+
 	AShooterBaseGameMode();
+
+	UFUNCTION(BlueprintCallable)
+	void OnPlayerDied();
+
+	void OnAllEnemiesDefeated();
+
+protected:
+
 	virtual void StartPlay() override;
 
 	UFUNCTION(BlueprintCallable)
 	void StartGame();
-	UFUNCTION(BlueprintCallable)
+
+		UFUNCTION(BlueprintCallable)
 	void StartWave();
 
-	void OnAllEnemiesDefeated();
 	void EndGame(bool bIsWin);
 
 private:
-	UShooterGameInstance* GameInstance;
 
+	UShooterGameInstance* GameInstance;
 	FTimerHandle StartTime;
 };

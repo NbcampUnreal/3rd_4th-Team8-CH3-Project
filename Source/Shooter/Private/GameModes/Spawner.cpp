@@ -1,7 +1,6 @@
 ﻿#include "GameModes/Spawner.h"
 #include "Components/BoxComponent.h"
-#include "tmp/TempC.h"
-
+#include "GameFramework/Character.h"
 
 ASpawner::ASpawner()
 {
@@ -16,24 +15,46 @@ ASpawner::ASpawner()
 
 }
 
-void ASpawner::SpawnEnemies(int32 NumEnemies)
+
+int32 ASpawner::SpawnEnemies(const TArray<TSubclassOf<class ACharacter>>& EnemyTypes, int32 TotalCount)
 {
-	if (!EnemyClass) return;
 
-	UWorld* World = GetWorld();
-	if (!World) return;
-
-	for (int32 i = 0; i < NumEnemies; ++i)
+	int32 SpawnedCount = 0;
+	
+	if (EnemyTypes.Num() == 0 || TotalCount <= 0)
 	{
-		FVector SpawnLocation = GetRandomPointInVolume();
-		World->SpawnActor<ACharacter>(
-			EnemyClass,
-			SpawnLocation, 
-			FRotator::ZeroRotator
-			);
+		return SpawnedCount;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Enemy spawned :%d"), NumEnemies);
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return SpawnedCount;
+	}
+
+	for (int32 i = 0; i < TotalCount; ++i)
+	{
+		int32 Index = FMath::RandRange(0, EnemyTypes.Num() - 1);
+		TSubclassOf<ACharacter> EnemyClass = EnemyTypes[Index];
+		if (!EnemyClass) continue;
+
+		FVector SpawnLocation = GetRandomPointInVolume();
+		
+		ACharacter* SpawnedEnemy = World->SpawnActor<ACharacter>(
+			EnemyClass,
+			SpawnLocation,
+			FRotator::ZeroRotator
+		);
+
+		if (SpawnedEnemy)
+		{
+			SpawnedCount++;
+		}
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Random spawned %d enemies from %d types"), SpawnedCount, EnemyTypes.Num());
+
+	return SpawnedCount;
 }
 
 FVector ASpawner::GetRandomPointInVolume() const
