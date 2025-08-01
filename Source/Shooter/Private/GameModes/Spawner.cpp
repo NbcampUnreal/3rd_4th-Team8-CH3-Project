@@ -4,7 +4,6 @@
 
 ASpawner::ASpawner()
 {
-
 	PrimaryActorTick.bCanEverTick = false;
 
 	Scene = CreateDefaultSubobject<USceneComponent>(TEXT("Scene"));
@@ -12,7 +11,6 @@ ASpawner::ASpawner()
 
 	SpawningBox = CreateDefaultSubobject<UBoxComponent>(TEXT("SpawningBox"));
 	SpawningBox->SetupAttachment(Scene);
-
 }
 
 
@@ -68,5 +66,3 @@ FVector ASpawner::GetRandomPointInVolume() const
 		FMath::FRandRange(-BoxExtent.Z, BoxExtent.Z)
 	);
 }
-
-
