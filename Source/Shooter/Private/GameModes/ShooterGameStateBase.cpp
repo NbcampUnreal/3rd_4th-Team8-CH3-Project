@@ -15,10 +15,14 @@ void AShooterGameStateBase::SetAliveEnemyCount(int32 Count)
 
 void AShooterGameStateBase::OnEnemyDied()
 {
-	AliveEnemyCount--;
+	if (AliveEnemyCount > 0)
+	{
+		AliveEnemyCount = FMath::Max(AliveEnemyCount - 1, 0);
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("The enemy is dead  (%d / %d)"), AliveEnemyCount, TotalEnemy);
 
-	if (AliveEnemyCount <= 0)
+	if (AliveEnemyCount <= 0 && TotalEnemy > 0)
 	{
 		AShooterBaseGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterBaseGameMode>();
 		if (GameMode)
@@ -27,3 +31,4 @@ void AShooterGameStateBase::OnEnemyDied()
 		}
 	}
 }
+
