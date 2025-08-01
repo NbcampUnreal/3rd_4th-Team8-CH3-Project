@@ -16,4 +16,5 @@ UShooterAttributeSet::UShooterAttributeSet()
 
 void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
+
 }

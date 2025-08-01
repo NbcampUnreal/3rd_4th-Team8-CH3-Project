@@ -9,6 +9,7 @@
 
 
 class UDataAsset_InputConfig;
+class AAIController;
 /**
  * 
  */
@@ -23,16 +24,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UDataAsset_InputConfig* InputConfigDataAsset;
+	virtual void OnHealthAttributeChanged(const FOnAttributeChangeData& Data);
 
-	FDelegateHandle HealthChangedDelegateHandle;
-
-	virtual void HealthChanged(const FOnAttributeChangeData& Data);
-
-	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
-
-	void AddCharacterAbilities();
-	void InitializeAttributes();
-	void AddStartupEffects();
-
+	UFUNCTION(BlueprintImplementableEvent, Category = "GAS")
+	void OnHealthChanged(float OldValue, float NewValue);
 };
