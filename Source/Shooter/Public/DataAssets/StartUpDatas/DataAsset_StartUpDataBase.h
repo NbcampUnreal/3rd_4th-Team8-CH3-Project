@@ -20,8 +20,6 @@ class SHOOTER_API UDataAsset_StartUpDataBase : public UDataAsset
 public:
 	virtual void GiveToAbilitySystemComponent(UShooterAbilitySystemComponent* InASCToGive, int32 ApplyLevel = 1);
 
-	int32 a;
-
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
 	TArray<TSubclassOf<UShooterGameplayAbility>> ActivateOnGivenAbilities;
