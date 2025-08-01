@@ -5,22 +5,22 @@
 #include "Spawner.generated.h"
 
 class UBoxComponent;
+class ACharacter;
 
 UCLASS()
 class SHOOTER_API ASpawner : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	ASpawner();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnEnemy")
-	TSubclassOf<class ACharacter> EnemyClass;
+	TSubclassOf<ACharacter> EnemyClass;
 
 	void SpawnEnemies(int32 NumEnemies);
 
 protected:
-
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Scene;
 
