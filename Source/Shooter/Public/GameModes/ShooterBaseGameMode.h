@@ -27,7 +27,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StartGame();
 
-		UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void StartWave();
 
 	void EndGame(bool bIsWin);

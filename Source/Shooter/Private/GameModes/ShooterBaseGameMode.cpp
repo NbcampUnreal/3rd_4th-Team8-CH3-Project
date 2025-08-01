@@ -25,9 +25,8 @@ void AShooterBaseGameMode::StartPlay()
 		return;
 	}
 
-	//FString CurrentMapName = GetWorld()->GetMapName();
 	FString CleanMapName = UGameplayStatics::GetCurrentLevelName(this, true);
-	if (CleanMapName.Contains("MenuLevel"))
+	if (CleanMapName.Equals("MenuLevel"))
 	{
 		GetWorldTimerManager().SetTimer(
 			StartTime,
@@ -64,17 +63,18 @@ void AShooterBaseGameMode::StartWave()
 		return;
 	}
 
-	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[GameInstance->GetCurrentWave()];
-	const TArray<TSubclassOf<ACharacter>>& EnemyTypes = WaveData.EnemyClasses;
-	int32 SpawnedCount = 0;
-	
-	GameInstance->SetCurrentWave(GameInstance->GetCurrentWave()+1);
-	
+	//실제 웨이브 수와 구조체의 배열의 수는 -1 차이남 ex) wave1 = 구조체[0]
 	int CurrentWave = GameInstance->GetCurrentWave();
-	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), CurrentWave);
+	GameInstance->SetCurrentWave(CurrentWave + 1);
+	
+	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), CurrentWave + 1);
 	
 
-	if (!GameInstance->GetWaveConfigs().IsValidIndex(CurrentWave - 1)) return;
+	if (!GameInstance->GetWaveConfigs().IsValidIndex(CurrentWave)) return;
+
+	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[CurrentWave];
+	const TArray<TSubclassOf<ACharacter>>& EnemyTypes = WaveData.EnemyClasses;
+	int32 SpawnedCount = 0;
 
 	TArray<AActor*> SpawnerActors;
 	UGameplayStatics::GetAllActorsOfClass(this, ASpawner::StaticClass(), SpawnerActors);
@@ -94,7 +94,7 @@ void AShooterBaseGameMode::StartWave()
 	AShooterGameStateBase* GS = GetGameState<AShooterGameStateBase>();
 	if (GS)
 	{
-		int32 index = CurrentWave - 1;
+		int32 index = CurrentWave;
 		GS->SetAliveEnemyCount(SpawnedCount);
 	}
 }

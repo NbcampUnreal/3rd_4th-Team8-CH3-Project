@@ -17,7 +17,7 @@ void AShooterGameStateBase::OnEnemyDied()
 {
 	if (AliveEnemyCount > 0)
 	{
-		AliveEnemyCount--;
+		AliveEnemyCount = FMath::Max(AliveEnemyCount - 1, 0);
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("The enemy is dead  (%d / %d)"), AliveEnemyCount, TotalEnemy);
