@@ -10,17 +10,20 @@ class SHOOTER_API AShooterGameStateBase : public AGameStateBase
 	GENERATED_BODY()
 
 public:
+
 	AShooterGameStateBase();
-
-	UPROPERTY(BlueprintReadOnly)
-	int32 AliveEnemyCount;
-
-	UPROPERTY(BlueprintReadOnly)
-	int32 TotalEnemy;
 
 	void SetAliveEnemyCount(int32 Count);
 
 	UFUNCTION(BlueprintCallable)
 	void OnEnemyDied();
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 AliveEnemyCount;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 TotalEnemy;
 
 };
