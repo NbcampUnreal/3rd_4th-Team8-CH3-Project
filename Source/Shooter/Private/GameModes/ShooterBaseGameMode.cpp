@@ -47,19 +47,19 @@ void AShooterBaseGameMode::StartGame()
 	GetWorldTimerManager().ClearTimer(StartTime);
 	if (!GameInstance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 51)"));
+		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 50)"));
 		return;
 	}
-	GameInstance->NextWaveLevel();
-	
 
+	GameInstance->LoadWaveLevel();
+	
 }
 
 void AShooterBaseGameMode::StartWave()
 {
 	if (!GameInstance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 63)"));
+		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 62)"));
 		return;
 	}
 
@@ -109,7 +109,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 {
 	if (!GameInstance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 109)"));
+		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 112)"));
 		return;
 	}
 	if (GameInstance->GetCurrentWave() >= GameInstance->GetMaxWave())
@@ -120,7 +120,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Clear wave %d"), GameInstance->GetCurrentWave());
-		GameInstance->NextWaveLevel();
+		GameInstance->LoadWaveLevel();
 	}
 }
 
@@ -130,7 +130,7 @@ void AShooterBaseGameMode::EndGame(bool bIsWin)
 	
 	if (!GameInstance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 130)"));
+		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 133)"));
 		return;
 	}
 	GameInstance->SetCurrentWave(0);

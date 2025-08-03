@@ -32,7 +32,7 @@ public:
 	virtual void Init() override;
 
 	UFUNCTION(BlueprintCallable)
-	void NextWaveLevel();
+	void LoadWaveLevel();
 
 	int32 GetCurrentWave() const { return CurrentWave; }
 	
@@ -44,7 +44,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave")
 	UDataTable* LevelDataTable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave")
@@ -56,4 +56,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FWaveConfig> WaveConfigs;
 
+	UFUNCTION()
+	void LoadLevelComplete();
 };
