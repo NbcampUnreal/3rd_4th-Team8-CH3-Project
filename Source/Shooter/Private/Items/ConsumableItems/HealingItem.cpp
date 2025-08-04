@@ -20,10 +20,16 @@ void AHealingItem::PickupItem(AShooterCharacter* Picker)
 
 	if (HealingItemAttributeSetClass)
 	{
-		UHealingItemAttributeSet* HealingItemAttrSet = NewObject<UHealingItemAttributeSet>(Picker, HealingItemAttributeSetClass);
-		
-		PickerASC->AddSpawnedAttribute(HealingItemAttrSet);
-
-		UE_LOG(LogTemp, Warning, TEXT("HealingItemAttrSet Give Owner"));
+		const UAttributeSet* ExistingSet =
+			PickerASC->GetAttributeSet(UHealingItemAttributeSet::StaticClass());
+		if (!ExistingSet)
+		{
+			UHealingItemAttributeSet* HealingItemAttrSet = NewObject<UHealingItemAttributeSet>(Picker, HealingItemAttributeSetClass);
+			PickerASC->AddSpawnedAttribute(HealingItemAttrSet);
+			UE_LOG(LogTemp, Warning, TEXT("HealingItemAttrSet Give Owner"));
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("HealingItemAttrSet Already Give Owner"));
+		}
 	}
 }

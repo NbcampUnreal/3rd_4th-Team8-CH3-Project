@@ -12,9 +12,6 @@ void UHealingExecution::Execute_Implementation(const FGameplayEffectCustomExecut
 	UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 	if (!TargetASC) return;
 
-	const UShooterAttributeSet* TargetAttrSet = TargetASC->GetSet<UShooterAttributeSet>();
-	if (!TargetAttrSet) return;
-
 	const UHealingItemAttributeSet* HealAttrSet = TargetASC->GetSet<UHealingItemAttributeSet>();
 	if (!HealAttrSet) return;
 
