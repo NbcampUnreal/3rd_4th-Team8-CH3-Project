@@ -20,6 +20,9 @@ public:
 
 	void OnAllEnemiesDefeated();
 
+		UFUNCTION(BlueprintCallable)
+	void StartWave();
+
 protected:
 
 	virtual void StartPlay() override;
@@ -27,13 +30,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StartGame();
 
-	UFUNCTION(BlueprintCallable)
-	void StartWave();
-
 	void EndGame(bool bIsWin);
 
 private:
-
+	
 	UShooterGameInstance* GameInstance;
+
 	FTimerHandle StartTime;
 };

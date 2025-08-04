@@ -21,7 +21,7 @@ public:
 
 protected:
 
-	FVector GetRandomPointInVolume() const;
+	FVector GetRandomPointInVolume(TSubclassOf<ACharacter>) const;
 
 private:
 
