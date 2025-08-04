@@ -83,7 +83,7 @@ void UShooterGameInstance::LoadLevelComplete()
 	UWorld* World = GetWorld();
 	if (!World) return;
 
-	AShooterBaseGameMode* GM = GetWorld()->GetAuthGameMode<AShooterBaseGameMode>();
+	AShooterBaseGameMode* GM = World->GetAuthGameMode<AShooterBaseGameMode>();
 	if (GM)
 	{
 		GM->StartWave();

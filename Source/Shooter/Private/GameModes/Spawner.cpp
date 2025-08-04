@@ -39,10 +39,16 @@ int32 ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, 
 
 		FVector SpawnLocation = GetRandomPointInVolume(EnemyClass);
 		
+		//스폰 충돌 시 위치를 조절하여 스폰하도록 설정
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
 		ACharacter* SpawnedEnemy = World->SpawnActor<ACharacter>(
 			EnemyClass,
 			SpawnLocation,
-			FRotator::ZeroRotator
+			FRotator::ZeroRotator,
+			SpawnParams
+
 		);
 
 		if (SpawnedEnemy)
@@ -77,8 +83,8 @@ FVector ASpawner::GetRandomPointInVolume(TSubclassOf<ACharacter> EnemyClass) con
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
 	{
 		//정상적으로 라인트레이스 인식해서 spawn되는지 확인
-		//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 2.0f, 0, 2.0f);
-		//DrawDebugPoint(GetWorld(), Hit.ImpactPoint, 12.0f, FColor::Red, false, 2.0f);
+		//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 5.0f, 0, 2.0f);
+		//DrawDebugPoint(GetWorld(), Hit.ImpactPoint, 12.0f, FColor::Red, false, 5.0f);
 
 		// 캡슐 크기 기본값 설정
 		float HalfHeight = 88.f;
