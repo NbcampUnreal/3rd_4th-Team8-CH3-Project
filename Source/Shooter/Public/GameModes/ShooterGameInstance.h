@@ -4,14 +4,48 @@
 #include "Engine/GameInstance.h"
 #include "ShooterGameInstance.generated.h"
 
+class ACharacter;
+
+USTRUCT(BlueprintType)
+struct FWaveConfig : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName LevelName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<TSubclassOf<ACharacter>> EnemyClasses;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TotalEnemyCount;
+};
+
 UCLASS()
 class SHOOTER_API UShooterGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
 public:
+
 	UShooterGameInstance();
 	virtual void Init() override;
+
+	UFUNCTION(BlueprintCallable)
+	void LoadWaveLevel();
+
+	int32 GetCurrentWave() const { return CurrentWave; }
+	
+	void SetCurrentWave(int32 SetWave) { CurrentWave = SetWave;}
+	
+	int32 GetMaxWave() const { return MaxWave; }
+	
+	const TArray<FWaveConfig>& GetWaveConfigs() const { return WaveConfigs; }
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wave")
+	UDataTable* LevelDataTable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave")
 	int32 MaxWave;
@@ -19,10 +53,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Wave")
 	int32 CurrentWave;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wave")
-	TArray<FName> WaveLevelNames;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TArray<FWaveConfig> WaveConfigs;
 
-	UFUNCTION(BlueprintCallable)
-	void NextWaveLevel();
-
+	UFUNCTION()
+	void LoadLevelComplete();
 };

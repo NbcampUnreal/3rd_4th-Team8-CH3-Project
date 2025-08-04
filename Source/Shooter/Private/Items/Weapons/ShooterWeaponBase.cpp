@@ -40,7 +40,7 @@ void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 
 		if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
 		{
-			FGameplayAbilitySpec Spec(AbilityClass, 1);
+			FGameplayAbilitySpec Spec(AbilityClass, 1, INDEX_NONE, OwnerASC);
 			Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
 			OwnerASC->GiveAbility(Spec);
 

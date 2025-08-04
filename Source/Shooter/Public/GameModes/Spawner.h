@@ -11,21 +11,23 @@ UCLASS()
 class SHOOTER_API ASpawner : public AActor
 {
 	GENERATED_BODY()
+	
+public:	
 
-public:
 	ASpawner();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpawnEnemy")
-	TSubclassOf<ACharacter> EnemyClass;
-
-	void SpawnEnemies(int32 NumEnemies);
+	UFUNCTION(BlueprintCallable)
+	int32 SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount);
 
 protected:
+
+	FVector GetRandomPointInVolume(TSubclassOf<ACharacter>) const;
+
+private:
+
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Scene;
 
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* SpawningBox;
-
-	FVector GetRandomPointInVolume() const;
 };
