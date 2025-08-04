@@ -8,7 +8,7 @@
 #include "ShooterWeaponBase.generated.h"
 
 class UShooterGameplayAbility;
-class UShooterAbilitySystemComponent;
+class UWeaponAttributeSet;
 
 UCLASS()
 class SHOOTER_API AShooterWeaponBase : public AActor
@@ -32,7 +32,7 @@ protected:
 
 	// 선택 가능한 AttributeSet 클래스 (블루프린트에서 지정)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|GAS")
-	TSubclassOf<UShooterAbilitySystemComponent> WeaponAttributeSetClass;
+	TSubclassOf<UWeaponAttributeSet> WeaponAttributeSetClass;
 
 	// 무기 메쉬
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
