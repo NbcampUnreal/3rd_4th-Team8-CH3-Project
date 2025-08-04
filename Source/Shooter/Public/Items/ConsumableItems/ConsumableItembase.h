@@ -62,6 +62,9 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item|Mesh")
     UStaticMeshComponent* ItemMesh;
 
+    UPROPERTY(EditAnywhere, Category = "Item")
+    int32 PlusItemCount = 1;
+
     virtual void Tick(float DeltaTime) override;
 
 private:
@@ -74,6 +77,5 @@ private:
     UPROPERTY(EditAnywhere, Category = "Item")
     float MoveSpeed = 3.f;
 
-    UPROPERTY(EditAnywhere, Category = "Item")
-    int32 PlusItemCount = 1;
+    
 };

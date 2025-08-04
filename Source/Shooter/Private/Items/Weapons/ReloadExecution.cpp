@@ -2,6 +2,7 @@
 
 
 #include "Items/Weapons/ReloadExecution.h"
+#include "ShooterGamePlayTag.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 
 UReloadExecution::UReloadExecution()
@@ -13,26 +14,15 @@ void UReloadExecution::Execute_Implementation(
     FGameplayEffectCustomExecutionOutput& OutExecutionOutput
 ) const
 {
-    UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
-    if (!TargetASC)
-    {
-        return;
-    }
+    const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+    // SetByCaller로 전달된 값 가져오기
+    float ReloadAmount = Spec.GetSetByCallerMagnitude(ShooterGamePlayTags::Data_ReloadAmount, true);
 
-    const UWeaponAttributeSet* WeaponAttrSet = TargetASC->GetSet<UWeaponAttributeSet>();
-    if (!WeaponAttrSet)
-    {
-        return;
-    }
-
-    float MaxAmmo = WeaponAttrSet->GetMaxAmmo();
-    float NewAmmo = MaxAmmo;
-
-    // WeaponAttributeSet의 CurrentAmmo 변수 MaxAmmo로 Override(덮어쓰기)
+    //SetByCaller로 설정된 ReloadAmount를 CurrentAmmo에 더하기
     FGameplayModifierEvaluatedData EvalData(
         UWeaponAttributeSet::GetCurrentAmmoAttribute(),
-        EGameplayModOp::Override,
-        NewAmmo);
+        EGameplayModOp::Additive,
+        ReloadAmount);
 
     OutExecutionOutput.AddOutputModifier(EvalData);
 }

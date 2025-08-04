@@ -19,9 +19,13 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
 
 	/** Ability Tags**/
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Equip, "Ability.Weapon.Equip");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Fire, "Ability.Weapon.Fire");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Reload, "Ability.Weapon.Reload");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_ConsumableItem_UseItemBase, "Ability.ConsumableItem.UsetItemBase");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_ConsumableItem_HealingItem, "Ability.ConsumableItem.HealingItem");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Player_Weapon_Equip, "Ability.Player.Weapon.Equip");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Player_Weapon_Fire, "Ability.Player.Weapon.Fire");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Player_Weapon_Reload, "Ability.Player.Weapon.Reload");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Player_ConsumableItem_UseItemBase, "Ability.Player.ConsumableItem.UsetItemBase");
+	UE_DEFINE_GAMEPLAY_TAG(Ability_Player_ConsumableItem_HealingItem, "Ability.Player.ConsumableItem.HealingItem");
+
+	/**Data Tags**/
+	UE_DEFINE_GAMEPLAY_TAG(Data_ReloadAmount, "Data.ReloadAmount");
+
 }
