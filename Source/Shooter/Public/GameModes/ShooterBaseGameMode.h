@@ -5,6 +5,7 @@
 #include "ShooterBaseGameMode.generated.h"
 
 class UShooterGameInstance;
+class ATeleportPortal;
 
 UCLASS()
 class SHOOTER_API AShooterBaseGameMode : public AGameModeBase
@@ -20,7 +21,7 @@ public:
 
 	void OnAllEnemiesDefeated();
 
-		UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void StartWave();
 
 protected:
@@ -31,6 +32,12 @@ protected:
 	void StartGame();
 
 	void EndGame(bool bIsWin);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Portal")
+	TSubclassOf<ATeleportPortal> PortalClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal")
+	FVector PortalLocation;
 
 private:
 	
