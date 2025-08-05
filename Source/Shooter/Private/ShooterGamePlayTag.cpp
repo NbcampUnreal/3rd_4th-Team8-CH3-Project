@@ -17,15 +17,15 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_GrenadeItem, "InputTag.ConsumableItem.GrenadeItem");
 
 	/** Ability Tags**/
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Equip, "Ability.Weapon.Equip");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Fire, "Ability.Weapon.Fire");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_Weapon_Reload, "Ability.Weapon.Reload");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_ConsumableItem_UseItemBase, "Ability.ConsumableItem.UsetItemBase");
-	UE_DEFINE_GAMEPLAY_TAG(Ability_ConsumableItem_HealingItem, "Ability.ConsumableItem.HealingItem");
-
-
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Weapon_Equip, "Player.Ability.Weapon.Equip");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Weapon_Fire, "Player.Ability.Weapon.Fire");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Weapon_Reload, "Player.Ability.Weapon.Reload");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_ConsumableItem_UseItemBase, "Player.Ability.ConsumableItem.UsetItemBase");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_ConsumableItem_HealingItem, "Player.Ability.ConsumableItem.HealingItem");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_ConsumableItem_GrenadeItem, "Player.Ability.ConsumableItem.GrenadeItem");
 	/* Shared */
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
@@ -34,4 +34,6 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Left, "Shared.Status.HitReact.Left");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Back, "Shared.Status.HitReact.Back");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right, "Shared.Status.HitReact.Right");
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Data_ReloadAmount, "Shared.Data.ReloadAmount");
 }

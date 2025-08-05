@@ -5,5 +5,5 @@
 
 UHealingItemAttributeSet::UHealingItemAttributeSet()
 {
-	HealAmount = 50.f;
+	InitHealAmount(50.f);
 }
