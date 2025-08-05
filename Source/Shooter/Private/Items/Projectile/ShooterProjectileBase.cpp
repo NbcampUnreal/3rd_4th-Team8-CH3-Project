@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Items/Weapons/ShooterProjectileBase.h"
+#include "Items/Projectile/ShooterProjectileBase.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -9,7 +9,7 @@
 // Sets default values
 AShooterProjectileBase::AShooterProjectileBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Collision"));
@@ -32,7 +32,8 @@ AShooterProjectileBase::AShooterProjectileBase()
 	// 7 : 튕김 정도. 0.0f이면 튕기지 않고 현재는 조금씩 튕기는 정도가 줄어들음.
 	// 8 : 발사체가 중력에 영향을 받을 것인지에 대한 정도.현재는 영향 X
 
-	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(
+		TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = 3000.0f;
 	ProjectileMovementComponent->MaxSpeed = 3000.0f;
@@ -43,7 +44,6 @@ AShooterProjectileBase::AShooterProjectileBase()
 
 	CascadeEffectComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("CascadeEffect"));
 	CascadeEffectComponent->SetupAttachment(RootComponent);
-
 }
 
 void AShooterProjectileBase::FireInDirection(const FVector& ShootDirection)
@@ -51,8 +51,8 @@ void AShooterProjectileBase::FireInDirection(const FVector& ShootDirection)
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
 
-void AShooterProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+void AShooterProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+                                   UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	OnProjectileHit.Broadcast(Hit);
 }
-
