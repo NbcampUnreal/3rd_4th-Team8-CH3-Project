@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AIController.h"
+#include "Components/Combat/ShooterEnemyCombatComponent.h"
 
 AShooterEnemyCharacter::AShooterEnemyCharacter()
 {
@@ -16,12 +17,18 @@ AShooterEnemyCharacter::AShooterEnemyCharacter()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
+UPawnCombatComponent* AShooterEnemyCharacter::GetPawnCombatComponent() const
+{
+	return ShooterEnemyCombatComponent;
+}
+
 void AShooterEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
 	ShooterAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		ShooterAttributeSet->GetCurrentHealthAttribute()).AddUObject(this, &AShooterEnemyCharacter::OnHealthAttributeChanged);
+		ShooterAttributeSet->GetCurrentHealthAttribute()).AddUObject(
+		this, &AShooterEnemyCharacter::OnHealthAttributeChanged);
 
 	if (!CharacterStartUpData.IsNull())
 	{
@@ -35,7 +42,6 @@ void AShooterEnemyCharacter::BeginPlay()
 	float CurHealth = ShooterAttributeSet->GetCurrentHealth();
 	float MaxHealth = ShooterAttributeSet->GetMaxHealth();
 	UE_LOG(LogTemp, Warning, TEXT("CurHealth: %f / MaxHealth: %f"), CurHealth, MaxHealth);
-
 }
 
 void AShooterEnemyCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data)
