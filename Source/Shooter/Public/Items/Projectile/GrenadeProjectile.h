@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Items/Weapons/ShooterProjectileBase.h"
+#include "Items/Projectile/ShooterProjectileBase.h"
 #include "GrenadeProjectile.generated.h"
 
 class AShooterBaseCharacter;
 class UGameplayEffect;
+
 /**
  * 
  */
@@ -28,7 +29,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* ExplosionCollision;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Grenade")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Grenade")
 	TArray<AShooterBaseCharacter*> OverlappingCharacters;
 
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
@@ -48,3 +49,4 @@ protected:
 
 	void OnExplosion();
 };
+

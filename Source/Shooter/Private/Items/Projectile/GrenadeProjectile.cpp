@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Items/Weapons/GrenadeProjectile.h"
+#include "Items/Projectile/GrenadeProjectile.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Characters/ShooterBaseCharacter.h"
