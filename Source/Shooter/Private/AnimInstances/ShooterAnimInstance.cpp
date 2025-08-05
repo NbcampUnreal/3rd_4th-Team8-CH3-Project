@@ -30,18 +30,22 @@ void UShooterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	// 점프 상태 (공중에 있는지 여부)
 	IsJump = OwningMovementComponent->IsFalling();
 
+	const FVector Velocity = OwningCharacter->GetVelocity();
+	const FRotator MovementRot = Velocity.ToOrientationRotator();
+	const FRotator ActorRot = OwningCharacter->GetActorRotation();
+	YawDelta = FMath::FindDeltaAngleDegrees(ActorRot.Yaw, MovementRot.Yaw);
+
+	float FullBodyCurveValue = GetCurveValue(TEXT("FullBody"));
+	bFullBody = FullBodyCurveValue > 0.5f;
+
 	// 캐릭터의 앵글 계산
 	// 캐릭터가 움직이고 있을 때만 앵글을 계산하여 정지 시 불필요한 흔들림을 방지합니다.
 	if (GroundSpeed > KINDA_SMALL_NUMBER)
 	{
-		const FVector Velocity = OwningCharacter->GetVelocity();
-		const FRotator MovementRot = Velocity.ToOrientationRotator(); // 이동 방향
-		const FRotator ActorRot = OwningCharacter->GetActorRotation(); // 캐릭터가 보고 있는 방향
-
-		// Yaw 차이를 계산
-		float YawDiff = FMath::FindDeltaAngleDegrees(ActorRot.Yaw, MovementRot.Yaw);
-
-		Angle = YawDiff;
+		Angle = YawDelta;
+		Roll = ActorRot.Roll;
+		Pitch = ActorRot.Pitch;
+		Yaw = ActorRot.Yaw;
 	}
 	else
 	{

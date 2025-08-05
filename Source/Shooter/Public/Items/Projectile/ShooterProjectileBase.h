@@ -7,7 +7,9 @@
 #include "ShooterProjectileBase.generated.h"
 
 class USphereComponent;
+class UParticleSystemComponent;
 class UProjectileMovementComponent;
+
 
 UCLASS()
 class SHOOTER_API AShooterProjectileBase : public AActor
@@ -23,7 +25,7 @@ public:
 
     // 발사체가 어딘가에 부딪힐 때 호출되는 함수.
     UFUNCTION(BlueprintCallable, Category = Projectile)
-    void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+    virtual void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnProjectileHit, const FHitResult&, HitResult);
@@ -43,5 +45,8 @@ protected:
     // 발사체 메시
     UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
     UStaticMeshComponent* ProjectileMeshComponent;
+
+    UPROPERTY(VisibleAnywhere, Category = Effects)
+    UParticleSystemComponent* CascadeEffectComponent;
 };
 

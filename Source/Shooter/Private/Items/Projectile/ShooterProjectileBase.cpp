@@ -4,7 +4,7 @@
 #include "Items/Projectile/ShooterProjectileBase.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AShooterProjectileBase::AShooterProjectileBase()
@@ -41,6 +41,9 @@ AShooterProjectileBase::AShooterProjectileBase()
 	ProjectileMovementComponent->bShouldBounce = true;
 	ProjectileMovementComponent->Bounciness = 0.3f;
 	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+
+	CascadeEffectComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("CascadeEffect"));
+	CascadeEffectComponent->SetupAttachment(RootComponent);
 }
 
 void AShooterProjectileBase::FireInDirection(const FVector& ShootDirection)
@@ -52,5 +55,4 @@ void AShooterProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* Ot
                                    UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	OnProjectileHit.Broadcast(Hit);
-	Destroy();
 }
