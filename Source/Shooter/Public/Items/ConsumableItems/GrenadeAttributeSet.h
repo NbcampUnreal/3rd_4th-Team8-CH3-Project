@@ -4,21 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
-#include "HealingItemAttributeSet.generated.h"
+#include "GrenadeAttributeSet.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SHOOTER_API UHealingItemAttributeSet : public UShooterAttributeSet
+class SHOOTER_API UGrenadeAttributeSet : public UShooterAttributeSet
 {
 	GENERATED_BODY()
 public:
-    UHealingItemAttributeSet();
+    UGrenadeAttributeSet();
 
     // 힐 아이템 회복량
     UPROPERTY(BlueprintReadOnly, Category = "Item")
-    FGameplayAttributeData HealAmount;
-    ATTRIBUTE_ACCESSORS(UHealingItemAttributeSet, HealAmount)
-
+    FGameplayAttributeData GrenadeDamageAmount;
+    ATTRIBUTE_ACCESSORS(UGrenadeAttributeSet, GrenadeDamageAmount)
 };

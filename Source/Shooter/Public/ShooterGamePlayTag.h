@@ -20,12 +20,12 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_HealingItem);
 
 	/** Ability Tags**/
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Player_Weapon_Equip);
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Player_Weapon_Fire);
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Player_Weapon_Reload);
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Player_ConsumableItem_UseItemBase);
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Player_ConsumableItem_HealingItem);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Equip);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Fire);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Reload);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ConsumableItem_UseItemBase);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ConsumableItem_HealingItem);
 
 	/** Data Tags**/
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Data_ReloadAmount);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Data_ReloadAmount);
 }
