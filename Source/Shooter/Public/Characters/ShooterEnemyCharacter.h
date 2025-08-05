@@ -21,6 +21,9 @@ class SHOOTER_API AShooterEnemyCharacter : public AShooterBaseCharacter
 public:
 	AShooterEnemyCharacter();
 
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float CurWalkSpeed;
+
 protected:
 	virtual void BeginPlay() override;
 
