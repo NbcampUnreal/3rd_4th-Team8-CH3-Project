@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/PawnExtensionComponentBase.h"
 #include "PawnCombatComponent.generated.h"
 
+class AShooterWeaponBase;
 /**
  * 
  */
@@ -13,5 +15,29 @@ UCLASS()
 class SHOOTER_API UPawnCombatComponent : public UPawnExtensionComponentBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	/**
+	 * 특정 무기를 검색할 수 있다.
+	 * @param InWeaponTagToGet FGameplayTag
+	 * @return
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
+	AShooterWeaponBase* GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
+
+	/**
+	 * 장착한 무기를 추적하는데 사용하는 태그
+	 */
+	UPROPERTY(BlueprintReadWrite, Category = "Shooter|Combat")
+	FGameplayTag CurrentEquippedWeaponTag;
+
+	/**
+	 * 현재 장착된 무기 주소값
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
+	AShooterWeaponBase* GetCharacterCurrentEquippedWeapon() const;
+
+private:
+	UPROPERTY()
+	TMap<FGameplayTag, AShooterWeaponBase*> CharacterCarriedWeaponMap;
 };

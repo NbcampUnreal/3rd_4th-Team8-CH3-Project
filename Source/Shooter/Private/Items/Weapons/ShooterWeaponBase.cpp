@@ -25,13 +25,22 @@ AShooterWeaponBase::AShooterWeaponBase()
 
 void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 {
-	if (!NewOwner) return;
+	if (!NewOwner)
+	{
+		return;
+	}
 
 	AShooterBaseCharacter* OwnwerCharacter = Cast<AShooterBaseCharacter>(NewOwner);
-	if (!OwnwerCharacter) return;
+	if (!OwnwerCharacter)
+	{
+		return;
+	}
 
 	UShooterAbilitySystemComponent* OwnerASC = OwnwerCharacter->GetShooterAbilitySystemComponent();
-	if (!OwnerASC) return;
+	if (!OwnerASC)
+	{
+		return;
+	}
 
 	for (const auto& Pair : WeaponAbilityMap)
 	{
@@ -44,7 +53,8 @@ void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 			Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
 			OwnerASC->GiveAbility(Spec);
 
-			UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(), *InputTag.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(),
+			       *InputTag.ToString());
 		}
 	}
 
@@ -56,4 +66,3 @@ void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 		UE_LOG(LogTemp, Warning, TEXT("WeaponAttrSet Give Owner"));
 	}
 }
-
