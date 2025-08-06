@@ -55,4 +55,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Damage")
 	FGameplayAttributeData DamageTaken;
 	ATTRIBUTE_ACCESSORS(UShooterAttributeSet, DamageTaken);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	FGameplayAttributeData AttackRange;
+	ATTRIBUTE_ACCESSORS(UShooterAttributeSet, AttackRange);
 };

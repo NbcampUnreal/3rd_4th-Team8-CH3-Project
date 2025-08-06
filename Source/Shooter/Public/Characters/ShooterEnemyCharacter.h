@@ -11,6 +11,7 @@
 class UDataAsset_InputConfig;
 class AAIController;
 class UShooterEnemyCombatComponent;
+class UBehaviorTree;
 /**
  *
  */
@@ -24,6 +25,16 @@ public:
 	//~ Begin IPawnCombatInterface Interface.
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 	//~ End IPawnCombatInterface Interface.
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	UBehaviorTree* BehaviorTreeAsset;
+
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float CurWalkSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "AttackRange")
+	float AttackRange;
+
 
 protected:
 	virtual void BeginPlay() override;
