@@ -67,13 +67,18 @@ void ATeleportPortal::OnOverlapBegin(
 void ATeleportPortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 
-	if (OtherActor == OverlapActor)
+	if (OtherActor && OtherActor == OverlapActor)
 	{
-		GetWorldTimerManager().ClearTimer(PortalTimerHandle);
-		OverlapActor = nullptr;
-		CountTime = 6;
-		UE_LOG(LogTemp, Warning, TEXT("Player left portal zone. Timer cancelled."));
+		ResetPortalState();
 	}
+}
+
+void ATeleportPortal::ResetPortalState()
+{
+	GetWorldTimerManager().ClearTimer(PortalTimerHandle);
+	OverlapActor = nullptr;
+	CountTime = 6;
+	UE_LOG(LogTemp, Warning, TEXT("Player left portal zone. Timer cancelled."));
 }
 
 void ATeleportPortal::TeleportHandle()
@@ -92,8 +97,6 @@ void ATeleportPortal::TeleportHandle()
 			GI->LoadWaveLevel();
 			Destroy();
 		}
-	}
-
-	
+	}	
 }
 
