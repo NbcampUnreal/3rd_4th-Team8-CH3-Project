@@ -13,6 +13,8 @@
 #include "Components/Combat/ShooterCombatComponent.h"
 #include "Components/UI/ShooterUIComponent.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
+#include "AlsCharacter.h"
+#include "Utility/AlsGameplayTags.h"
 
 AShooterCharacter::AShooterCharacter()
 {
@@ -124,6 +126,12 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//ALS 상태 초기값 설정
+	SetViewMode(AlsViewModeTags::ThirdPerson);
+	SetDesiredRotationMode(AlsRotationModeTags::ViewDirection);
+	SetDesiredGait(AlsGaitTags::Running);
+	SetDesiredStance(AlsStanceTags::Standing);
 }
 
 void AShooterCharacter::PossessedBy(AController* NewController)
@@ -180,14 +188,15 @@ void AShooterCharacter::Input_Crouch(const FInputActionValue& InputActionValue)
 	if (GetCharacterMovement()->IsCrouching())
 	{
 		UnCrouch();
+		SetDesiredStance(AlsStanceTags::Standing);
 	}
 	else
 	{
-		{
-			Crouch();
-		}
+		Crouch();
+		SetDesiredStance(AlsStanceTags::Crouching);
 	}
 }
+
 
 void AShooterCharacter::Input_Walk(const FInputActionValue& InputActionValue)
 {
@@ -214,11 +223,13 @@ void AShooterCharacter::Input_Sprint(const FInputActionValue& InputActionValue)
 
 		if (bIsSprint)
 		{
-			SetMaxWalkSpeed(600.f); // 스프린트
+			SetDesiredGait(AlsGaitTags::Sprinting);
+			SetMaxWalkSpeed(600.f);
 		}
 		else
 		{
-			SetMaxWalkSpeed(550.f); // 달리기
+			SetDesiredGait(AlsGaitTags::Running);
+			SetMaxWalkSpeed(550.f);
 		}
 	}
 }

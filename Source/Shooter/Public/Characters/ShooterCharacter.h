@@ -12,7 +12,6 @@ class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
-
 struct FInputActionValue;
 /**
  * 
@@ -33,6 +32,17 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MyCategory")
+	TSubclassOf<class AActor> MyBlueprintClass;
+
+#pragma region ALS
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ALS|Settings")
+	TObjectPtr<UAlsCharacterSettings> AlsCharacterSettings;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ALS|Settings")
+	TObjectPtr<UAlsMovementSettings> AlsMovementSettings;
+#pragma endregion
+
 private:
 #pragma region Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
@@ -46,6 +56,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UShooterUIComponent* ShooterUIComponent;
+
 
 #pragma endregion
 
@@ -73,6 +84,8 @@ private:
 	bool bIsWalking = false;
 	bool bIsSprint = false;
 	bool bIsJump = false;
+
+	
 
 public:
 	FORCEINLINE UShooterCombatComponent* GetShooterCombatComponent() const { return ShooterCombatComponent; }
