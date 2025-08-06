@@ -32,6 +32,7 @@ namespace ShooterGamePlayTags
 	/* Shared */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+	
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Front);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Left);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Back);
