@@ -80,6 +80,8 @@ void UBTS_UpdateCombatDecision::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 	float Distance = FVector::Dist(AIPawn->GetActorLocation(), PlayerLocation);
 	bool bIsInRange = AttackRange >= Distance;
 	BlackboardComp->SetValueAsBool(IsInAttackRangeKey.SelectedKeyName, bIsInRange);
+	UE_LOG(LogTemp, Warning, TEXT("%f > %f : %d"), Distance, AttackRange, bIsInRange);
 
+	// 캐릭터에게 포커싱
 	AIController->SetFocus(PlayerPawn);
 }

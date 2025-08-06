@@ -21,7 +21,6 @@ void AShooterAIController::BeginPlay()
 	// 블랙보드 값 초기화
 	if (!BlackboardComp)
 	{
-		
 	}
 }
 

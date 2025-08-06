@@ -10,6 +10,7 @@
 
 class UDataAsset_InputConfig;
 class AAIController;
+class UBehaviorTree;
 /**
  *
  */
@@ -21,8 +22,15 @@ class SHOOTER_API AShooterEnemyCharacter : public AShooterBaseCharacter
 public:
 	AShooterEnemyCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	UBehaviorTree* BehaviorTreeAsset;
+
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float CurWalkSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "AttackRange")
+	float AttackRange;
+
 
 protected:
 	virtual void BeginPlay() override;
