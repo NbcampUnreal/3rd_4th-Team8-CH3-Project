@@ -5,6 +5,7 @@
 #include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AIController.h"
+#include "Components/Combat/ShooterEnemyCombatComponent.h"
 
 AShooterEnemyCharacter::AShooterEnemyCharacter()
 {
@@ -16,6 +17,11 @@ AShooterEnemyCharacter::AShooterEnemyCharacter()
 	Movement->MaxWalkSpeed = CurWalkSpeed;
 	Movement->RotationRate = FRotator(0.0f, 100.0f, 0.0f);
 	Movement->AirControl = 0.2f;
+}
+
+UPawnCombatComponent* AShooterEnemyCharacter::GetPawnCombatComponent() const
+{
+	return ShooterEnemyCombatComponent;
 }
 
 void AShooterEnemyCharacter::BeginPlay()

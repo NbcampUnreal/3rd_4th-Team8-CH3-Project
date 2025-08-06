@@ -10,6 +10,7 @@
 
 class UDataAsset_InputConfig;
 class AAIController;
+class UShooterEnemyCombatComponent;
 class UBehaviorTree;
 /**
  *
@@ -21,6 +22,9 @@ class SHOOTER_API AShooterEnemyCharacter : public AShooterBaseCharacter
 
 public:
 	AShooterEnemyCharacter();
+	//~ Begin IPawnCombatInterface Interface.
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	//~ End IPawnCombatInterface Interface.
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	UBehaviorTree* BehaviorTreeAsset;
@@ -39,4 +43,10 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "GAS")
 	void OnHealthChanged(float OldValue, float NewValue);
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Comnat")
+	UShooterEnemyCombatComponent* ShooterEnemyCombatComponent;
+
+public:
+	FORCEINLINE UShooterEnemyCombatComponent* GetEnemyCombatComponent() const { return ShooterEnemyCombatComponent; }
 };

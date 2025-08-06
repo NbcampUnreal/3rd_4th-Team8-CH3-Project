@@ -18,6 +18,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnEnemyDied();
 
+	int32 GetTotalEnemy() {return TotalEnemy;}
+	int32 GetAliveEnemyCount() {return AliveEnemyCount;}
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
