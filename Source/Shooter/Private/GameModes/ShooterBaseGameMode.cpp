@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Controllers/ShooterController.h"
 #include "Characters/ShooterCharacter.h"
+#include "GameModes/TeleportPortal.h"
 #include "GameFramework/Character.h"
 
 AShooterBaseGameMode::AShooterBaseGameMode()
@@ -12,6 +13,8 @@ AShooterBaseGameMode::AShooterBaseGameMode()
 	DefaultPawnClass = AShooterCharacter::StaticClass();
 	PlayerControllerClass = AShooterController::StaticClass();
 	GameStateClass = AShooterGameStateBase::StaticClass();
+
+	PortalLocation = FVector(0.0f, 0.0f, 150.0f);
 }
 
 void AShooterBaseGameMode::StartPlay()
@@ -120,7 +123,23 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Clear wave %d"), GameInstance->GetCurrentWave());
-		GameInstance->LoadWaveLevel();
+		
+		//여기서 포탈 생성해줌
+		if (PortalClass)
+		{
+			UWorld* World = GetWorld();
+			if (World)
+			{
+				FActorSpawnParameters SpawnParams;
+				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+				World->SpawnActor<ATeleportPortal>(
+					PortalClass,
+					PortalLocation,
+					FRotator::ZeroRotator,
+					SpawnParams
+				);
+			}
+		}
 	}
 }
 
