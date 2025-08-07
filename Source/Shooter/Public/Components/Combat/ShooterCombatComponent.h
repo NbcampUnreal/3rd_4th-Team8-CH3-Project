@@ -16,9 +16,15 @@ class SHOOTER_API UShooterCombatComponent : public UPawnCombatComponent
 	GENERATED_BODY()
 
 public:
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractingActor) override;
+
 	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
 	AShooterPlayerWeapon* GetHeroCurrentEquippedWeapon() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Warrior|Combat")
+	AShooterPlayerWeapon* GetShooterCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+
 	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
-	float GetHeroCurrentEquippedWeaponDamageAtLevel(float InLevel) const;
+	float GetShooterCurrentEquippedWeaponDamageAtLevel(float InLevel) const;
 };

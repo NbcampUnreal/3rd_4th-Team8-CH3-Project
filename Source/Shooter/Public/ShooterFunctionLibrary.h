@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "ShooterTypes/ShooterEnumTypes.h"
 #include "ShooterFunctionLibrary.generated.h"
 
 struct FGameplayTag;
+class UShooterAbilitySystemComponent;
 
 /**
  * 
@@ -17,8 +19,19 @@ class SHOOTER_API UShooterFunctionLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
+	static UShooterAbilitySystemComponent* NativeGetWarriorASCFromActor(AActor* InActor);
+
 	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
+
+	UFUNCTION(
+		BlueprintCallable,
+		Category = "Shooter|FunctionLibrary",
+		meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType")
+	)
+	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EShooterConfirmType& OutConfirmType);
+
+	static bool NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck);
 
 private:
 	static FGameplayTag DetermineHitReactionTag(const float& OutAngleDifference);

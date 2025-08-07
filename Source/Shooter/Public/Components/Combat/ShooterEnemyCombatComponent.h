@@ -15,6 +15,9 @@ class SHOOTER_API UShooterEnemyCombatComponent : public UPawnCombatComponent
 {
 	GENERATED_BODY()
 
-	// public, protected, private이 없으면 암묵적으로 "private" 화 됨
+public:
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+
+private:
 	void TriggerGameplayEvent(const FGameplayTag EventTag, const FGameplayEventData& EventData);
 };
