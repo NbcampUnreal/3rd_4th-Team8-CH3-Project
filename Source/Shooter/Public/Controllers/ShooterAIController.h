@@ -12,6 +12,7 @@ class SHOOTER_API AShooterAIController : public AAIController
 public:
 	AShooterAIController();
 
+	void InitBlackboardValues();
 protected:
 	virtual void BeginPlay() override;
 

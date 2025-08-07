@@ -6,6 +6,7 @@
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AIController.h"
 #include "Components/Combat/ShooterEnemyCombatComponent.h"
+#include "Controllers/ShooterAIController.h"
 
 AShooterEnemyCharacter::AShooterEnemyCharacter()
 {
@@ -29,7 +30,7 @@ void AShooterEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	ensureMsgf(AIControllerClass, TEXT("AIControllerClass is null!"));
-	
+
 	if (ShooterAbilitySystemComponent)
 	{
 		ShooterAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
@@ -49,6 +50,7 @@ void AShooterEnemyCharacter::BeginPlay()
 		if (AIController && BehaviorTreeAsset)
 		{
 			AIController->RunBehaviorTree(BehaviorTreeAsset);
+			Cast<AShooterAIController>(AIController)->InitBlackboardValues();
 		}
 	}
 	else

@@ -14,14 +14,23 @@ AShooterAIController::AShooterAIController()
 	BehaviorTreeComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorTreeComponent"));
 }
 
+void AShooterAIController::InitBlackboardValues()
+{
+	// Player Pawn
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+	if (BlackboardComp && PlayerPawn)
+	{
+		BlackboardComp->SetValueAsObject(TEXT("TargetActor"), PlayerPawn);
+		UE_LOG(LogTemp, Warning, TEXT("Set TargetActor Successed!"));
+	}
+
+	SetFocus(PlayerPawn);
+}
+
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// 블랙보드 값 초기화
-	if (!BlackboardComp)
-	{
-	}
 }
 
 void AShooterAIController::OnPossess(APawn* InPawn)
