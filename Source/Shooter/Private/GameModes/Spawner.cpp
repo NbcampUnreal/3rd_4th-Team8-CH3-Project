@@ -15,30 +15,59 @@ ASpawner::ASpawner()
 }
 
 
-int32 ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount)
+void ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount)
 {
-
-	int32 SpawnedCount = 0;
+	CacheEnemyType = EnemyTypes;
+	MaxSpawnCount = TotalCount;
+	SpawnedCount = 0;
 	
-	if (EnemyTypes.Num() == 0 || TotalCount <= 0)
+	if (CacheEnemyType.Num() == 0 || MaxSpawnCount <= 0)
 	{
-		return SpawnedCount;
+		return ;
 	}
 
 	UWorld* World = GetWorld();
 	if (!World)
 	{
-		return SpawnedCount;
+		return;
 	}
 
-	for (int32 i = 0; i < TotalCount; ++i)
+	//즉시 1회 스폰
+	MultiSpawnEnemy();
+
+	//
+	World->GetTimerManager().SetTimer(
+		SpawnTimerHandle,
+		this,
+		&ASpawner::MultiSpawnEnemy,
+		SpawnInterval,
+		true
+	);
+}
+
+void ASpawner::MultiSpawnEnemy()
+{
+	UWorld* World = GetWorld();
+	if (!World)
 	{
-		int32 Index = FMath::RandRange(0, EnemyTypes.Num() - 1);
-		TSubclassOf<ACharacter> EnemyClass = EnemyTypes[Index];
+		return;
+	}
+
+	//n마리씩 스폰하고 남은 수만큼 MultipleSpawn 변경
+	if ((MaxSpawnCount - SpawnedCount) < MultipleSpawn)
+	{
+		MultipleSpawn = (MaxSpawnCount - SpawnedCount) % MultipleSpawn;
+	}
+
+	int32 RetryCount = RetrySpawn;
+	for (int32 Spawning = 0; Spawning < MultipleSpawn; ++Spawning)
+	{
+		int32 Index = FMath::RandRange(0, CacheEnemyType.Num() - 1);
+		TSubclassOf<ACharacter> EnemyClass = CacheEnemyType[Index];
 		if (!EnemyClass) continue;
 
 		FVector SpawnLocation = GetRandomPointInVolume(EnemyClass);
-		
+
 		//스폰 충돌 시 위치를 조절하여 스폰하도록 설정
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
@@ -54,12 +83,29 @@ int32 ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, 
 		if (SpawnedEnemy)
 		{
 			SpawnedCount++;
+			SpawnRty++;
+			RetryCount = RetrySpawn;
+		}
+		else
+		{
+			RetryCount++;
+			if (RetryCount > 3)
+			{
+				SpawnRty++;
+				RetryCount = RetrySpawn;
+			}
+		}
+		if (SpawnRty >= MaxSpawnCount)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Random spawned success %d enemies from %d types"), SpawnedCount, CacheEnemyType.Num());
+			GetWorld()->GetTimerManager().ClearTimer(SpawnTimerHandle);
+
+			//마지막 스폰까지 완료했으면 델리게이트 호출 (BaseGameMode에서 받게끔)
+			OnSpawnFinished.Broadcast(SpawnedCount);
+
+			return;
 		}
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Random spawned %d enemies from %d types"), SpawnedCount, EnemyTypes.Num());
-
-	return SpawnedCount;
 }
 
 FVector ASpawner::GetRandomPointInVolume(TSubclassOf<ACharacter> EnemyClass) const
