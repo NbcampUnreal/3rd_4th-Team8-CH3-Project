@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -18,4 +18,6 @@ class SHOOTER_API UPawnUIComponent : public UPawnExtensionComponentBase
 
 	UPROPERTY(BlueprintAssignable)
 	FOnPercentChangedDelegate OnCurrentHealthChanged;
+public:
+	void HandleCurrentHealthChanged(float NewPercent);
 };

@@ -66,18 +66,24 @@ void AShooterBaseGameMode::StartWave()
 		return;
 	}
 
+	AShooterGameStateBase* GS = GetGameState<AShooterGameStateBase>();
+	if (!GS)
+	{
+		UE_LOG(LogTemp, Error, TEXT("GetGameState not found! (GameMode : Line 72)"));
+		return;
+	}
+
 	//실제 웨이브 수와 구조체의 배열의 수는 -1 차이남 ex) wave1 = 구조체[0]
-	int CurrentWave = GameInstance->GetCurrentWave();
+	int32 CurrentWave = GameInstance->GetCurrentWave();
 	GameInstance->SetCurrentWave(CurrentWave + 1);
 	
 	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), CurrentWave + 1);
 	
-
 	if (!GameInstance->GetWaveConfigs().IsValidIndex(CurrentWave)) return;
 
 	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[CurrentWave];
 	const TArray<TSubclassOf<ACharacter>>& EnemyTypes = WaveData.EnemyClasses;
-	int32 SpawnedCount = 0;
+	const int32 SpawnCount = WaveData.TotalEnemyCount;
 
 	TArray<AActor*> SpawnerActors;
 	UGameplayStatics::GetAllActorsOfClass(this, ASpawner::StaticClass(), SpawnerActors);
@@ -86,20 +92,28 @@ void AShooterBaseGameMode::StartWave()
 	{
 		if (ASpawner* Spawner = Cast<ASpawner>(Actor))
 		{
-			SpawnedCount = Spawner->SpawnEnemies(EnemyTypes, WaveData.TotalEnemyCount);
-			if (SpawnedCount != WaveData.TotalEnemyCount)
+			//델리게이트
+			Spawner->GetOnSpawnFinished().AddLambda([SpawnCount, GS](int32 FinishedSpawnCount)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("The number requested and the number spawned are different : requst %d  /  respone %d"), WaveData.TotalEnemyCount, SpawnedCount);
-			}
+				if (SpawnCount == FinishedSpawnCount)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("All spawns completed"));
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Some spawns failed (%d / %d)"), FinishedSpawnCount, SpawnCount);
+					GS->SetAliveEnemyCount(FinishedSpawnCount);
+				}
+				
+			});
+
+			Spawner->SpawnEnemies(EnemyTypes, SpawnCount);
+
 		}
 	}
 
-	AShooterGameStateBase* GS = GetGameState<AShooterGameStateBase>();
-	if (GS)
-	{
-		int32 index = CurrentWave;
-		GS->SetAliveEnemyCount(SpawnedCount);
-	}
+	GS->SetAliveEnemyCount(SpawnCount);
+	
 }
 
 void AShooterBaseGameMode::OnPlayerDied()

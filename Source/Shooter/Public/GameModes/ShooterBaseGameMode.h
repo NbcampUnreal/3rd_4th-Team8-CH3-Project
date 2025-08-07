@@ -40,7 +40,7 @@ protected:
 	FVector PortalLocation;
 
 private:
-	
+
 	UShooterGameInstance* GameInstance;
 
 	FTimerHandle StartTime;

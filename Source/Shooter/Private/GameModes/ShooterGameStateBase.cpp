@@ -9,8 +9,17 @@ AShooterGameStateBase::AShooterGameStateBase()
 
 void AShooterGameStateBase::SetAliveEnemyCount(int32 Count)
 {
-	TotalEnemy = Count;
-	AliveEnemyCount = TotalEnemy;
+	if (TotalEnemy == 0)
+	{
+		TotalEnemy = Count;
+		AliveEnemyCount = TotalEnemy;
+	}
+	else
+	{
+		AliveEnemyCount = AliveEnemyCount - (TotalEnemy-Count);
+		TotalEnemy = Count;
+	}
+	
 }
 
 void AShooterGameStateBase::OnEnemyDied()
@@ -27,6 +36,7 @@ void AShooterGameStateBase::OnEnemyDied()
 		AShooterBaseGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterBaseGameMode>();
 		if (GameMode)
 		{
+			TotalEnemy = 0;
 			GameMode->OnAllEnemiesDefeated();
 		}
 	}
