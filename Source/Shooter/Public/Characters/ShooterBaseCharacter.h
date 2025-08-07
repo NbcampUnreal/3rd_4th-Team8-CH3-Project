@@ -15,7 +15,7 @@ class UDataAsset_StartUpDataBase;
 class UShooterAbilitySystemComponent;
 
 UCLASS()
-class SHOOTER_API AShooterBaseCharacter : 
+class SHOOTER_API AShooterBaseCharacter :
 	public AAlsCharacter,
 	public IAbilitySystemInterface,
 	public IPawnCombatInterface,

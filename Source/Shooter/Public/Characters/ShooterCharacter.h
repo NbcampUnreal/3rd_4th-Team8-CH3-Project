@@ -32,9 +32,6 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MyCategory")
-	TSubclassOf<class AActor> MyBlueprintClass;
-
 #pragma region ALS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ALS|Settings")
 	TObjectPtr<UAlsCharacterSettings> AlsCharacterSettings;

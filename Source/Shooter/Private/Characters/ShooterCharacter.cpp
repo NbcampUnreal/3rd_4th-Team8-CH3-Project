@@ -35,7 +35,8 @@ AShooterCharacter::AShooterCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false; // 카메라는 회전 안 하고, 스프링암이 회전함 -> TPS 구조에서 일반적
 
-	GetCharacterMovement()->bOrientRotationToMovement = true; // 이동방향을 바라보게
+	GetCharacterMovement()->bOrientRotationToMovement = false; // ALS 요구사항에 맞게 수정 true -> False
+	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
@@ -149,23 +150,10 @@ void AShooterCharacter::PossessedBy(AController* NewController)
 void AShooterCharacter::Input_Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
+	const FRotator YawRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
 
-	const FRotator MovementRotation = FRotator(0.f, Controller->GetControlRotation().Yaw, 0.f);
-	// 사용자 입력이 앞/뒤(Y축)일 경우
-	if (MovementVector.Y != 0.f)
-	{
-		// 카메라 기준의 '앞 방향'을 계산하고
-		const FVector ForwardDirection = MovementRotation.RotateVector(FVector::ForwardVector);
-
-		// 그 방향으로 입력 세기를 적용해 이동시킴
-		AddMovementInput(ForwardDirection, MovementVector.Y);
-	}
-
-	if (MovementVector.X != 0.f)
-	{
-		const FVector RightDirection = MovementRotation.RotateVector(FVector::RightVector);
-		AddMovementInput(RightDirection, MovementVector.X);
-	}
+	AddMovementInput(YawRotation.RotateVector(FVector::ForwardVector), MovementVector.Y);
+	AddMovementInput(YawRotation.RotateVector(FVector::RightVector), MovementVector.X);
 }
 
 void AShooterCharacter::Input_Look(const FInputActionValue& InputActionValue)
