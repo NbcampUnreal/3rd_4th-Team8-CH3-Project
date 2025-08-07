@@ -58,4 +58,6 @@ public:
 	{
 		return ShooterAbilitySystemComponent;
 	}
+
+	FORCEINLINE UShooterAttributeSet* GetWarriorAttributeSet() const { return ShooterAttributeSet; }
 };

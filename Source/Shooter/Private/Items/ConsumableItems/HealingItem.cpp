@@ -16,7 +16,10 @@ void AHealingItem::PickupItem(AShooterCharacter* Picker)
 	Super::PickupItem(Picker);
 
 	UShooterAbilitySystemComponent* PickerASC = Picker->GetShooterAbilitySystemComponent();
-	if (!PickerASC) return;
+	if (!PickerASC)
+	{
+		return;
+	}
 
 	if (HealingItemAttributeSetClass)
 	{

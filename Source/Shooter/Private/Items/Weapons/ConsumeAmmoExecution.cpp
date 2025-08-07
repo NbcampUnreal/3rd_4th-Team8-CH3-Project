@@ -14,10 +14,16 @@ void UConsumeAmmoExecution::Execute_Implementation(
 ) const
 {
     UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
-    if (!TargetASC) return;
+    if (!TargetASC)
+    {
+        return;
+    }
 
     const UWeaponAttributeSet* WeaponAttrSet = TargetASC->GetSet<UWeaponAttributeSet>();
-    if (!WeaponAttrSet) return;
+    if (!WeaponAttrSet)
+    {
+        return;
+    }
 
     // WeaponAttributeSet의 CurrentAmmo 변수 -1 만큼 Additive(더하기)
     FGameplayModifierEvaluatedData EvalData(

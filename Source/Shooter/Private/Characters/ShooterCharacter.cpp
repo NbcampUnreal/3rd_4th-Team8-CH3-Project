@@ -253,6 +253,10 @@ void AShooterCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AShooterCharacter::Input_Fire(const FInputActionValue& InputActionValue)
+{
+}
+
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);

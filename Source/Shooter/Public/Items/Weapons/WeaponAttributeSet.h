@@ -17,6 +17,8 @@ class SHOOTER_API UWeaponAttributeSet : public UShooterAttributeSet
 public:
     UWeaponAttributeSet();
 
+    void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
     // 최대 탄약 수
     UPROPERTY(BlueprintReadOnly, Category = "Weapon")
     FGameplayAttributeData MaxAmmo;

@@ -20,7 +20,7 @@ AShooterBaseCharacter::AShooterBaseCharacter()
 
 UAbilitySystemComponent* AShooterBaseCharacter::GetAbilitySystemComponent() const
 {
-	return nullptr;
+	return GetShooterAbilitySystemComponent();
 }
 
 UPawnCombatComponent* AShooterBaseCharacter::GetPawnCombatComponent() const

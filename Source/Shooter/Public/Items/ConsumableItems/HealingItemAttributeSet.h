@@ -17,7 +17,7 @@ public:
     UHealingItemAttributeSet();
 
     // 힐 아이템 회복량
-    UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+    UPROPERTY(BlueprintReadOnly, Category = "Item")
     FGameplayAttributeData HealAmount;
     ATTRIBUTE_ACCESSORS(UHealingItemAttributeSet, HealAmount)
 
