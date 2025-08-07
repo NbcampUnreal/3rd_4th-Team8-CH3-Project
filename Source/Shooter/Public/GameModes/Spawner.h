@@ -7,6 +7,8 @@
 class UBoxComponent;
 class ACharacter;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnSpawnFinished, int32);
+
 UCLASS()
 class SHOOTER_API ASpawner : public AActor
 {
@@ -17,11 +19,24 @@ public:
 	ASpawner();
 
 	UFUNCTION(BlueprintCallable)
-	int32 SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount);
+	void SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount);
+
+	FOnSpawnFinished& GetOnSpawnFinished() { return OnSpawnFinished; }
 
 protected:
 
 	FVector GetRandomPointInVolume(TSubclassOf<ACharacter>) const;
+	
+	void MultiSpawnEnemy();
+
+	FOnSpawnFinished OnSpawnFinished;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MultipleSpawn")
+	int32 MultipleSpawn = 3;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MultipleSpawn")
+	int32 SpawnInterval = 3;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MultipleSpawn")
+	int32 RetrySpawn = 3;
 
 private:
 
@@ -30,4 +45,11 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* SpawningBox;
+
+	int32 MaxSpawnCount;
+	int32 SpawnedCount;
+	int32 SpawnRty = 0;
+	TArray<TSubclassOf<ACharacter>> CacheEnemyType;
+	FTimerHandle SpawnTimerHandle;
+
 };
