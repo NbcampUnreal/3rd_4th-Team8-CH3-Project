@@ -2,9 +2,21 @@
 
 
 #include "ShooterFunctionLibrary.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
 #include "ShooterGamePlayTag.h"
+#include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+
+UShooterAbilitySystemComponent* UShooterFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	return CastChecked<UShooterAbilitySystemComponent>(
+		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InActor)
+	);
+}
 
 FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
 	AActor* InAttacker,
@@ -37,6 +49,24 @@ FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
 		OutAngleDifference *= -1.f;
 	}
 	return DetermineHitReactionTag(OutAngleDifference);
+}
+
+void UShooterFunctionLibrary::BP_DoesActorHaveTag(
+	AActor* InActor,
+	FGameplayTag TagToCheck,
+	EShooterConfirmType& OutConfirmType
+)
+{
+	OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck)
+		                 ? EShooterConfirmType::ESC_Yes
+		                 : EShooterConfirmType::ESC_No;
+}
+
+bool UShooterFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck)
+{
+	UShooterAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+
+	return ASC->HasMatchingGameplayTag(TagToCheck);
 }
 
 FGameplayTag UShooterFunctionLibrary::DetermineHitReactionTag(const float& OutAngleDifference)

@@ -2,7 +2,7 @@
 
 
 #include "ShooterTypes/ShooterStructTypes.h"
-#include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
+#include "AbilitySystem/Abilities/ShooterPlayerGameplayAbility.h"
 
 bool FShooterAbilitySet::IsValid() const
 {

@@ -13,7 +13,7 @@ TArray<FGameplayAbilitySpecHandle> AShooterPlayerWeapon::GetGrantedAbilitySpecHa
 	return GrantedAbilitySpecHandles;
 }
 
-const FWarriorHeroWeaponData& AShooterPlayerWeapon::GetShooterWeaponData() const
-{
-	return ShooterWeaponData;
-}
+// const FWarriorHeroWeaponData& AShooterPlayerWeapon::GetShooterWeaponData() const
+// {
+// 	return ShooterWeaponData;
+// }
