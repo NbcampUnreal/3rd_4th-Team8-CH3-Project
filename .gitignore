@@ -25,3 +25,9 @@ Saved/
 *.ipch
 /Content/Asset
 /Content/Temp
+/Content/Assets
+/Content/ThirdPerson
+/Content/__ExternalActors__
+/Content/__ExternalObjects__
+/Content/Mpas/Lvl_ThirdPerson.umap
+/Content/PlayerCharacter/AnimationBP

@@ -35,22 +35,12 @@ public:
 	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;
 
 	/**
-	 * 이 무기의 데이터 정보를 반환합니다.
-	 * 블루프린트 및 C++ 모두에서 읽기 전용으로 사용 가능합니다.
-	 *
-	 * @return 무기의 데이터 구조체
-	 */
-	UFUNCTION(BlueprintPure)
-	const FWarriorHeroWeaponData& GetShooterWeaponData() const;
-
-protected:
-	/**
 	 * 이 무기의 기본 정보 데이터입니다.
 	 * 데미지, 공격 속도, 부여할 어빌리티 목록 등을 포함합니다.
 	 * 블루프린트에서 읽을 수 있으나, 외부 C++ 클래스에서는 직접 접근할 수 없습니다.
 	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
-	FWarriorHeroWeaponData ShooterWeaponData;
+	FShooterPlayerWeaponData ShooterWeaponData;
 
 private:
 	/**

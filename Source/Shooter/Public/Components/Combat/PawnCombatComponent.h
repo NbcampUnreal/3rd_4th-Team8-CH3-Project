@@ -17,6 +17,12 @@ class SHOOTER_API UPawnCombatComponent : public UPawnExtensionComponentBase
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
+	void RegisterSpawnedWeapon(
+		FGameplayTag InWeaponTagToResister,
+		AShooterWeaponBase* InWeaponToResister,
+		bool bResisterAsEquippedWeapon = false
+	);
 	/**
 	 * 특정 무기를 검색할 수 있다.
 	 * @param InWeaponTagToGet FGameplayTag
@@ -36,6 +42,13 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Shooter|Combat")
 	AShooterWeaponBase* GetCharacterCurrentEquippedWeapon() const;
+
+	virtual void OnHitTargetActor(AActor* HitActor);
+	virtual void OnWeaponPulledFromTargetActor(AActor* InteractingActor);
+
+protected:
+	UPROPERTY()
+	TArray<AActor*> OverlappedActors;
 
 private:
 	UPROPERTY()

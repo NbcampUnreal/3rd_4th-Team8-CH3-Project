@@ -6,8 +6,8 @@
 #include "ScalableFloat.h"
 #include "ShooterStructTypes.generated.h"
 
+class UShooterPlayerGameplayAbility;
 class UInputMappingContext;
-class UShooterGameplayAbility;
 class UShooterLinkedAnimLayer;
 
 USTRUCT(BlueprintType)
@@ -19,13 +19,13 @@ struct FShooterAbilitySet
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UShooterGameplayAbility> AbilityToGrant;
+	TSubclassOf<UShooterPlayerGameplayAbility> AbilityToGrant;
 
 	bool IsValid() const;
 };
 
 USTRUCT(BlueprintType)
-struct FWarriorHeroWeaponData
+struct FShooterPlayerWeaponData
 {
 	GENERATED_BODY()
 

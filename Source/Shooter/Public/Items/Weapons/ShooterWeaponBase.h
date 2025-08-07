@@ -10,6 +10,8 @@
 class UShooterGameplayAbility;
 class UWeaponAttributeSet;
 
+DECLARE_DELEGATE_OneParam(FonTargetInteractedDelegate, AActor*)
+
 UCLASS()
 class SHOOTER_API AShooterWeaponBase : public AActor
 {
@@ -25,6 +27,9 @@ public:
 	// 무기 소유자에게 어빌리티 부여
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void GiveAbilityToOwner(AActor* NewOwner);
+
+	FonTargetInteractedDelegate OnWeaponHitTarget;
+	FonTargetInteractedDelegate OnWeaponPulledFromTarget;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
