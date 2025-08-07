@@ -3,7 +3,8 @@
 
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
-#include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
+#include "AbilitySystem/Abilities/ShooterPlayerGameplayAbility.h"
+#include "Shooter/ShooterDebugHelper.h"
 
 /**
  * 지정된 능력 시스템 컴포넌트(ASC)에 게임플레이 능력 및 효과를 부여합니다.

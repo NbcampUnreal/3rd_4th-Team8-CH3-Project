@@ -27,6 +27,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Shooter|Ability")
 	UShooterCombatComponent* GetShooterCombatComponentFromActorInfo();
 
+	UFUNCTION(BlueprintPure, Category = "Warrior|Ability")
+	FGameplayEffectSpecHandle MakeShooterDamageEffectSpecHandle(
+		TSubclassOf<UGameplayEffect> EffectClass,
+		float InWeaponBaseDamage,
+		FGameplayTag InCurrentAttackTypeTag
+	);
+
 private:
 	TWeakObjectPtr<AShooterCharacter> CachedShooterCharacter;
 	TWeakObjectPtr<AShooterController> CachedShooterController;
