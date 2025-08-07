@@ -7,6 +7,7 @@
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Characters/ShooterCharacter.h"
 #include "Controllers/ShooterController.h"
+#include "Shooter/ShooterDebugHelper.h"
 
 /**
  * @brief ActorInfo에서 AShooterCharacter를 가져오고, 이를 캐시에 저장하여 반환하는 함수입니다.
@@ -36,7 +37,7 @@ AShooterCharacter* UShooterPlayerGameplayAbility::GetShooterCharacterFromActorIn
  */
 AShooterController* UShooterPlayerGameplayAbility::GetShooterControllerFromActorInfo()
 {
-	if (CachedShooterController.IsValid())
+	if (!CachedShooterController.IsValid())
 	{
 		CachedShooterController = Cast<AShooterController>(CurrentActorInfo->PlayerController);
 	}
