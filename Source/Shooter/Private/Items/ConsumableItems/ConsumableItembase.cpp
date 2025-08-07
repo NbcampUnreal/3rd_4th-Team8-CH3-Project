@@ -4,6 +4,7 @@
 #include "Items/ConsumableItems/ConsumableItembase.h"
 #include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
+#include "Components/InventoryComponent.h"
 #include "Characters/ShooterCharacter.h"
 #include "Components/SphereComponent.h"
 
@@ -85,19 +86,22 @@ void AConsumableItembase::PickupItem(AShooterCharacter* Picker)
     SetActorTickEnabled(false);
     TargetCharacter = nullptr;
     if (!Picker) return;
-    //인벤토리 작업 후 로직 수정 예정
-    /*
-    TSubclassOf<AConsumableItembase> ComsumableItemClass = GetClass();
-    if (Picker->TestInventoryMap.Contains(ComsumableItemClass))
+    if (!Picker)
     {
-        Picker->TestInventoryMap[ComsumableItemClass] = Picker->TestInventoryMap[ComsumableItemClass] + PlusItemCount;
+        return;
     }
-    else
+
+    UInventoryComponent* PickerInventory = Picker->GetShooterInventoryComponent();
+    if (!PickerInventory)
     {
-        Picker->TestInventoryMap.Add(ComsumableItemClass, PlusItemCount);
-        GiveAbilityToOwner(Picker);
+        return;
     }
-    */
+
+
+    TSubclassOf<AConsumableItembase> ItemClass = GetClass();
+    PickerInventory->AddItem(ItemClass, PlusItemCount);
+
+    GiveAbilityToOwner(Picker);
     
     Destroy(); // 아이템 제거
 }
