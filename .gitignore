@@ -1,4 +1,3 @@
-
 Binaries/
 Build/
 DerivedDataCache/
@@ -20,6 +19,16 @@ Saved/
 .vscode/
 .idea/
 
-# Visual Studio cache
+Visual Studio cache
 .vs/
 *.ipch
+/Content/Asset
+/Content/Temp
+/Content/Asset
+/Content/Temp
+/Content/Assets
+/Content/ThirdPerson
+/Content/__ExternalActors__
+/Content/__ExternalObjects__
+/Content/Mpas/Lvl_ThirdPerson.umap
+/Content/PlayerCharacter/AnimationBP

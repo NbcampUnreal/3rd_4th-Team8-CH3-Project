@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -11,4 +11,56 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look_Mouse);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look_Gamepad);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Jump);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Crouch);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Walk);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Sprint);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_SwitchShoulder);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Aim);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Fire);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Reload);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_EquipWeapon);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_UnequipWeapon);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_UseItemBase);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_HealingItem);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_GrenadeItem);
+
+	/** Ability Tags**/
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Equip);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Fire);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Weapon_Reload);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ConsumableItem_UseItemBase);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ConsumableItem_HealingItem);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_ConsumableItem_GrenadeItem);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Rifle);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Unequip_Rifle);
+
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack);
+
+	/* Weapon Tags */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Rifle);
+
+	/* SetByCaller Tags */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Shoot);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_ChargeShoot);
+
+	/*Event Tags*/
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Rifle);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Rifle);
+
+	/* Shared */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Front);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Left);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Back);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Right);
+
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Data_ReloadAmount);
+
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_Shoot);
+
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_ChargeShootDamage);
 }
