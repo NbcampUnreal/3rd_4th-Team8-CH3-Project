@@ -7,13 +7,11 @@
 #include "GameplayTagContainer.h"
 #include "ShooterCharacter.generated.h"
 
-class UCameraComponent;
+class UAlsCameraComponent;
 class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
-class UInventoryComponent;
-
 struct FInputActionValue;
 /**
  * 
@@ -26,16 +24,6 @@ class SHOOTER_API AShooterCharacter : public AShooterBaseCharacter
 public:
 	AShooterCharacter();
 
-	//~ Begin IPawnCombatInterface Interface.
-	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
-	//~ End IPawnCombatInterface Interface.
-
-	//~ Begin IPawnUIInterface Interface.
-	virtual UPawnUIComponent* GetPawnUIComponent() const override;
-	virtual UShooterUIComponent* GetShooterUIComponent() const override;
-	//~ End IPawnUIInterface Interface.
-
-
 protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
@@ -44,22 +32,34 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
+#pragma region ALS
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
+	float LookUpMouseSensitivity{1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
+	float LookRightMouseSensitivity{1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
+	float LookUpRate{90.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
+	float LookRightRate{240.0f};
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Belica Camera")
+	TObjectPtr<UAlsCameraComponent> Camera;
+
+#pragma endregion
+
+
 private:
 #pragma region Components
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	UShooterCombatComponent* ShooterCombatComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UShooterUIComponent* ShooterUIComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
-	UInventoryComponent* InventoryComponent;
+
 #pragma endregion
 
 #pragma region Inputs
@@ -67,20 +67,22 @@ private:
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
-	void Input_Look(const FInputActionValue& InputActionValue);
+	void Input_Reload(const FInputActionValue& InputActionValue);
+	void Input_LookMouse(const FInputActionValue& InputActionValue);
 	void Input_Crouch(const FInputActionValue& InputActionValue);
 	void Input_Walk(const FInputActionValue& InputActionValue);
 	void Input_Sprint(const FInputActionValue& InputActionValue);
 	void Input_Jump(const FInputActionValue& InputActionValue);
-	void Input_Fire(const FInputActionValue& InputActionValue);
-	void Input_OpenIventory(const FInputActionValue& InputActionValue);
-
+	void Input_StartFire(const FInputActionValue& InputActionValue);
+	void Input_StopFire(const FInputActionValue& InputActionValue);
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
+	void Input_SwitchShoulder();
+	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
+	void Input_Aim(const FInputActionValue& InputActionValue);
 
-	bool IsInputPressed(const FInputActionValue& InputActionValue);
-
-	void SetMaxWalkSpeed(const float NewMaxWalkSpeed);
+	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
+	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
 
 
 #pragma endregion
@@ -88,9 +90,10 @@ private:
 	bool bIsWalking = false;
 	bool bIsSprint = false;
 	bool bIsJump = false;
+	
+	
 
 public:
 	FORCEINLINE UShooterCombatComponent* GetShooterCombatComponent() const { return ShooterCombatComponent; }
-	FORCEINLINE UInventoryComponent* GetShooterInventoryComponent() const { return InventoryComponent; }
 	FORCEINLINE bool IsJumping() const { return bIsJump; }
 };
