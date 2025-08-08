@@ -59,7 +59,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UShooterUIComponent* ShooterUIComponent;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	UInventoryComponent* InventoryComponent;
 #pragma endregion
 
 #pragma region Inputs
@@ -73,8 +74,8 @@ private:
 	void Input_Walk(const FInputActionValue& InputActionValue);
 	void Input_Sprint(const FInputActionValue& InputActionValue);
 	void Input_Jump(const FInputActionValue& InputActionValue);
-	void Input_StartFire(const FInputActionValue& InputActionValue);
-	void Input_StopFire(const FInputActionValue& InputActionValue);
+	void Input_Fire(const FInputActionValue& InputActionValue);
+	void Input_OpenIventory(const FInputActionValue& InputActionValue);
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
 	void Input_SwitchShoulder();
@@ -90,10 +91,9 @@ private:
 	bool bIsWalking = false;
 	bool bIsSprint = false;
 	bool bIsJump = false;
-	
-	
 
 public:
 	FORCEINLINE UShooterCombatComponent* GetShooterCombatComponent() const { return ShooterCombatComponent; }
+	FORCEINLINE UInventoryComponent* GetShooterInventoryComponent() const { return InventoryComponent; }
 	FORCEINLINE bool IsJumping() const { return bIsJump; }
 };

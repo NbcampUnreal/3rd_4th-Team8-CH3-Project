@@ -12,6 +12,7 @@
 #include "Components/Input/ShooterInputComponent.h"
 #include "Components/Combat/ShooterCombatComponent.h"
 #include "Components/UI/ShooterUIComponent.h"
+#include "Components/InventoryComponent.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AlsCharacter.h"
 #include "ALSCamera/Public/AlsCameraComponent.h"
@@ -34,10 +35,26 @@ AShooterCharacter::AShooterCharacter()
 
 	ShooterCombatComponent = CreateDefaultSubobject<UShooterCombatComponent>(TEXT("ShooterCombatComponent"));
 	ShooterUIComponent = CreateDefaultSubobject<UShooterUIComponent>(TEXT("ShooterUIComponent"));
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("ShooterInventoryComponent"));
 
 	Camera = CreateDefaultSubobject<UAlsCameraComponent>(FName{TEXTVIEW("Camera")});
 	Camera->SetupAttachment(GetMesh());
 	Camera->SetRelativeRotation_Direct({0.0f, 90.0f, 0.0f});
+}
+
+UPawnCombatComponent* AShooterCharacter::GetPawnCombatComponent() const
+{
+	return ShooterCombatComponent;
+}
+
+UPawnUIComponent* AShooterCharacter::GetPawnUIComponent() const
+{
+	return ShooterUIComponent;
+}
+
+UShooterUIComponent* AShooterCharacter::GetShooterUIComponent() const
+{
+	return ShooterUIComponent;
 }
 
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
