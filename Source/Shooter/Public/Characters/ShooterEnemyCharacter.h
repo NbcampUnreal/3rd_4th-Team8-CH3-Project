@@ -26,15 +26,8 @@ public:
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 	//~ End IPawnCombatInterface Interface.
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	UBehaviorTree* BehaviorTreeAsset;
-
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float CurWalkSpeed;
-
-	UPROPERTY(EditAnywhere, Category = "AttackRange")
-	float AttackRange;
-
 
 protected:
 	virtual void BeginPlay() override;
@@ -44,7 +37,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "GAS")
 	void OnHealthChanged(float OldValue, float NewValue);
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Comnat")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	UShooterEnemyCombatComponent* ShooterEnemyCombatComponent;
 
 public:

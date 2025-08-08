@@ -44,14 +44,6 @@ void AShooterEnemyCharacter::BeginPlay()
 			LoadedData->GiveToAbilitySystemComponent(ShooterAbilitySystemComponent);
 			UE_LOG(LogTemp, Warning, TEXT("AddStartUp Successed!"));
 		}
-
-		// StartupEffect가 적용된 이후 RunBehaviorTree를 호출하여 BTService에서 초기화된 속성을 사용할 수 있게함
-		AAIController* AIController = Cast<AAIController>(GetController());
-		if (AIController && BehaviorTreeAsset)
-		{
-			AIController->RunBehaviorTree(BehaviorTreeAsset);
-			Cast<AShooterAIController>(AIController)->InitBlackboardValues();
-		}
 	}
 	else
 	{
