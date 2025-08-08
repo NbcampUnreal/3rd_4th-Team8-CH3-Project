@@ -24,6 +24,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Item")
     void DropItem(const FVector& DropLocation);
 
+    UFUNCTION(BlueprintCallable, Category = "Item")
+    FName GetRowName() const { return ItemRowName; }
+
 protected:
 
     virtual void BeginPlay() override;
@@ -65,6 +68,8 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Item")
     int32 PlusItemCount = 1;
 
+    UPROPERTY(EditAnywhere, Category = "Item")
+    FName ItemRowName;
     virtual void Tick(float DeltaTime) override;
 
 private:

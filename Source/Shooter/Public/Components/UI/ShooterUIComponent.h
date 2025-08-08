@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoChangedDelegate, float, NewAmmo);
 
+
 /**
  * 
  */
@@ -18,6 +19,8 @@ class SHOOTER_API UShooterUIComponent : public UPawnUIComponent
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAmmoChangedDelegate  OnCurrentAmmoChanged;
+
+
 public:
 	void HandleCurrentAmmoChanged(float NewAmmo);
 };

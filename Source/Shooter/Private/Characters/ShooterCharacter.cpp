@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Characters/ShooterCharacter.h"
@@ -12,6 +12,7 @@
 #include "Components/Input/ShooterInputComponent.h"
 #include "Components/Combat/ShooterCombatComponent.h"
 #include "Components/UI/ShooterUIComponent.h"
+#include "Components/InventoryComponent.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 
 AShooterCharacter::AShooterCharacter()
@@ -40,6 +41,7 @@ AShooterCharacter::AShooterCharacter()
 
 	ShooterCombatComponent = CreateDefaultSubobject<UShooterCombatComponent>(TEXT("ShooterCombatComponent"));
 	ShooterUIComponent = CreateDefaultSubobject<UShooterUIComponent>(TEXT("ShooterUIComponent"));
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("ShooterInventoryComponent"));
 }
 
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
