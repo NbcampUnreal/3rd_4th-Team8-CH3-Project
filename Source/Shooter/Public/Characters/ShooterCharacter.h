@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -12,6 +12,7 @@ class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
+class UInventoryComponent;
 
 struct FInputActionValue;
 /**
@@ -47,6 +48,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UShooterUIComponent* ShooterUIComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	UInventoryComponent* InventoryComponent;
 #pragma endregion
 
 #pragma region Inputs
@@ -77,5 +80,6 @@ private:
 
 public:
 	FORCEINLINE UShooterCombatComponent* GetShooterCombatComponent() const { return ShooterCombatComponent; }
+	FORCEINLINE UInventoryComponent* GetShooterInventoryComponent() const { return InventoryComponent; }
 	FORCEINLINE bool IsJumping() const { return bIsJump; }
 };
