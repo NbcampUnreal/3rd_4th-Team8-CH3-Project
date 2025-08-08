@@ -5,7 +5,7 @@
 
 namespace ShooterGamePlayTags
 {
-	/** Input Tags **/
+	/** Input **/
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Mouse, "InputTag.Look.Mouse");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Gamepad, "InputTag.Look.Gamepad");
@@ -18,7 +18,6 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_GrenadeItem, "InputTag.ConsumableItem.GrenadeItem");
-
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipWeapon, "InputTag.EquipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipWeapon, "InputTag.UnequipWeapon");
 

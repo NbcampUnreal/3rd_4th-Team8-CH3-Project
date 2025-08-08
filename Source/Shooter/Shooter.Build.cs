@@ -18,7 +18,8 @@ public class Shooter : ModuleRules
 			"GameplayTags",
 			"GameplayTasks",
 			"AIModule",
-			"ALS"
+			"ALS",
+			"ALSCamera"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
