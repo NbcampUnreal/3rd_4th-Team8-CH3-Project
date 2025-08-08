@@ -3,8 +3,6 @@
 
 #include "Characters/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "ShooterGamePlayTag.h"
@@ -332,15 +330,15 @@ void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
 	}
 }
 
-void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
+void AShooterCharacter::Input_EquipWeapon()
 {
-	SetOverlayMode(AlsOverlayModeTags::Rifle);
+	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
 	UE_LOG(LogTemp, Warning, TEXT("Equip"));
 }
 
-void AShooterCharacter::Input_UnequipWeapon(const FInputActionValue& InputActionValue)
+void AShooterCharacter::Input_UnequipWeapon()
 {
-	SetOverlayMode(AlsOverlayModeTags::Default);
+	SetOverlayMode(AlsOverlayModeTags::Default, true);
 	UE_LOG(LogTemp, Warning, TEXT("Unequip"));
 }
 

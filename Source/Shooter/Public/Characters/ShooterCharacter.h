@@ -94,8 +94,8 @@ private:
 	void Input_Aim(const FInputActionValue& InputActionValue);
 	void Input_Reload(const FInputActionValue& InputActionValue);
 
-	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
-	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
+	void Input_EquipWeapon();
+	void Input_UnequipWeapon();
 
 
 #pragma endregion
