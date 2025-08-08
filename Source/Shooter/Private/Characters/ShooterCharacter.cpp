@@ -16,6 +16,7 @@
 #include "AlsCharacter.h"
 #include "ALSCamera/Public/AlsCameraComponent.h"
 #include "Utility/AlsGameplayTags.h"
+#include "Utility/AlsVector.h"
 
 AShooterCharacter::AShooterCharacter()
 {
@@ -24,18 +25,7 @@ AShooterCharacter::AShooterCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-	/*
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(GetRootComponent());
-	CameraBoom->TargetArmLength = 300.0f;
-	CameraBoom->SocketOffset = FVector(0.f, 55.f, 65.f);
-	CameraBoom->bUsePawnControlRotation = true; // 스프링암이 캐릭터 방향 따라감
 
-
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false; // 카메라는 회전 안 하고, 스프링암이 회전함 -> TPS 구조에서 일반적
-	*/ 
 	GetCharacterMovement()->bOrientRotationToMovement = false; // ALS 요구사항에 맞게 수정 true -> False
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
@@ -77,105 +67,103 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		UE_LOG(LogTemp, Error, TEXT("ShooterInputComponent is null!"));
 		return;
 	}
+	
+#pragma region InputBinding // ??? wtf 외안되여!??
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Move,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Move
+		);
+	
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Look_Mouse,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_LookMouse
+		);
+	
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Jump,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_Jump
+		);
+	
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Crouch,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_Crouch
+		);
+	
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Walk,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_Walk
+		);
+	
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Sprint,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Sprint
+		);
 
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Move,
-	ETriggerEvent::Triggered,
-	this,
-	&ThisClass::Input_Move
-	);
-	
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Look_Mouse,
-	ETriggerEvent::Triggered,
-	this,
-	&ThisClass::Input_LookMouse
-	);
-	
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Jump,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_Jump
-	);
-	
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Fire,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_StartFire
+		);
 
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Crouch,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_Crouch
-	);
-	
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Reload,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_Reload
+		);
 
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Walk,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_Walk
-	);
-	
-
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Sprint,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_Sprint
-	);
-	/*
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Sprint,
-	ETriggerEvent::Completed,
-	this,
-	&ThisClass::Input_StopSprint
-	);
-	*/
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Weapon_Fire,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_StartFire
-	);
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_EquipWeapon
+		);
 	
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Weapon_Fire,
-	ETriggerEvent::Completed,
-	this,
-	&ThisClass::Input_StopFire
-	);
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_UnequipWeapon,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_UnequipWeapon
+		);
 
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_Weapon_Reload,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_Reload
-	);
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Aim,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Aim
+		);
 
 	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_EquipWeapon,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_EquipWeapon
-	);
-	
-	ShooterInputComponent->BindNativeInputAction(
-	InputConfigDataAsset,
-	ShooterGamePlayTags::InputTag_UnequipWeapon,
-	ETriggerEvent::Started,
-	this,
-	&ThisClass::Input_UnequipWeapon
-	);
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_SwitchShoulder,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_SwitchShoulder
+		);
 
 	ShooterInputComponent->BindAbilityInputAction(
 		InputConfigDataAsset,
@@ -184,12 +172,11 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		&ThisClass::Input_AbilityInputReleased
 	);
 }
+#pragma endregion
 
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//ALS 상태 초기값 설정
 }
 
 void AShooterCharacter::PossessedBy(AController* NewController)
@@ -203,110 +190,94 @@ void AShooterCharacter::PossessedBy(AController* NewController)
 		}
 	}
 }
-
+#pragma region InputMoving
 void AShooterCharacter::Input_Sprint(const FInputActionValue& InputActionValue)
 {
-	SetDesiredGait(IsInputPressed(InputActionValue) ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
+	SetDesiredGait(InputActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
 }
 
 void AShooterCharacter::Input_Walk(const FInputActionValue& InputActionValue)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Walk!!"));
 	if (GetDesiredGait() == AlsGaitTags::Walking)
+	{
 		SetDesiredGait(AlsGaitTags::Running);
-	else
+	}
+	else if (GetDesiredGait() == AlsGaitTags::Running)
+	{
 		SetDesiredGait(AlsGaitTags::Walking);
+	}
 }
 
 void AShooterCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 {
-	// 입력이 true일 때만 점프 실행 (버튼이 눌린 순간)
 	if (InputActionValue.Get<bool>())
 	{
+		if (StopRagdolling())
+		{
+			return;
+		}
+
+		if (StartMantlingGrounded())
+		{
+			return;
+		}
+
+		if (GetStance() == AlsStanceTags::Crouching)
+		{
+			SetDesiredStance(AlsStanceTags::Standing);
+			return;
+		}
+
 		Jump();
+	}
+	else
+	{
+		StopJumping();
 	}
 }
 
 void AShooterCharacter::Input_Crouch(const FInputActionValue& InputActionValue)
 {
 	if (GetDesiredStance() == AlsStanceTags::Standing)
-		SetDesiredStance(AlsStanceTags::Crouching);
-	else
-		SetDesiredStance(AlsStanceTags::Standing);
-}
-
-void AShooterCharacter::Input_Move(const FInputActionValue& InputActionValue)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Input_Move"));
-	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();
-	const FRotator YawRotation(0.f, Controller->GetControlRotation().Yaw, 0.f);
-
-	AddMovementInput(YawRotation.RotateVector(FVector::ForwardVector), MovementVector.Y);
-	AddMovementInput(YawRotation.RotateVector(FVector::RightVector), MovementVector.X);
-}
-
-void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
-{
-	
-}
-
-void AShooterCharacter::Input_LookMouse(const FInputActionValue& InputActionValue)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Input_Look"));
-	const FVector2D LookAxis = InputActionValue.Get<FVector2D>();
-	AddControllerYawInput(LookAxis.X);
-	AddControllerPitchInput(LookAxis.Y);
-}
-
-bool AShooterCharacter::IsInputPressed(const FInputActionValue& InputActionValue)
-{
-	return InputActionValue.Get<bool>();
-}
-
-void AShooterCharacter::SetMaxWalkSpeed(const float NewMaxWalkSpeed)
-{
-	GetCharacterMovement()->MaxWalkSpeed = NewMaxWalkSpeed;
-}
-
-
-void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
-{
-}
-
-void AShooterCharacter::Input_UnequipWeapon(const FInputActionValue& InputActionValue)
-{
-}
-
-void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValue)
-{
-}
-
-void AShooterCharacter::Input_StopFire(const FInputActionValue& InputActionValue)
-{
-}
-
-void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
-{
-	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
-}
-
-void AShooterCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
-{
-	ShooterAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
-}
-
-void AShooterCharacter::Input_OnSwitchShoulder()
-{
-	Camera->SetRightShoulder(!Camera->IsRightShoulder());
-}
-
-void AShooterCharacter::DisplayDebug(UCanvas* Canvas, const FDebugDisplayInfo& DisplayInfo, float& Unused, float& VerticalLocation)
-{
-	if (Camera->IsActive())
 	{
-		Camera->DisplayDebug(Canvas, DisplayInfo, VerticalLocation);
+		SetDesiredStance(AlsStanceTags::Crouching);
+	}
+	else if (GetDesiredStance() == AlsStanceTags::Crouching)
+	{
+		SetDesiredStance(AlsStanceTags::Standing);
+	}
+}
+
+void AShooterCharacter::Input_Move(const FInputActionValue& ActionValue)
+{
+	const auto Value{UAlsVector::ClampMagnitude012D(ActionValue.Get<FVector2D>())};
+
+	auto ViewRotation{GetViewState().Rotation};
+
+	if (IsValid(GetController()))
+	{
+		FVector ViewLocation;
+		GetController()->GetPlayerViewPoint(ViewLocation, ViewRotation);
 	}
 
-	Super::DisplayDebug(Canvas, DisplayInfo, Unused, VerticalLocation);
+	const auto ForwardDirection{UAlsVector::AngleToDirectionXY(UE_REAL_TO_FLOAT(ViewRotation.Yaw))};
+	const auto RightDirection{UAlsVector::PerpendicularCounterClockwiseXY(ForwardDirection)};
+
+	AddMovementInput(ForwardDirection * Value.Y + RightDirection * Value.X);
+}
+
+void AShooterCharacter::Input_LookMouse(const FInputActionValue& ActionValue)
+{
+	const FVector2f Value{ActionValue.Get<FVector2D>()};
+
+	AddControllerPitchInput(Value.Y * LookUpMouseSensitivity);
+	AddControllerYawInput(Value.X * LookRightMouseSensitivity);
+}
+
+void AShooterCharacter::Input_SwitchShoulder()
+{
+	Camera->SetRightShoulder(!Camera->IsRightShoulder());
 }
 
 void AShooterCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& ViewInfo)
@@ -319,3 +290,83 @@ void AShooterCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& View
 
 	Super::CalcCamera(DeltaTime, ViewInfo);
 }
+#pragma endregion
+
+#pragma region Weapon
+void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
+{
+	if (GetOverlayMode() == AlsOverlayModeTags::Rifle)
+	{
+		SetDesiredAiming(InputActionValue.Get<bool>());
+	}else if (GetOverlayMode() != AlsOverlayModeTags::Rifle)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("You Can Aiming only Hold Waepon"));
+	}
+}
+
+void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
+{
+	if (GetOverlayMode() == AlsOverlayModeTags::Rifle) // Overlay에 총기가 입력되었을때만 재장전가능
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reload!!"));
+	}else if (GetOverlayMode() != AlsOverlayModeTags::Rifle)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"));
+	}
+}
+
+void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
+{
+	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
+	UE_LOG(LogTemp, Warning, TEXT("Equip"));
+}
+
+void AShooterCharacter::Input_UnequipWeapon(const FInputActionValue& InputActionValue)
+{
+	SetOverlayMode(AlsOverlayModeTags::Default, true);
+	UE_LOG(LogTemp, Warning, TEXT("Unequip"));
+}
+
+void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValue)
+{
+	if (GetOverlayMode() == AlsOverlayModeTags::Rifle) // Overlay에 총기가 입력되었을때만 사격가능
+	{
+		if (InputActionValue.Get<bool>() == true)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("StartFire"));
+			// TODO : 캐릭터 사격로직 추가 [ 화랑님 ]
+		}else if (InputActionValue.Get<bool>() == false)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("StopFire"));
+		}
+	}else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
+	}
+	
+}
+#pragma endregion
+
+void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AShooterCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	ShooterAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
+}
+
+// 보류함수 [ 화랑님 판단 ]
+
+/*
+bool AShooterCharacter::IsInputPressed(const FInputActionValue& InputActionValue)
+{
+	return InputActionValue.Get<bool>();
+}
+*/
+/*
+void AShooterCharacter::SetMaxWalkSpeed(const float NewMaxWalkSpeed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = NewMaxWalkSpeed;
+}*/

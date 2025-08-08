@@ -51,7 +51,7 @@ void UShooterInputComponent::BindNativeInputAction(
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Input!!!"));
+		UE_LOG(LogTemp, Warning, TEXT("Input Error %s"), *InputTag.ToString())
 	}
 }
 
