@@ -27,6 +27,14 @@
 		{
 			"Name": "GameplayAbilities",
 			"Enabled": true
+		},
+		{
+			"Name": "CascadeToNiagaraConverter",
+			"Enabled": true
+		},
+		{
+			"Name": "ALS",
+			"Enabled": true
 		}
 	]
 }
