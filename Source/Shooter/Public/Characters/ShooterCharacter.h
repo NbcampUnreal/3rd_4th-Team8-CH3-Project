@@ -8,6 +8,9 @@
 #include "ShooterCharacter.generated.h"
 
 class UAlsCameraComponent;
+// 화랑님 요청
+class UCameraComponent;
+// 화랑님 요청
 class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
@@ -44,6 +47,13 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
+	// 화랑님 요청
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* CameraBoom;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* FollowCamera;
+	// 화랑님 요청
+	
 #pragma region ALS
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
 	float LookUpMouseSensitivity{1.0f};
