@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ShooterTypes/ShooterEnumTypes.h"
 #include "ShooterFunctionLibrary.generated.h"
@@ -21,6 +22,9 @@ class SHOOTER_API UShooterFunctionLibrary : public UBlueprintFunctionLibrary
 public:
 	static UShooterAbilitySystemComponent* NativeGetWarriorASCFromActor(AActor* InActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Shooter|FunctionLibrary")
+	static void AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd);
+
 	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
 
@@ -32,6 +36,16 @@ public:
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EShooterConfirmType& OutConfirmType);
 
 	static bool NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck);
+
+	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
+	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);
+
+	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
+	static bool ApplyGameplayEffectSpecHandleToTargetActor(
+		AActor* InInstigator,
+		AActor* InTargetActor,
+		const FGameplayEffectSpecHandle& InSpecHandle
+	);
 
 private:
 	static FGameplayTag DetermineHitReactionTag(const float& OutAngleDifference);

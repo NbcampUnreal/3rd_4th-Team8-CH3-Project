@@ -12,13 +12,15 @@ AShooterAIController::AShooterAIController()
 	// AI
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("Blackboard"));
 	BehaviorTreeComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorTreeComponent"));
+	// íŒ€ ID ì„¤ì •
+	SetGenericTeamId(FGenericTeamId(1));
 }
 
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ºí·¢º¸µå °ª ÃÊ±âÈ­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	if (!BlackboardComp)
 	{
 	}

@@ -7,7 +7,7 @@
 #include "ShooterAnimInstance.generated.h"
 
 
-class AShooterCharacter;
+class AShooterBaseCharacter;
 class UCharacterMovementComponent;
 /**
  * 
@@ -19,11 +19,11 @@ class SHOOTER_API UShooterAnimInstance : public UShooterBaseAnimInstance
 
 public:
 	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
 	UPROPERTY()
-	AShooterCharacter* OwningCharacter;
+	AShooterBaseCharacter* OwningCharacter;
 
 	UPROPERTY()
 	UCharacterMovementComponent* OwningMovementComponent;
