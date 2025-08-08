@@ -146,12 +146,14 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 			{
 				FActorSpawnParameters SpawnParams;
 				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-				World->SpawnActor<ATeleportPortal>(
+				ATeleportPortal* Portal = World->SpawnActor<ATeleportPortal>(
 					PortalClass,
 					PortalLocation,
 					FRotator::ZeroRotator,
 					SpawnParams
 				);
+
+				PortalSpawned.Broadcast(Portal);
 			}
 		}
 	}

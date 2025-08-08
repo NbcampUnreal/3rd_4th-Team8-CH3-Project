@@ -13,15 +13,13 @@ ATeleportPortal::ATeleportPortal()
 
 	TrigerZone = CreateDefaultSubobject<USphereComponent>(TEXT("TrigerZone"));
 	TrigerZone->SetupAttachment(Root);
-	TrigerZone->InitSphereRadius(150.0f);
+	TrigerZone->InitSphereRadius(190.0f);
 	TrigerZone->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
 
 	PortalMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalMesh"));
 	PortalMesh->SetupAttachment(Root);
 
-	//5부터 0까지가 아니고 6부터 1까지 계산 카운트다운 54321
-	CountTime = 6;
-
+	CountDownTimer = 5;
 }
 
 void ATeleportPortal::BeginPlay()
@@ -31,6 +29,9 @@ void ATeleportPortal::BeginPlay()
 	TrigerZone->OnComponentBeginOverlap.AddDynamic(this, &ATeleportPortal::OnOverlapBegin);
 	TrigerZone->OnComponentEndOverlap.AddDynamic(this, &ATeleportPortal::OnOverlapEnd);
 	UE_LOG(LogTemp, Warning, TEXT("Create Portal"));
+
+
+	CountTime = CountDownTimer;
 	
 }
 
@@ -49,6 +50,10 @@ void ATeleportPortal::OnOverlapBegin(
 		UE_LOG(LogTemp, Warning, TEXT("Player Overlap portal zone. Timer Start."));
 		OverlapActor = OtherActor;
 
+		OnPlayerInPortal.Broadcast();
+		OnCountDown.Broadcast(CountTime);
+		UE_LOG(LogTemp, Warning, TEXT("CountDown : %d"), CountTime);
+
 		GetWorldTimerManager().SetTimer(
 			PortalTimerHandle,
 			this,
@@ -66,6 +71,7 @@ void ATeleportPortal::OnOverlapBegin(
 
 void ATeleportPortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	OnPlayerOutPortal.Broadcast();
 
 	if (OtherActor && OtherActor == OverlapActor)
 	{
@@ -77,7 +83,7 @@ void ATeleportPortal::ResetPortalState()
 {
 	GetWorldTimerManager().ClearTimer(PortalTimerHandle);
 	OverlapActor = nullptr;
-	CountTime = 6;
+	CountTime = CountDownTimer;
 	UE_LOG(LogTemp, Warning, TEXT("Player left portal zone. Timer cancelled."));
 }
 
@@ -85,18 +91,18 @@ void ATeleportPortal::TeleportHandle()
 {
 	CountTime--;
 
-	//UI 카운트다운 시간 초 전달 부분 예정
+	OnCountDown.Broadcast(CountTime);
 	UE_LOG(LogTemp, Warning, TEXT("CountDown : %d"), CountTime);
 
-	if (CountTime <= 1) {
+	if (CountTime <= 0) {
 		GetWorldTimerManager().ClearTimer(PortalTimerHandle);
 
 		UShooterGameInstance* GI = Cast<UShooterGameInstance>(GetGameInstance());
 		if (GI)
 		{
+			OnDestroyPortal.Broadcast();
 			GI->LoadWaveLevel();
 			Destroy();
 		}
 	}	
 }
-
