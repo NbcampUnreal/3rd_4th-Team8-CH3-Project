@@ -1,5 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
-
+// TODO : 기능 모두 구현후 필요없는 변수 및 함수 제거 작업 진행해야함 ex ) 현재 RoationRate, MaxWalkSpeed등등 내부 로직에서 가져옴 [ ALS 호환성 + 설정관리 간편화 (수치 ) ]
 
 #include "Characters/ShooterCharacter.h"
 #include "Components/CapsuleComponent.h"
