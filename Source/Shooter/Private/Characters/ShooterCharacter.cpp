@@ -317,20 +317,24 @@ void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
 	}
 }
 
-void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
+
 
 void AShooterCharacter::Input_Roll()
+{
+	static constexpr auto PlayRate{1.3f};
+	StartRolling(PlayRate);
+}
+
+void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
 {
 	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
 	UE_LOG(LogTemp, Warning, TEXT("Equip"));
 }
-	static constexpr auto PlayRate{1.3f};
 
 void AShooterCharacter::Input_UnequipWeapon(const FInputActionValue& InputActionValue)
 {
 	SetOverlayMode(AlsOverlayModeTags::Default, true);
 	UE_LOG(LogTemp, Warning, TEXT("Unequip"));
-	StartRolling(PlayRate);
 }
 
 void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValue)

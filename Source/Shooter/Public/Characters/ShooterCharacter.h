@@ -82,6 +82,7 @@ private:
 	void Input_SwitchShoulder();
 	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
 	void Input_Aim(const FInputActionValue& InputActionValue);
+	void Input_Reload(const FInputActionValue& InputActionValue);
 
 	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
 	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
