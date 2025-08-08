@@ -1,3 +1,4 @@
+
 Binaries/
 Build/
 DerivedDataCache/
@@ -19,11 +20,9 @@ Saved/
 .vscode/
 .idea/
 
-Visual Studio cache
+# Visual Studio cache
 .vs/
 *.ipch
-/Content/Asset
-/Content/Temp
 /Content/Asset
 /Content/Temp
 /Content/Assets

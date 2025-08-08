@@ -7,12 +7,13 @@
 #include "GameplayTagContainer.h"
 #include "ShooterCharacter.generated.h"
 
-class UAlsCameraComponent;
+class UCameraComponent;
 class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
 class UInventoryComponent;
+
 struct FInputActionValue;
 /**
  * 
@@ -33,27 +34,14 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
-#pragma region ALS
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
-	float LookUpMouseSensitivity{1.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
-	float LookRightMouseSensitivity{1.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
-	float LookUpRate{90.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
-	float LookRightRate{240.0f};
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Belica Camera")
-	TObjectPtr<UAlsCameraComponent> Camera;
-
-#pragma endregion
-
-
 private:
 #pragma region Components
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* FollowCamera;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	UShooterCombatComponent* ShooterCombatComponent;
 
@@ -69,22 +57,19 @@ private:
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
-	void Input_Reload(const FInputActionValue& InputActionValue);
-	void Input_LookMouse(const FInputActionValue& InputActionValue);
+	void Input_Look(const FInputActionValue& InputActionValue);
 	void Input_Crouch(const FInputActionValue& InputActionValue);
 	void Input_Walk(const FInputActionValue& InputActionValue);
 	void Input_Sprint(const FInputActionValue& InputActionValue);
 	void Input_Jump(const FInputActionValue& InputActionValue);
-	void Input_StartFire(const FInputActionValue& InputActionValue);
-	void Input_StopFire(const FInputActionValue& InputActionValue);
+	void Input_Fire(const FInputActionValue& InputActionValue);
+
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
-	void Input_SwitchShoulder();
-	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
-	void Input_Aim(const FInputActionValue& InputActionValue);
 
-	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
-	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
+	bool IsInputPressed(const FInputActionValue& InputActionValue);
+
+	void SetMaxWalkSpeed(const float NewMaxWalkSpeed);
 
 
 #pragma endregion

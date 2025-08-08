@@ -49,10 +49,6 @@ void UShooterInputComponent::BindNativeInputAction(
 	{
 		BindAction(FoundAction, TriggerEvent, ContextObject, Callback);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Input Error %s"), *InputTag.ToString())
-	}
 }
 
 template <class UserObject, typename CallbackFunction>

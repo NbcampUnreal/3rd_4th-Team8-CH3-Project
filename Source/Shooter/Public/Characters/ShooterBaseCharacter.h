@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "GameFramework/Character.h" // ALS 통합
-#include "AlsCharacter.h" // ALS플러그인 관련 헤더파일입니다.
+#include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "Interfaces/PawnUIInterface.h"
@@ -16,7 +15,7 @@ class UShooterAbilitySystemComponent;
 
 UCLASS()
 class SHOOTER_API AShooterBaseCharacter :
-	public AAlsCharacter,
+	public ACharacter,
 	public IAbilitySystemInterface,
 	public IPawnCombatInterface,
 	public IPawnUIInterface
