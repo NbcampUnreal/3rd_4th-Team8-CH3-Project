@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -12,6 +12,7 @@ class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
+class UInventoryComponent;
 struct FInputActionValue;
 /**
  * 
@@ -59,7 +60,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UShooterUIComponent* ShooterUIComponent;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	UInventoryComponent* InventoryComponent;
 #pragma endregion
 
 #pragma region Inputs
@@ -67,7 +69,7 @@ private:
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
-	void Input_Reload(const FInputActionValue& InputActionValue);
+	void Input_Roll();
 	void Input_LookMouse(const FInputActionValue& InputActionValue);
 	void Input_Crouch(const FInputActionValue& InputActionValue);
 	void Input_Walk(const FInputActionValue& InputActionValue);
@@ -90,10 +92,9 @@ private:
 	bool bIsWalking = false;
 	bool bIsSprint = false;
 	bool bIsJump = false;
-	
-	
 
 public:
 	FORCEINLINE UShooterCombatComponent* GetShooterCombatComponent() const { return ShooterCombatComponent; }
+	FORCEINLINE UInventoryComponent* GetShooterInventoryComponent() const { return InventoryComponent; }
 	FORCEINLINE bool IsJumping() const { return bIsJump; }
 };

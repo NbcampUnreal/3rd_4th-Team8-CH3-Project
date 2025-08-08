@@ -5,9 +5,10 @@
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Items/ConsumableItems/GrenadeAttributeSet.h"
 #include "Characters/ShooterCharacter.h"
+
 AGrenadeItem::AGrenadeItem()
 {
-
+	ItemRowName = "GrenadeItem";
 }
 
 void AGrenadeItem::PickupItem(AShooterCharacter* Picker)
