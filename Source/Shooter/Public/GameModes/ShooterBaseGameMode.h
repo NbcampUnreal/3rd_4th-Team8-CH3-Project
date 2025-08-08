@@ -7,6 +7,8 @@
 class UShooterGameInstance;
 class ATeleportPortal;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPortalSpawned, ATeleportPortal*, TeleportPortal);
+
 UCLASS()
 class SHOOTER_API AShooterBaseGameMode : public AGameModeBase
 {
@@ -23,6 +25,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StartWave();
+
+	UPROPERTY(BlueprintAssignable)
+	FPortalSpawned PortalSpawned;
 
 protected:
 
