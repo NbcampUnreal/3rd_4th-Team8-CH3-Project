@@ -8,7 +8,7 @@
 
 AHealingItem::AHealingItem()
 {
-
+	ItemRowName = "HealingItem";
 }
 
 void AHealingItem::PickupItem(AShooterCharacter* Picker)
