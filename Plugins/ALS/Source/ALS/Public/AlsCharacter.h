@@ -324,9 +324,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Character", Meta = (AutoCreateRefTerm = "NewOverlayMode"))
 	void SetOverlayMode(const FGameplayTag& NewOverlayMode);
+	void SetOverlayMode(const FGameplayTag& NewOverlayMode, bool bSendRpc);
 
 private:
-	void SetOverlayMode(const FGameplayTag& NewOverlayMode, bool bSendRpc);
 
 	UFUNCTION(Client, Reliable)
 	void ClientSetOverlayMode(const FGameplayTag& NewOverlayMode);

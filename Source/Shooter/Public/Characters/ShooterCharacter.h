@@ -32,8 +32,23 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
 
+#pragma region ALS
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
+	float LookUpMouseSensitivity{1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "x"))
+	float LookRightMouseSensitivity{1.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
+	float LookUpRate{90.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (ClampMin = 0, ForceUnits = "deg/s"))
+	float LookRightRate{240.0f};
+
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Belica Camera")
 	TObjectPtr<UAlsCameraComponent> Camera;
+
+#pragma endregion
 
 
 private:
@@ -60,16 +75,12 @@ private:
 	void Input_Jump(const FInputActionValue& InputActionValue);
 	void Input_StartFire(const FInputActionValue& InputActionValue);
 	void Input_StopFire(const FInputActionValue& InputActionValue);
-
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
-	void Input_OnSwitchShoulder();
-	void DisplayDebug(UCanvas* Canvas, const FDebugDisplayInfo& DisplayInfo, float& Unused, float& VerticalLocation);
+	void Input_SwitchShoulder();
 	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
+	void Input_Aim(const FInputActionValue& InputActionValue);
 
-	bool IsInputPressed(const FInputActionValue& InputActionValue);
-
-	void SetMaxWalkSpeed(const float NewMaxWalkSpeed);
 	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
 	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
 
@@ -79,7 +90,7 @@ private:
 	bool bIsWalking = false;
 	bool bIsSprint = false;
 	bool bIsJump = false;
-
+	
 	
 
 public:
