@@ -5,7 +5,7 @@
 
 namespace ShooterGamePlayTags
 {
-	/** Input Tags **/
+	/** Input **/
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Mouse, "InputTag.Look.Mouse");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Gamepad, "InputTag.Look.Gamepad");
@@ -13,14 +13,15 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Crouch, "InputTag.Crouch");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Walk, "InputTag.Walk");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sprint, "InputTag.Sprint");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_SwitchShoulder, "InputTag.SwitchShoulder");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Aim, "InputTag.Weapon.Aim");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.Weapon.EquipWeapon");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_UnequipWeapon, "InputTag.Weapon.UnequipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_GrenadeItem, "InputTag.ConsumableItem.GrenadeItem");
-
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipWeapon, "InputTag.EquipWeapon");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipWeapon, "InputTag.UnequipWeapon");
 
 	/** Ability Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Weapon_Equip, "Player.Ability.Weapon.Equip");
