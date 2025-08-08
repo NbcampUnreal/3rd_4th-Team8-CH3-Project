@@ -130,6 +130,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		&ThisClass::Input_Sprint
 	);
 
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_OpenInventory,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_OpenIventory
+	);
+
 	ShooterInputComponent->BindAbilityInputAction(
 		InputConfigDataAsset,
 		this,
@@ -261,6 +269,17 @@ void AShooterCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 
 void AShooterCharacter::Input_Fire(const FInputActionValue& InputActionValue)
 {
+}
+
+void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionValue)
+{
+	if (InputActionValue.Get<bool>())
+	{
+		if (UInventoryComponent* InvComp = FindComponentByClass<UInventoryComponent>())
+		{
+			InvComp->RequestToggleInventory();
+		}
+	}
 }
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
