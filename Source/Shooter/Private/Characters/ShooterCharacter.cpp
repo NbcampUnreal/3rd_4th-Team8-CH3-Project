@@ -44,6 +44,21 @@ AShooterCharacter::AShooterCharacter()
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("ShooterInventoryComponent"));
 }
 
+UPawnCombatComponent* AShooterCharacter::GetPawnCombatComponent() const
+{
+	return ShooterCombatComponent;
+}
+
+UPawnUIComponent* AShooterCharacter::GetPawnUIComponent() const
+{
+	return ShooterUIComponent;
+}
+
+UShooterUIComponent* AShooterCharacter::GetShooterUIComponent() const
+{
+	return ShooterUIComponent;
+}
+
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

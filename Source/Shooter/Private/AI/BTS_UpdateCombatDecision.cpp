@@ -82,6 +82,6 @@ void UBTS_UpdateCombatDecision::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 	BlackboardComp->SetValueAsBool(IsInAttackRangeKey.SelectedKeyName, bIsInRange);
 	UE_LOG(LogTemp, Warning, TEXT("%f > %f : %d"), Distance, AttackRange, bIsInRange);
 
-	// Ä³¸¯ÅÍ¿¡°Ô Æ÷Ä¿½Ì
+	// Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¿ï¿½ï¿½
 	AIController->SetFocus(PlayerPawn);
 }
