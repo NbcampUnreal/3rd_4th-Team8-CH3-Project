@@ -19,6 +19,15 @@ UShooterAbilitySystemComponent* UShooterFunctionLibrary::NativeGetWarriorASCFrom
 	);
 }
 
+void UShooterFunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd)
+{
+	UShooterAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+	if (!ASC->HasMatchingGameplayTag(TagToAdd))
+	{
+		ASC->AddLooseGameplayTag(TagToAdd);
+	}
+}
+
 FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
 	AActor* InAttacker,
 	AActor* InVictim,

@@ -22,6 +22,9 @@ class SHOOTER_API UShooterFunctionLibrary : public UBlueprintFunctionLibrary
 public:
 	static UShooterAbilitySystemComponent* NativeGetWarriorASCFromActor(AActor* InActor);
 
+	UFUNCTION(BlueprintCallable, Category = "Shooter|FunctionLibrary")
+	static void AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd);
+
 	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
 

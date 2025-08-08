@@ -18,7 +18,9 @@ public class Shooter : ModuleRules
 			"GameplayTags",
 			"GameplayTasks",
 			"AIModule",
-			"GameplayAbilities"
+			"GameplayAbilities",
+			"UMG",
+			"AnimGraphRuntime"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

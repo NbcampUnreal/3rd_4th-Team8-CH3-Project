@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
+#include "Abilities/GameplayAbilityTypes.h"
 #include "GameFramework/Actor.h"
 #include "ShooterProjectileBase.generated.h"
 
 class USphereComponent;
-class FGameplayEventData;
 class UParticleSystemComponent;
 class UProjectileMovementComponent;
 

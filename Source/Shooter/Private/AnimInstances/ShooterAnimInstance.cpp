@@ -2,12 +2,13 @@
 
 
 #include "AnimInstances/ShooterAnimInstance.h"
-#include "Characters/ShooterCharacter.h"
+#include "Characters/ShooterBaseCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Shooter/ShooterDebugHelper.h"
 
 void UShooterAnimInstance::NativeInitializeAnimation()
 {
-	OwningCharacter = Cast<AShooterCharacter>(TryGetPawnOwner());
+	OwningCharacter = Cast<AShooterBaseCharacter>(TryGetPawnOwner());
 
 	if (OwningCharacter)
 	{
