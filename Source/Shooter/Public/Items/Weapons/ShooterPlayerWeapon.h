@@ -16,6 +16,14 @@ class SHOOTER_API AShooterPlayerWeapon : public AShooterWeaponBase
 
 public:
 	/**
+	 * 이 무기의 기본 정보 데이터입니다.
+	 * 데미지, 공격 속도, 부여할 어빌리티 목록 등을 포함합니다.
+	 * 블루프린트에서 읽을 수 있으나, 외부 C++ 클래스에서는 직접 접근할 수 없습니다.
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
+	FShooterPlayerWeaponData ShooterWeaponData;
+
+	/**
 	 * 이 무기를 통해 부여된 어빌리티 스펙 핸들들을 저장합니다.
 	 * 보통 무기 장착 시 AbilitySystemComponent를 통해 부여된 핸들들을 저장하여,
 	 * 이후 무기 해제 시 어빌리티 제거에 사용됩니다.
@@ -33,14 +41,6 @@ public:
 	 */
 	UFUNCTION(BlueprintPure)
 	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;
-
-	/**
-	 * 이 무기의 기본 정보 데이터입니다.
-	 * 데미지, 공격 속도, 부여할 어빌리티 목록 등을 포함합니다.
-	 * 블루프린트에서 읽을 수 있으나, 외부 C++ 클래스에서는 직접 접근할 수 없습니다.
-	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
-	FShooterPlayerWeaponData ShooterWeaponData;
 
 private:
 	/**

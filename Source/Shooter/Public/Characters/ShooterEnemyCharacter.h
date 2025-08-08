@@ -8,6 +8,7 @@
 #include "ShooterEnemyCharacter.generated.h"
 
 
+class UWidgetComponent;
 class UDataAsset_InputConfig;
 class AAIController;
 class UShooterEnemyCombatComponent;
@@ -26,6 +27,11 @@ public:
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 	//~ End IPawnCombatInterface Interface.
 
+	//~ Begin IPawnUIInterface Interface.
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UEnemyUIComponent* GetEnemyUIComponent() const override;
+	//~ End IPawnUIInterface Interface.
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	UBehaviorTree* BehaviorTreeAsset;
 
@@ -35,7 +41,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "AttackRange")
 	float AttackRange;
 
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -44,8 +49,17 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "GAS")
 	void OnHealthChanged(float OldValue, float NewValue);
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Comnat")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "combat")
 	UShooterEnemyCombatComponent* ShooterEnemyCombatComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	UEnemyUIComponent* EnemyUIComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	UWidgetComponent* EnemyHealthWidgetComponent;
+
+private:
+	void InitEnemyStartUpData();
 
 public:
 	FORCEINLINE UShooterEnemyCombatComponent* GetEnemyCombatComponent() const { return ShooterEnemyCombatComponent; }

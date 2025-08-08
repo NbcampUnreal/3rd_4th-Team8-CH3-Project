@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
+#include "GenericTeamAgentInterface.h"
 #include "ShooterGamePlayTag.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -16,6 +17,15 @@ UShooterAbilitySystemComponent* UShooterFunctionLibrary::NativeGetWarriorASCFrom
 	return CastChecked<UShooterAbilitySystemComponent>(
 		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InActor)
 	);
+}
+
+void UShooterFunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd)
+{
+	UShooterAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+	if (!ASC->HasMatchingGameplayTag(TagToAdd))
+	{
+		ASC->AddLooseGameplayTag(TagToAdd);
+	}
 }
 
 FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
@@ -67,6 +77,48 @@ bool UShooterFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayT
 	UShooterAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
 
 	return ASC->HasMatchingGameplayTag(TagToCheck);
+}
+
+/**
+ * 두 Pawn 간의 팀을 비교하여 적대 관계인지 여부를 판단.
+ * 
+ * @param QueryPawn 판단의 기준이 되는 Pawn (예: AI 또는 플레이어 본인)
+ * @param TargetPawn 적대 여부를 판단할 대상 Pawn
+ * @return 두 Pawn이 서로 다른 TeamId를 가지고 있으면 true (적대 관계), 그렇지 않으면 false
+ *
+ * @note 두 Pawn의 컨트롤러는 IGenericTeamAgentInterface를 구현하고 있어야 하며,
+ *       구현되어 있지 않거나 null일 경우 false를 반환
+ */
+bool UShooterFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+	check(QueryPawn && TargetPawn);
+
+	IGenericTeamAgentInterface* GenericTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+	IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+
+	if (GenericTeamAgent && TargetTeamAgent)
+	{
+		// 팀 ID가 다르면 적대 관계로 간주하여 true 반환
+		return GenericTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+	}
+
+	// 팀 인터페이스를 구현하지 않은 경우 적대 관계로 간주하지 않음
+	return false;
+}
+
+bool UShooterFunctionLibrary::ApplyGameplayEffectSpecHandleToTargetActor(
+	AActor* InInstigator,
+	AActor* InTargetActor,
+	const FGameplayEffectSpecHandle& InSpecHandle
+)
+{
+	UShooterAbilitySystemComponent* SourceASC = NativeGetWarriorASCFromActor(InInstigator);
+	UShooterAbilitySystemComponent* TargetASC = NativeGetWarriorASCFromActor(InTargetActor);
+
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = SourceASC->ApplyGameplayEffectSpecToTarget(
+		*InSpecHandle.Data, TargetASC);
+
+	return ActiveGameplayEffectHandle.WasSuccessfullyApplied();
 }
 
 FGameplayTag UShooterFunctionLibrary::DetermineHitReactionTag(const float& OutAngleDifference)

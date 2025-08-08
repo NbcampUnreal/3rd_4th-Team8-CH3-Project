@@ -59,4 +59,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	FGameplayAttributeData AttackRange;
 	ATTRIBUTE_ACCESSORS(UShooterAttributeSet, AttackRange);
+
+private:
+	TWeakInterfacePtr<IPawnUIInterface> CachedPawnUIInterface;
 };

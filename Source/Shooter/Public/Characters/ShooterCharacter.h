@@ -26,6 +26,16 @@ class SHOOTER_API AShooterCharacter : public AShooterBaseCharacter
 public:
 	AShooterCharacter();
 
+	//~ Begin IPawnCombatInterface Interface.
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	//~ End IPawnCombatInterface Interface.
+
+	//~ Begin IPawnUIInterface Interface.
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UShooterUIComponent* GetShooterUIComponent() const override;
+	//~ End IPawnUIInterface Interface.
+
+
 protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
