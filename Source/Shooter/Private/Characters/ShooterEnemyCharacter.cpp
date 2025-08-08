@@ -61,13 +61,6 @@ void AShooterEnemyCharacter::BeginPlay()
 			LoadedData->GiveToAbilitySystemComponent(ShooterAbilitySystemComponent);
 			UE_LOG(LogTemp, Warning, TEXT("AddStartUp Successed!"));
 		}
-
-		// StartupEffect�� ����� ���� RunBehaviorTree�� ȣ���Ͽ� BTService���� �ʱ�ȭ�� �Ӽ��� ����� �� �ְ���
-		AAIController* AIController = Cast<AAIController>(GetController());
-		if (AIController && BehaviorTreeAsset)
-		{
-			AIController->RunBehaviorTree(BehaviorTreeAsset);
-		}
 	}
 	else
 	{

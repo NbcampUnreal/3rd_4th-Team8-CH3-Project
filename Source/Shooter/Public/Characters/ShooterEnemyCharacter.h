@@ -32,14 +32,8 @@ public:
 	virtual UEnemyUIComponent* GetEnemyUIComponent() const override;
 	//~ End IPawnUIInterface Interface.
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	UBehaviorTree* BehaviorTreeAsset;
-
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float CurWalkSpeed;
-
-	UPROPERTY(EditAnywhere, Category = "AttackRange")
-	float AttackRange;
 
 protected:
 	virtual void BeginPlay() override;

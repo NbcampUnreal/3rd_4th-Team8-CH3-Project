@@ -22,6 +22,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	TObjectPtr<UBehaviorTreeComponent> BehaviorTreeComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTreeAsset;
 public:
 	virtual void Tick(float DeltaSeconds) override;
 };
