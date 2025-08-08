@@ -7,6 +7,11 @@
 class USphereComponent;
 class UStaticMeshComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCountDown, int32, CountDownTime);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerInPortal);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerOutPortal);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDestroyPortal);
+
 UCLASS()
 class SHOOTER_API ATeleportPortal : public AActor
 {
@@ -17,10 +22,21 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnCountDown OnCountDown;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerInPortal OnPlayerInPortal;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerOutPortal OnPlayerOutPortal;
+
+	FOnDestroyPortal OnDestroyPortal;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Timer")
-	int32 CountTime;
+	int32 CountDownTimer;
 
 private:
 
@@ -35,6 +51,7 @@ private:
 
 	FTimerHandle PortalTimerHandle;
 	AActor* OverlapActor;
+	int32 CountTime;
 
 	UFUNCTION()
 	void TeleportHandle();

@@ -25,7 +25,9 @@ struct FInventorySlot
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventoryChanged, const TArray<FInventorySlot>&, ChangedSlot);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemPickupDelegate, TSubclassOf<AConsumableItembase>, ItemClass);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemAddedDelegate, FName, AddItemName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeTotalCountDelegate, FName, RemoveItemName, int32, TotalItemCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnToggleInventory);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTER_API UInventoryComponent : public UActorComponent
@@ -45,7 +47,7 @@ public:
 
     /** 아이템 개수 조회 */
     UFUNCTION(BlueprintCallable, Category = "Inventory")
-    int32 GetItemCount(TSubclassOf<AConsumableItembase> ItemClass) const;
+    int32 GetItemCount(FName CountItemName) const;
 
     /** 아이템 데이터 테이블 */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
@@ -55,7 +57,18 @@ public:
     FOnInventoryChanged OnInventoryChanged;
 
     UPROPERTY(BlueprintAssignable)
-    FOnItemPickupDelegate OnItemAdded;
+    FOnItemAddedDelegate OnItemAdded;
+
+    UPROPERTY(BlueprintAssignable)
+    FOnToggleInventory OnToggleInventoryRequested;
+
+    UPROPERTY(BlueprintAssignable)
+    FOnChangeTotalCountDelegate OnChangeTotalCount;
+
+    void RequestToggleInventory()
+    {
+        OnToggleInventoryRequested.Broadcast();
+    }
 
     UFUNCTION(BlueprintCallable, Category = "Inventory")
     TArray<FInventorySlot> GetAllSlots() const;

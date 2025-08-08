@@ -13,6 +13,7 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Crouch, "InputTag.Crouch");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Walk, "InputTag.Walk");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sprint, "InputTag.Sprint");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_OpenInventory, "InputTag.OpenInventory");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
