@@ -134,6 +134,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Roll,
+		ETriggerEvent::Triggered,
+		this,
+		&ThisClass::Input_Roll
+		);
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
 		ShooterGamePlayTags::InputTag_Weapon_Fire,
 		ETriggerEvent::Triggered,
 		this,
@@ -197,6 +205,7 @@ void AShooterCharacter::BeginPlay()
 void AShooterCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	
 	if (!CharacterStartUpData.IsNull())
 	{
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
@@ -208,6 +217,7 @@ void AShooterCharacter::PossessedBy(AController* NewController)
 #pragma region InputMoving
 void AShooterCharacter::Input_Sprint(const FInputActionValue& InputActionValue)
 {
+	UE_LOG(LogTemp, Warning, TEXT("SPringggsdkgopjgfaopjdsfaposdjf"));
 	SetDesiredGait(InputActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
 }
 
@@ -282,6 +292,13 @@ void AShooterCharacter::Input_Move(const FInputActionValue& ActionValue)
 	AddMovementInput(ForwardDirection * Value.Y + RightDirection * Value.X);
 }
 
+void AShooterCharacter::Input_Roll()
+{
+	static constexpr auto PlayRate{1.3f};
+
+	StartRolling(PlayRate);
+}
+
 void AShooterCharacter::Input_LookMouse(const FInputActionValue& ActionValue)
 {
 	const FVector2f Value{ActionValue.Get<FVector2D>()};
@@ -333,6 +350,7 @@ void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
 void AShooterCharacter::Input_EquipWeapon()
 {
 	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
+	
 	UE_LOG(LogTemp, Warning, TEXT("Equip"));
 }
 
