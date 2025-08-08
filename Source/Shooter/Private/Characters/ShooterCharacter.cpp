@@ -121,34 +121,10 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_Fire,
+		ShooterGamePlayTags::InputTag_Roll,
 		ETriggerEvent::Triggered,
 		this,
-		&ThisClass::Input_StartFire
-		);
-
-	ShooterInputComponent->BindNativeInputAction(
-		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_Reload,
-		ETriggerEvent::Started,
-		this,
-		&ThisClass::Input_Reload
-		);
-
-	ShooterInputComponent->BindNativeInputAction(
-		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
-		ETriggerEvent::Started,
-		this,
-		&ThisClass::Input_EquipWeapon
-		);
-	
-	ShooterInputComponent->BindNativeInputAction(
-		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_UnequipWeapon,
-		ETriggerEvent::Started,
-		this,
-		&ThisClass::Input_UnequipWeapon
+		&ThisClass::Input_Roll
 		);
 
 	ShooterInputComponent->BindNativeInputAction(
@@ -269,6 +245,12 @@ void AShooterCharacter::Input_Move(const FInputActionValue& ActionValue)
 	AddMovementInput(ForwardDirection * Value.Y + RightDirection * Value.X);
 }
 
+void AShooterCharacter::Input_Roll()
+{
+	static constexpr auto PlayRate{1.3f};
+
+	StartRolling(PlayRate);
+}
 void AShooterCharacter::Input_LookMouse(const FInputActionValue& ActionValue)
 {
 	const FVector2f Value{ActionValue.Get<FVector2D>()};
@@ -304,48 +286,6 @@ void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("You Can Aiming only Hold Waepon"));
 	}
-}
-
-void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
-{
-	if (GetOverlayMode() == AlsOverlayModeTags::Rifle) // Overlay에 총기가 입력되었을때만 재장전가능
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Reload!!"));
-	}else if (GetOverlayMode() != AlsOverlayModeTags::Rifle)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"));
-	}
-}
-
-void AShooterCharacter::Input_EquipWeapon(const FInputActionValue& InputActionValue)
-{
-	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
-	UE_LOG(LogTemp, Warning, TEXT("Equip"));
-}
-
-void AShooterCharacter::Input_UnequipWeapon(const FInputActionValue& InputActionValue)
-{
-	SetOverlayMode(AlsOverlayModeTags::Default, true);
-	UE_LOG(LogTemp, Warning, TEXT("Unequip"));
-}
-
-void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValue)
-{
-	if (GetOverlayMode() == AlsOverlayModeTags::Rifle) // Overlay에 총기가 입력되었을때만 사격가능
-	{
-		if (InputActionValue.Get<bool>() == true)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("StartFire"));
-			// TODO : 캐릭터 사격로직 추가 [ 화랑님 ]
-		}else if (InputActionValue.Get<bool>() == false)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("StopFire"));
-		}
-	}else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
-	}
-	
 }
 #pragma endregion
 

@@ -69,22 +69,17 @@ private:
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
-	void Input_Reload(const FInputActionValue& InputActionValue);
+	void Input_Roll();
 	void Input_LookMouse(const FInputActionValue& InputActionValue);
 	void Input_Crouch(const FInputActionValue& InputActionValue);
 	void Input_Walk(const FInputActionValue& InputActionValue);
 	void Input_Sprint(const FInputActionValue& InputActionValue);
 	void Input_Jump(const FInputActionValue& InputActionValue);
-	void Input_StartFire(const FInputActionValue& InputActionValue);
-	void Input_StopFire(const FInputActionValue& InputActionValue);
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
 	void Input_SwitchShoulder();
 	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
 	void Input_Aim(const FInputActionValue& InputActionValue);
-
-	void Input_EquipWeapon(const FInputActionValue& InputActionValue);
-	void Input_UnequipWeapon(const FInputActionValue& InputActionValue);
 
 
 #pragma endregion
