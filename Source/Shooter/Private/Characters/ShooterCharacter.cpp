@@ -367,16 +367,13 @@ void AShooterCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
 	ShooterAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
 
-// 보류함수 [ 화랑님 판단 ]
-
-/*
 bool AShooterCharacter::IsInputPressed(const FInputActionValue& InputActionValue)
 {
 	return InputActionValue.Get<bool>();
 }
-*/
 /*
 void AShooterCharacter::SetMaxWalkSpeed(const float NewMaxWalkSpeed)
 {
 	GetCharacterMovement()->MaxWalkSpeed = NewMaxWalkSpeed;
-}*/
+}
+*/

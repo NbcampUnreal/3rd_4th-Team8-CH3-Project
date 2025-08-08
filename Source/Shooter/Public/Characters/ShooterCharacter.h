@@ -79,6 +79,7 @@ private:
 	void Input_StopFire(const FInputActionValue& InputActionValue);
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
+	bool IsInputPressed(const FInputActionValue& InputActionValue);
 	void Input_SwitchShoulder();
 	void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo);
 	void Input_Aim(const FInputActionValue& InputActionValue);
