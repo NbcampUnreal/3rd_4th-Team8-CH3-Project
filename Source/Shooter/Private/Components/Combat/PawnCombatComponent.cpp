@@ -2,6 +2,8 @@
 
 
 #include "Components/Combat/PawnCombatComponent.h"
+
+#include "Components/BoxComponent.h"
 #include "Items/Weapons/ShooterWeaponBase.h"
 #include "Shooter/ShooterDebugHelper.h"
 
@@ -41,11 +43,21 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(
 
 AShooterWeaponBase* UPawnCombatComponent::GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const
 {
-	// 1. 해당 태그에 대응되는 무기 포인터를 맵에서 찾아봄
-	AShooterWeaponBase* const* FoundWeapon = CharacterCarriedWeaponMap.Find(InWeaponTagToGet);
+	// // 1. 해당 태그에 대응되는 무기 포인터를 맵에서 찾아봄
+	// AShooterWeaponBase* const* FoundWeapon = CharacterCarriedWeaponMap.Find(InWeaponTagToGet);
+	//
+	// // 2. 찾은 무기 포인터 반환 (더블 포인터 → 역참조)
+	// return FoundWeapon ? *FoundWeapon : nullptr;
 
-	// 2. 찾은 무기 포인터 반환 (더블 포인터 → 역참조)
-	return FoundWeapon ? *FoundWeapon : nullptr;
+	if (CharacterCarriedWeaponMap.Contains(InWeaponTagToGet))
+	{
+		if (AShooterWeaponBase* const* FoundWeapon = CharacterCarriedWeaponMap.Find(InWeaponTagToGet))
+		{
+			return *FoundWeapon;
+		}
+	}
+
+	return nullptr;
 }
 
 AShooterWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
@@ -59,10 +71,40 @@ AShooterWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() co
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
 }
 
+void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::EED_CurrentEquippedWeapon)
+	{
+		ToggleCurrentEquippedWeaponCollision(bShouldEnable);
+	}
+	else
+	{
+		ToggleBodyCollisionBoxCollision(bShouldEnable, ToggleDamageType);
+	}
+}
+
 void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
 {
 }
 
 void UPawnCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractingActor)
+{
+}
+
+void UPawnCombatComponent::ToggleCurrentEquippedWeaponCollision(bool bShouldEnable)
+{
+	AShooterWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+	
+	check(WeaponToToggle);
+	
+	WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(bShouldEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+	
+	if (!bShouldEnable)
+	{
+		OverlappedActors.Empty();
+	}
+}
+
+void UPawnCombatComponent::ToggleBodyCollisionBoxCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
 {
 }

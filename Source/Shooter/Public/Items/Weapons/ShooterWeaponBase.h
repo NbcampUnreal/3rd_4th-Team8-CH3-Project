@@ -7,6 +7,7 @@
 #include "ShooterGamePlayTag.h"
 #include "ShooterWeaponBase.generated.h"
 
+class UBoxComponent;
 class UShooterGameplayAbility;
 class UWeaponAttributeSet;
 
@@ -46,4 +47,24 @@ protected:
 	// 총알이 발사 위치
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
 	USceneComponent* MuzzleLocation;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
+	UBoxComponent* WeaponCollisionBox;
+
+	UFUNCTION()
+	virtual void OnCollisionBoxBeginOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+
+	UFUNCTION()
+	virtual void OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+
+public:
+	FORCEINLINE  UBoxComponent* GetWeaponCollisionBox() const { return WeaponCollisionBox; }
 };

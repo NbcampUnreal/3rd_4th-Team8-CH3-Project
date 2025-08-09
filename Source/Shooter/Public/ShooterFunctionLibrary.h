@@ -8,6 +8,7 @@
 #include "ShooterTypes/ShooterEnumTypes.h"
 #include "ShooterFunctionLibrary.generated.h"
 
+class UPawnCombatComponent;
 struct FGameplayTag;
 class UShooterAbilitySystemComponent;
 
@@ -27,6 +28,12 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
+
+	UFUNCTION(BlueprintCallable, Category = "Shooter|FunctionLibrary",
+		meta = (DisplayName = "Get Pawn Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
+	static UPawnCombatComponent* BP_GetPawnCombatComponentFromActor(AActor* InActor, EShooterValidType& OutValidType);
+
+	static UPawnCombatComponent* NativeGetPawnCombatComponentFromActor(AActor* InActor);
 
 	UFUNCTION(
 		BlueprintCallable,

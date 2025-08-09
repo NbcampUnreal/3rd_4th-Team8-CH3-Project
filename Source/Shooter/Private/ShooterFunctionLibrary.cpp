@@ -8,6 +8,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "ShooterGamePlayTag.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
+#include "Interfaces/PawnCombatInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UShooterAbilitySystemComponent* UShooterFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
@@ -59,6 +60,26 @@ FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
 		OutAngleDifference *= -1.f;
 	}
 	return DetermineHitReactionTag(OutAngleDifference);
+}
+
+UPawnCombatComponent* UShooterFunctionLibrary::BP_GetPawnCombatComponentFromActor(AActor* InActor,
+	EShooterValidType& OutValidType)
+{
+	UPawnCombatComponent* CombatComponent = NativeGetPawnCombatComponentFromActor(InActor);
+	OutValidType = CombatComponent ? EShooterValidType::EWT_Valid : EShooterValidType::EWT_Invalid;
+	return CombatComponent;
+}
+
+UPawnCombatComponent* UShooterFunctionLibrary::NativeGetPawnCombatComponentFromActor(AActor* InActor)
+{
+	check(InActor);
+
+	if (const IPawnCombatInterface* PawnCombatInterface = Cast<IPawnCombatInterface>(InActor))
+	{
+		return PawnCombatInterface->GetPawnCombatComponent();
+	}
+
+	return nullptr;
 }
 
 void UShooterFunctionLibrary::BP_DoesActorHaveTag(

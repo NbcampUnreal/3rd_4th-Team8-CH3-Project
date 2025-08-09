@@ -13,3 +13,10 @@ enum class EShooterSuccessType : uint8
 	ESC_Successful,
 	ESC_Failed,
 };
+
+UENUM()
+enum class EShooterValidType : uint8
+{
+	EWT_Valid,
+	EWT_Invalid,
+};
