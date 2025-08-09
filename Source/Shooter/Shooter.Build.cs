@@ -20,7 +20,9 @@ public class Shooter : ModuleRules
 			"AIModule",
 			"GameplayAbilities",
 			"UMG",
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"ALS",
+			"ALSCamera"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
