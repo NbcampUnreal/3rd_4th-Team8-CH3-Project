@@ -4,6 +4,7 @@
 #include "Characters/ShooterBaseCharacter.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AShooterBaseCharacter::AShooterBaseCharacter()
 {
