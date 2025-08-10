@@ -95,44 +95,108 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	}
 
 	// 입력 바인딩
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Move,
-		ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Move,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_Move
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Look_Mouse,
-		ETriggerEvent::Triggered, this, &ThisClass::Input_LookMouse);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Look_Mouse,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_LookMouse
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Jump,
-		ETriggerEvent::Started, this, &ThisClass::Input_Jump);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Jump,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_Jump
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Crouch,
-		ETriggerEvent::Started, this, &ThisClass::Input_Crouch);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Crouch,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_Crouch
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Walk,
-		ETriggerEvent::Started, this, &ThisClass::Input_Walk);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Walk,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_Walk
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Sprint,
-		ETriggerEvent::Triggered, this, &ThisClass::Input_Sprint);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Sprint,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_Sprint
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Roll,
-		ETriggerEvent::Triggered, this, &ThisClass::Input_Roll);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Roll,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_Roll
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Weapon_Fire,
-		ETriggerEvent::Triggered, this, &ThisClass::Input_StartFire);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Fire,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_StartFire
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Weapon_Reload,
-		ETriggerEvent::Started, this, &ThisClass::Input_Reload);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Reload,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_Reload
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
-		ETriggerEvent::Started, this, &ThisClass::Input_EquipWeapon);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_EquipWeapon
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_Weapon_UnequipWeapon,
-		ETriggerEvent::Started, this, &ThisClass::Input_UnequipWeapon);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_UnequipWeapon,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_UnequipWeapon
+		 );
 
-	ShooterInputComponent->BindNativeInputAction(InputConfigDataAsset, ShooterGamePlayTags::InputTag_SwitchShoulder,
-		ETriggerEvent::Started, this, &ThisClass::Input_SwitchShoulder);
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_SwitchShoulder,
+		ETriggerEvent::Started,
+		 this,
+		 &ThisClass::Input_SwitchShoulder
+		 );
 
-	ShooterInputComponent->BindAbilityInputAction(InputConfigDataAsset, this,
-		&ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityInputReleased);
+	ShooterInputComponent->BindAbilityInputAction(
+		InputConfigDataAsset,
+		this,
+		&ThisClass::Input_AbilityInputPressed,
+		&ThisClass::Input_AbilityInputReleased
+		);
 }
 #pragma endregion
 
