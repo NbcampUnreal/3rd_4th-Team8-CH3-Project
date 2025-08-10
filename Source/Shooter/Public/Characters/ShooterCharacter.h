@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AlsCharacter.h"                       // ⬅️ 플레이어는 ALS 직계
+#include "AlsCharacter.h"
 #include "AbilitySystemInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "Interfaces/PawnUIInterface.h"
@@ -20,6 +20,7 @@ class UInventoryComponent;
 class UShooterAbilitySystemComponent;
 class UShooterAttributeSet;
 class UDataAsset_StartUpDataBase;
+class UAbilitySystemComponent;
 
 struct FInputActionValue;
 /**
@@ -46,7 +47,7 @@ public:
 	virtual UShooterUIComponent* GetShooterUIComponent() const override;
 	//~ End IPawnUIInterface Interface.
 
-
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
@@ -54,6 +55,7 @@ protected:
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
+
 
 	// 화랑님 요청
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
