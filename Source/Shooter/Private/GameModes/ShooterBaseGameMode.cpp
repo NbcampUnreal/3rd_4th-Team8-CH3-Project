@@ -14,7 +14,7 @@ AShooterBaseGameMode::AShooterBaseGameMode()
 	PlayerControllerClass = AShooterController::StaticClass();
 	GameStateClass = AShooterGameStateBase::StaticClass();
 
-	PortalLocation = FVector(0.0f, 0.0f, 150.0f);
+	DefaultPortalLocation = FVector(0.0f, 0.0f, 150.0f);
 }
 
 void AShooterBaseGameMode::StartPlay()
@@ -92,7 +92,6 @@ void AShooterBaseGameMode::StartWave()
 	{
 		if (ASpawner* Spawner = Cast<ASpawner>(Actor))
 		{
-			//델리게이트
 			Spawner->GetOnSpawnFinished().AddLambda([SpawnCount, GS](int32 FinishedSpawnCount)
 			{
 				if (SpawnCount == FinishedSpawnCount)
@@ -148,7 +147,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 				ATeleportPortal* Portal = World->SpawnActor<ATeleportPortal>(
 					PortalClass,
-					PortalLocation,
+					CalculationPortalLocation(),
 					FRotator::ZeroRotator,
 					SpawnParams
 				);
@@ -159,13 +158,44 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 	}
 }
 
+FVector AShooterBaseGameMode::CalculationPortalLocation()
+{
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return DefaultPortalLocation;
+	}
+
+	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(World ,0);
+	FVector PlayerLoc = PlayerCharacter->GetActorLocation();
+
+	FVector Diff = DefaultPortalLocation - PlayerLoc; //생성될 포탈과 플레이어 캐릭터의 위치 차이 계산
+	float Dist = Diff.Size2D();
+
+	FVector PortalLocation;
+
+	if (Dist < 250.0f)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("The distance between the character and the portal is close."));
+
+		FVector Dir = Diff.GetSafeNormal2D();
+
+		PortalLocation = PlayerLoc + Dir * 400.0f;
+	}
+	else
+	{
+		PortalLocation = DefaultPortalLocation;
+	}
+
+	return PortalLocation;
+}
+
 void AShooterBaseGameMode::EndGame(bool bIsWin)
 {
 	UE_LOG(LogTemp, Warning, TEXT("End Game!!!"));
 	
 	if (!GameInstance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 133)"));
 		return;
 	}
 	GameInstance->SetCurrentWave(0);

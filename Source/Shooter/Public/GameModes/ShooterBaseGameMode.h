@@ -42,9 +42,11 @@ protected:
 	TSubclassOf<ATeleportPortal> PortalClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal")
-	FVector PortalLocation;
+	FVector DefaultPortalLocation;
 
 private:
+
+	FVector CalculationPortalLocation();
 
 	UShooterGameInstance* GameInstance;
 
