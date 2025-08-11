@@ -51,6 +51,9 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Rifle, "Player.Event.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Rifle, "Player.Event.Unequip.Rifle");
 
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_HealingCooldown, "Player.Status.HealingCooldown");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_GrenadeCooldown, "Player.Status.GrenadeCooldown");
+
 	/* Shared */
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
