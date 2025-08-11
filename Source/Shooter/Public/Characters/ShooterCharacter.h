@@ -3,26 +3,35 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Characters/ShooterBaseCharacter.h"
+#include "AlsCharacter.h"
+#include "AbilitySystemInterface.h"
+#include "Interfaces/PawnCombatInterface.h"
+#include "Interfaces/PawnUIInterface.h"
 #include "GameplayTagContainer.h"
 #include "ShooterCharacter.generated.h"
 
 class UAlsCameraComponent;
-// 화랑님 요청
 class UCameraComponent;
-// 화랑님 요청
 class USpringArmComponent;
 class UDataAsset_InputConfig;
 class UShooterCombatComponent;
 class UShooterUIComponent;
 class UInventoryComponent;
+class UShooterAbilitySystemComponent;
+class UShooterAttributeSet;
+class UDataAsset_StartUpDataBase;
+class UAbilitySystemComponent;
 
 struct FInputActionValue;
 /**
  * 
  */
 UCLASS()
-class SHOOTER_API AShooterCharacter : public AShooterBaseCharacter
+class SHOOTER_API AShooterCharacter :
+	public AAlsCharacter,
+	public IAbilitySystemInterface,
+	public IPawnCombatInterface,
+	public IPawnUIInterface
 {
 	GENERATED_BODY()
 
@@ -38,7 +47,7 @@ public:
 	virtual UShooterUIComponent* GetShooterUIComponent() const override;
 	//~ End IPawnUIInterface Interface.
 
-
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
@@ -46,6 +55,7 @@ protected:
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface.
+
 
 	// 화랑님 요청
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
@@ -75,6 +85,12 @@ protected:
 
 private:
 #pragma region Components
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem", meta = (AllowPrivateAccess = "true"))
+	UShooterAbilitySystemComponent* ShooterAbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem", meta = (AllowPrivateAccess = "true"))
+	UShooterAttributeSet* ShooterAttributeSet;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	UShooterCombatComponent* ShooterCombatComponent;
 
@@ -83,12 +99,15 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 	UInventoryComponent* InventoryComponent;
-#pragma endregion
 
-#pragma region Inputs
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
+	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
+#pragma endregion
+
+#pragma region Inputs
 	void Input_Move(const FInputActionValue& InputActionValue);
 	void Input_Roll();
 	void Input_LookMouse(const FInputActionValue& InputActionValue);

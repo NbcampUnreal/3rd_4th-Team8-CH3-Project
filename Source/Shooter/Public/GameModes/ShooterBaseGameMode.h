@@ -50,10 +50,21 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Portal")
 	TSubclassOf<ATeleportPortal> PortalClass;
 
+	//포탈 생성 기본 위치
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal")
-	FVector PortalLocation;
+	FVector DefaultPortalLocation;
+
+	//캐릭터와 포탈 생성 위치의 거리 차이 기준(해당 수치 만큼 떨어져 있어야함)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal")
+	float PortalRange;
+
+	//PortalRange만큼 떨어지지 않았다면 포탈 생성 위치 변경(생성될 포탈과 플레이어 캐릭터의 위치 차이 + ChangeLocation만큼 떨어져서 생성)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Portal")
+	float ChangeLocation;
 
 private:
+
+	FVector CalculationPortalLocation();
 
 	UShooterGameInstance* GameInstance;
 

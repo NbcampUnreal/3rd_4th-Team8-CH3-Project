@@ -14,10 +14,12 @@ UWeaponAttributeSet::UWeaponAttributeSet()
 
 void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
+
     if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
     {
         const float NewAmmo = FMath::Clamp(GetCurrentAmmo(), 0.f, GetMaxAmmo());
         SetCurrentAmmo(NewAmmo);
+
 
         Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
 
