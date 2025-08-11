@@ -7,8 +7,8 @@
 
 AShooterBaseCharacter::AShooterBaseCharacter()
 {
-	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
+	// PrimaryActorTick.bCanEverTick = false;
+	// PrimaryActorTick.bStartWithTickEnabled = false; ALS 플러그인에서 관리
 
 	ShooterAbilitySystemComponent = CreateDefaultSubobject<UShooterAbilitySystemComponent>(
 		TEXT("ShooterAbilitySystemComponent"));
