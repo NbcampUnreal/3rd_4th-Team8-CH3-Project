@@ -360,8 +360,6 @@ void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
 
 void AShooterCharacter::Input_EquipWeapon()
 {
-	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
-	
 	UE_LOG(LogTemp, Warning, TEXT("Equip"));
 }
 
