@@ -21,21 +21,19 @@ void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
         Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
 
-        // Actor 소유자 가져오기
-        AActor* OwnerActor = GetOwningActor();
-        if (!OwnerActor)
-        {
-            Debug::Print(TEXT("OwnerActor 없음"), FColor::Red);
-            return;
-        }
+		// Actor 소유자 가져오기
+		AActor* OwnerActor = GetOwningActor();
+		if (!OwnerActor)
+		{
+			return;
+		}
 
-        // UI 컴포넌트 가져오기
-        UShooterUIComponent* UIComponent = OwnerActor->FindComponentByClass<UShooterUIComponent>();
-        if (!UIComponent)
-        {
-            Debug::Print(TEXT("UIComponent 없음"), FColor::Red);
-            return;
-        }
+		// UI 컴포넌트 가져오기
+		UShooterUIComponent* UIComponent = OwnerActor->FindComponentByClass<UShooterUIComponent>();
+		if (!UIComponent)
+		{
+			return;
+		}
 
         // 총알 변경 알림 보내기
         UIComponent->HandleCurrentAmmoChanged(NewAmmo);

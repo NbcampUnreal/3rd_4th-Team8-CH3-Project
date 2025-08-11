@@ -110,7 +110,7 @@ void AConsumableItembase::GiveAbilityToOwner(AShooterCharacter* NewOwner)
 {
     if (!NewOwner) return;
 
-    UShooterAbilitySystemComponent* OwnerASC = NewOwner->GetShooterAbilitySystemComponent();
+    UShooterAbilitySystemComponent* OwnerASC = Cast<UShooterAbilitySystemComponent>(NewOwner->GetAbilitySystemComponent());
     if (!OwnerASC) return;
 
     for (const auto& Pair : ItemAbilities)
