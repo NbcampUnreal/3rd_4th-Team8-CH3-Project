@@ -185,6 +185,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Aim,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_Aim
+		 );
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
 		ShooterGamePlayTags::InputTag_SwitchShoulder,
 		ETriggerEvent::Started,
 		 this,
