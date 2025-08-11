@@ -113,6 +113,7 @@ void AShooterBaseGameMode::StartWave()
 	}
 
 	GS->SetAliveEnemyCount(SpawnCount);
+	OnWaveStarted.Broadcast(CurrentWave);
 	
 }
 
@@ -137,7 +138,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Clear wave %d"), GameInstance->GetCurrentWave());
-		
+		OnWaveEnded.Broadcast(GameInstance->GetCurrentWave());
 		//여기서 포탈 생성해줌
 		if (PortalClass)
 		{

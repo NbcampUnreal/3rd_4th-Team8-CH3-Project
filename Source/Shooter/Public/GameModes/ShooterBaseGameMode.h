@@ -9,6 +9,9 @@ class ATeleportPortal;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPortalSpawned, ATeleportPortal*, TeleportPortal);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveStarted, int32, WaveNumber);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveEnded, int32, WaveNumber);
+
 UCLASS()
 class SHOOTER_API AShooterBaseGameMode : public AGameModeBase
 {
@@ -28,6 +31,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FPortalSpawned PortalSpawned;
+
+	UPROPERTY(BlueprintAssignable, Category = "Wave")
+	FOnWaveStarted OnWaveStarted;
+
+	UPROPERTY(BlueprintAssignable, Category = "Wave")
+	FOnWaveEnded OnWaveEnded;
 
 protected:
 
