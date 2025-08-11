@@ -169,7 +169,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
+		ShooterGamePlayTags::InputTag_EquipWeapon,
 		ETriggerEvent::Started,
 		 this,
 		 &ThisClass::Input_EquipWeapon
@@ -360,8 +360,6 @@ void AShooterCharacter::Input_Reload(const FInputActionValue& InputActionValue)
 
 void AShooterCharacter::Input_EquipWeapon()
 {
-	SetOverlayMode(AlsOverlayModeTags::Rifle, true);
-	
 	UE_LOG(LogTemp, Warning, TEXT("Equip"));
 }
 
@@ -404,6 +402,11 @@ void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionV
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *InInputTag.GetTagName().ToString());
+	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_EquipWeapon))
+	{
+		SetOverlayMode(AlsOverlayModeTags::Rifle, true);
+	}
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 

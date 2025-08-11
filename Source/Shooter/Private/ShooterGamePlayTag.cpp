@@ -19,7 +19,7 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_OpenInventory, "InputTag.OpenInventory");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.Weapon.EquipWeapon");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.EquipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_UnequipWeapon, "InputTag.Weapon.UnequipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
