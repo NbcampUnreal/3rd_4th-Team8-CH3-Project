@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shooter|FunctionLibrary")
 	static void AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd);
 
+	UFUNCTION(BlueprintCallable, Category = "Shooter|FunctionLibrary")
+	static void RemoveGameplayTagFromActorIfFound(AActor* InActor, FGameplayTag TagToRemove);
+
 	UFUNCTION(BlueprintPure, Category = "Shooter|FunctionLibrary")
 	static FGameplayTag ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference);
 

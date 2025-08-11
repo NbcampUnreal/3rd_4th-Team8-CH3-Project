@@ -15,6 +15,7 @@
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AlsCharacter.h"
 #include "ALSCamera/Public/AlsCameraComponent.h"
+#include "Shooter/ShooterDebugHelper.h"
 #include "Utility/AlsGameplayTags.h"
 #include "Utility/AlsVector.h"
 
@@ -377,6 +378,13 @@ void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValu
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
+	Debug::Print(TEXT("Input_AbilityInputPressed 1111111111111"));
+	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_Weapon_EquipWeapon))
+	{
+		Debug::Print(TEXT("Input_AbilityInputPressed"));
+		SetOverlayMode(AlsOverlayModeTags::Rifle, true);
+	}
+	
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 

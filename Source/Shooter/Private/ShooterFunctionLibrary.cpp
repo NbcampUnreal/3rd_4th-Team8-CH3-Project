@@ -29,6 +29,15 @@ void UShooterFunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGame
 	}
 }
 
+void UShooterFunctionLibrary::RemoveGameplayTagFromActorIfFound(AActor* InActor, FGameplayTag TagToRemove)
+{
+	UShooterAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+	if (ASC->HasMatchingGameplayTag(TagToRemove))
+	{
+		ASC->RemoveLooseGameplayTag(TagToRemove);
+	}
+}
+
 FGameplayTag UShooterFunctionLibrary::ComputeHitReactDirectionTag(
 	AActor* InAttacker,
 	AActor* InVictim,

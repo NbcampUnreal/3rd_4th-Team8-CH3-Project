@@ -76,4 +76,5 @@ namespace ShooterGamePlayTags
 
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);
 }
