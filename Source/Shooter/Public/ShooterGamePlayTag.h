@@ -69,6 +69,7 @@ namespace ShooterGamePlayTags
 
 	/* Enemy Ability Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee_End);
 
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);

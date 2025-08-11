@@ -68,7 +68,8 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_ChargeShootDamage, "Shared.SetByCaller.ChargeShootDamage");
 
 	/* Enemy Ability Tags */
-	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");;
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_End, "Enemy.Ability.Melee.End");
 
 	/* Enemy Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
