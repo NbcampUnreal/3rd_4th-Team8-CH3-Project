@@ -199,6 +199,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		 &ThisClass::Input_SwitchShoulder
 		 );
 
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_OpenInventory,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_OpenIventory
+	);
+
 	ShooterInputComponent->BindAbilityInputAction(
 		InputConfigDataAsset,
 		this,
@@ -379,6 +387,17 @@ void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValu
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
+	}
+}
+void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionValue)
+{
+	if (InputActionValue.Get<bool>())
+	{
+		if (UInventoryComponent* InvComp = FindComponentByClass<UInventoryComponent>())
+		{
+			InvComp->RequestToggleInventory();
+			UE_LOG(LogTemp, Warning, TEXT("ShowIventory"));
+		}
 	}
 }
 #pragma endregion
