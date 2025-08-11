@@ -42,8 +42,8 @@ AShooterCharacter::AShooterCharacter()
 
 	// 공용 컴포넌트 (플레이어도 보유)
 	ShooterAbilitySystemComponent = CreateDefaultSubobject<UShooterAbilitySystemComponent>(TEXT("ShooterAbilitySystemComponent"));
-	ShooterAttributeSet           = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
-
+	ShooterAttributeSet = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
+  
 	ShooterCombatComponent = CreateDefaultSubobject<UShooterCombatComponent>(TEXT("ShooterCombatComponent"));
 	ShooterUIComponent = CreateDefaultSubobject<UShooterUIComponent>(TEXT("ShooterUIComponent"));
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("ShooterInventoryComponent"));
@@ -337,6 +337,8 @@ void AShooterCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& View
 #pragma region Weapon
 void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 {
+	const bool bIsAiming = InputActionValue.Get<bool>();
+	
 	if (GetOverlayMode() == AlsOverlayModeTags::Rifle)
 	{
 		SetDesiredAiming(InputActionValue.Get<bool>());
@@ -344,6 +346,20 @@ void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("You Can Aiming only Hold Weapon"));
+	}
+
+	if (UShooterAbilitySystemComponent* ASC = ShooterAbilitySystemComponent)
+	{
+		if (bIsAiming)
+		{
+			// 조준을 시작하면 태그 부여
+			ASC->AddLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+		}
+		else
+		{
+			// 조준을 시작하면 태그 삭제
+			ASC->RemoveLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+		}
 	}
 }
 
