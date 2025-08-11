@@ -52,6 +52,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	FName RightHandCollisionBoxAttachBoneName;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
+	FName HeadCollisionBoxAttachBoneName;
+
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "combat")
 	UShooterEnemyCombatComponent* ShooterEnemyCombatComponent;
 
@@ -66,6 +69,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
 	UBoxComponent* RightHandCollisionBox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat")
+	UBoxComponent* HeadCollisionBox;
 
 	UFUNCTION()
 	virtual void OnBodyCollisionBoxBeginOverlap(
@@ -84,4 +90,5 @@ public:
 	FORCEINLINE UShooterEnemyCombatComponent* GetEnemyCombatComponent() const { return ShooterEnemyCombatComponent; }
 	FORCEINLINE UBoxComponent* GetLeftHandCollisionBox() const { return LeftHandCollisionBox; }
 	FORCEINLINE UBoxComponent* GetRightHandCollisionBox() const { return RightHandCollisionBox; }
+	FORCEINLINE UBoxComponent* GetHeadCollisionBox() const { return HeadCollisionBox; }
 };

@@ -36,6 +36,11 @@ AShooterEnemyCharacter::AShooterEnemyCharacter()
 	RightHandCollisionBox->SetupAttachment(GetMesh());
 	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
+
+	HeadCollisionBox = CreateDefaultSubobject<UBoxComponent>("HeadCollisionBox");
+	HeadCollisionBox->SetupAttachment(GetMesh());
+	HeadCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	HeadCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
 }
 
 UPawnCombatComponent* AShooterEnemyCharacter::GetPawnCombatComponent() const

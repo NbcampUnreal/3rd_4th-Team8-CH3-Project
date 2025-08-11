@@ -10,6 +10,7 @@
 #include "ShooterGamePlayTag.h"
 #include "Characters/ShooterBaseCharacter.h"
 #include "Components/BoxComponent.h"
+#include "Shooter/ShooterDebugHelper.h"
 
 
 // Sets default values
@@ -56,7 +57,6 @@ void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 	{
 		TSubclassOf<UShooterGameplayAbility> AbilityClass = Pair.Key;
 		FGameplayTag InputTag = Pair.Value;
-
 		if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
 		{
 			FGameplayAbilitySpec Spec(AbilityClass, 1, INDEX_NONE, OwnerASC);

@@ -14,6 +14,7 @@
 #include "Components/UI/ShooterUIComponent.h"
 #include "Components/InventoryComponent.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
+#include "Shooter/ShooterDebugHelper.h"
 
 AShooterCharacter::AShooterCharacter()
 {
@@ -284,10 +285,12 @@ void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionV
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
+	Debug::Print(TEXT("Input_AbilityInputPressed"));
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 
 void AShooterCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
 {
+	Debug::Print(TEXT("Input_AbilityInputReleased"));
 	ShooterAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
