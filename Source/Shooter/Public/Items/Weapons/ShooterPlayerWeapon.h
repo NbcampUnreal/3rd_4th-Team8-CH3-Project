@@ -18,7 +18,7 @@ public:
 	/**
 	 * 이 무기의 기본 정보 데이터입니다.
 	 * 데미지, 공격 속도, 부여할 어빌리티 목록 등을 포함합니다.
-	 * 블루프린트에서 읽을 수 있으나, 외부 C++ 클래스에서는 직접 접근할 수 없습니다.
+	 * 블루프린트, 외부 C++ 클래스에서는 직접 접근가능합니다
 	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
 	FShooterPlayerWeaponData ShooterWeaponData;

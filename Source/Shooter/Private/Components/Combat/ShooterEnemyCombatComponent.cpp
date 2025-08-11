@@ -66,6 +66,10 @@ void UShooterEnemyCombatComponent::ToggleBodyCollisionBoxCollision(bool bShouldE
 		RightHandCollisionBox->SetCollisionEnabled(CollisionQuery);
 		break;
 
+	case EToggleDamageType::EED_Head:
+		RightHandCollisionBox->SetCollisionEnabled(CollisionQuery);
+		break;
+
 	default:
 		break;
 	}
