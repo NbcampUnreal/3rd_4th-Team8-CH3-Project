@@ -14,26 +14,30 @@ UWeaponAttributeSet::UWeaponAttributeSet()
 
 void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	Debug::Print("test");
-	if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
-	{
-		float NewAmmo = GetCurrentAmmo();
+    if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
+    {
+        const float NewAmmo = FMath::Clamp(GetCurrentAmmo(), 0.f, GetMaxAmmo());
+        SetCurrentAmmo(NewAmmo);
 
-		// Actor 소유자 가져오기
-		AActor* OwnerActor = GetOwningActor();
-		if (!OwnerActor)
-		{
-			return;
-		}
+        Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
 
-		// UI 컴포넌트 가져오기
-		UShooterUIComponent* UIComponent = OwnerActor->FindComponentByClass<UShooterUIComponent>();
-		if (!UIComponent)
-		{
-			return;
-		}
+        // Actor 소유자 가져오기
+        AActor* OwnerActor = GetOwningActor();
+        if (!OwnerActor)
+        {
+            Debug::Print(TEXT("OwnerActor 없음"), FColor::Red);
+            return;
+        }
 
-		// 총알 변경 알림 보내기
-		UIComponent->HandleCurrentAmmoChanged(NewAmmo);
+        // UI 컴포넌트 가져오기
+        UShooterUIComponent* UIComponent = OwnerActor->FindComponentByClass<UShooterUIComponent>();
+        if (!UIComponent)
+        {
+            Debug::Print(TEXT("UIComponent 없음"), FColor::Red);
+            return;
+        }
+
+        // 총알 변경 알림 보내기
+        UIComponent->HandleCurrentAmmoChanged(NewAmmo);
 	}
 }

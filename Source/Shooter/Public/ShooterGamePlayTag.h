@@ -46,6 +46,9 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Rifle);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Rifle);
 
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_HealingCooldown);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_GrenadeCooldown);
+
 	/* Shared */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
