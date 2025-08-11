@@ -14,7 +14,8 @@ enum class EToggleDamageType : uint8
 {
 	EED_CurrentEquippedWeapon,
 	EED_LeftHand,
-	EED_RightHand
+	EED_RightHand,
+	EED_Head
 };
 /**
  * 

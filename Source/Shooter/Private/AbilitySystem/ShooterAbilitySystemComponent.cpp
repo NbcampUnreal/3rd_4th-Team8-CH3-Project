@@ -75,7 +75,7 @@ void UShooterAbilitySystemComponent::GrantShooterWeaponAbilities(
 	}
 }
 
-void UShooterAbilitySystemComponent::RemoveGrantShooterWeaponAbilities(
+void UShooterAbilitySystemComponent::RemoveGrantShooterWeaponAbilities(UPARAM(ref)
 	TArray<FGameplayAbilitySpecHandle>& InSpecHandlesRemove)
 {
 	if (InSpecHandlesRemove.IsEmpty())
