@@ -6,6 +6,7 @@
 #include "ShooterFunctionLibrary.h"
 #include "ShooterGamePlayTag.h"
 #include "Components/UI/PawnUIComponent.h"
+#include "Components/UI/ShooterUIComponent.h"
 #include "Interfaces/PawnUIInterface.h"
 
 #include "Shooter/ShooterDebugHelper.h"
@@ -65,6 +66,21 @@ void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 		SetCurrentHealth(NewCurrentHealth);
 
 		PawnUIComponent->HandleCurrentHealthChanged(GetCurrentHealth() / GetMaxHealth());
+
+		
+		if (GetCurrentHealth() <= 0.f)
+		{
+			if (UShooterUIComponent* ShooterUIComponent = CachedPawnUIInterface->GetShooterUIComponent())
+			{
+				ShooterUIComponent->OnShooterDead.Broadcast();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("UI 없음"));
+			}
+		}
+
+
 		// PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
 
@@ -92,7 +108,7 @@ void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 			UShooterFunctionLibrary::AddGameplayTagToActorIfNone(
 				Data.Target.GetAvatarActor(),
 				ShooterGamePlayTags::Shared_Status_Dead
-			);
+			);		
 		}
 	}
 }

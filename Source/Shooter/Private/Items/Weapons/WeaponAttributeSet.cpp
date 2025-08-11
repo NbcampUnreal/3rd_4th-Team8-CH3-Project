@@ -14,9 +14,12 @@ UWeaponAttributeSet::UWeaponAttributeSet()
 
 void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
-	{
-		float NewAmmo = GetCurrentAmmo();
+    if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
+    {
+        const float NewAmmo = FMath::Clamp(GetCurrentAmmo(), 0.f, GetMaxAmmo());
+        SetCurrentAmmo(NewAmmo);
+
+        Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
 
 		// Actor 소유자 가져오기
 		AActor* OwnerActor = GetOwningActor();
@@ -32,7 +35,7 @@ void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			return;
 		}
 
-		// 총알 변경 알림 보내기
-		UIComponent->HandleCurrentAmmoChanged(NewAmmo);
+        // 총알 변경 알림 보내기
+        UIComponent->HandleCurrentAmmoChanged(NewAmmo);
 	}
 }

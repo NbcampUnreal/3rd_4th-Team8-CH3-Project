@@ -19,7 +19,8 @@ void AShooterGameStateBase::SetAliveEnemyCount(int32 Count)
 		AliveEnemyCount = AliveEnemyCount - (TotalEnemy-Count);
 		TotalEnemy = Count;
 	}
-	
+
+	OnEnemyCountChanged.Broadcast(AliveEnemyCount, TotalEnemy);
 }
 
 void AShooterGameStateBase::OnEnemyDied()
@@ -27,6 +28,8 @@ void AShooterGameStateBase::OnEnemyDied()
 	if (AliveEnemyCount > 0)
 	{
 		AliveEnemyCount = FMath::Max(AliveEnemyCount - 1, 0);
+
+		OnEnemyCountChanged.Broadcast(AliveEnemyCount, TotalEnemy);
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("The enemy is dead  (%d / %d)"), AliveEnemyCount, TotalEnemy);

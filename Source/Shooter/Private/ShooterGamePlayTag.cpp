@@ -19,7 +19,7 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_OpenInventory, "InputTag.OpenInventory");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.Weapon.EquipWeapon");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.EquipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_UnequipWeapon, "InputTag.Weapon.UnequipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
@@ -50,6 +50,9 @@ namespace ShooterGamePlayTags
 	/*Event Tags*/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Rifle, "Player.Event.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Rifle, "Player.Event.Unequip.Rifle");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_HealingCooldown, "Player.Status.HealingCooldown");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_GrenadeCooldown, "Player.Status.GrenadeCooldown");
 
 	/* Shared */
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");

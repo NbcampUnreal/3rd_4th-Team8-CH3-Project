@@ -170,7 +170,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
+		ShooterGamePlayTags::InputTag_EquipWeapon,
 		ETriggerEvent::Started,
 		 this,
 		 &ThisClass::Input_EquipWeapon
@@ -186,11 +186,27 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_Weapon_Aim,
+		ETriggerEvent::Triggered,
+		 this,
+		 &ThisClass::Input_Aim
+		 );
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
 		ShooterGamePlayTags::InputTag_SwitchShoulder,
 		ETriggerEvent::Started,
 		 this,
 		 &ThisClass::Input_SwitchShoulder
 		 );
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_OpenInventory,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_OpenIventory
+	);
 
 	ShooterInputComponent->BindAbilityInputAction(
 		InputConfigDataAsset,
@@ -374,17 +390,26 @@ void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValu
 		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
 	}
 }
+void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionValue)
+{
+	if (InputActionValue.Get<bool>())
+	{
+		if (UInventoryComponent* InvComp = FindComponentByClass<UInventoryComponent>())
+		{
+			InvComp->RequestToggleInventory();
+			UE_LOG(LogTemp, Warning, TEXT("ShowIventory"));
+		}
+	}
+}
 #pragma endregion
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
-	Debug::Print(TEXT("Input_AbilityInputPressed 1111111111111"));
-	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_Weapon_EquipWeapon))
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *InInputTag.GetTagName().ToString());
+	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_EquipWeapon))
 	{
-		Debug::Print(TEXT("Input_AbilityInputPressed"));
 		SetOverlayMode(AlsOverlayModeTags::Rifle, true);
 	}
-	
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 
