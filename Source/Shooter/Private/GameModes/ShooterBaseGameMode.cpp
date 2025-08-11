@@ -15,6 +15,8 @@ AShooterBaseGameMode::AShooterBaseGameMode()
 	GameStateClass = AShooterGameStateBase::StaticClass();
 
 	DefaultPortalLocation = FVector(0.0f, 0.0f, 150.0f);
+	PortalRange = 250.0f;
+	ChangeLocation = 400.0f;
 }
 
 void AShooterBaseGameMode::StartPlay()
@@ -167,6 +169,10 @@ FVector AShooterBaseGameMode::CalculationPortalLocation()
 	}
 
 	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(World ,0);
+	if (!PlayerCharacter)
+	{
+		return DefaultPortalLocation;
+	}
 	FVector PlayerLoc = PlayerCharacter->GetActorLocation();
 
 	FVector Diff = DefaultPortalLocation - PlayerLoc; //생성될 포탈과 플레이어 캐릭터의 위치 차이 계산
@@ -174,13 +180,13 @@ FVector AShooterBaseGameMode::CalculationPortalLocation()
 
 	FVector PortalLocation;
 
-	if (Dist < 250.0f)
+	if (Dist < PortalRange)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("The distance between the character and the portal is close."));
 
 		FVector Dir = Diff.GetSafeNormal2D();
 
-		PortalLocation = PlayerLoc + Dir * 400.0f;
+		PortalLocation = PlayerLoc + Dir * ChangeLocation;
 	}
 	else
 	{
