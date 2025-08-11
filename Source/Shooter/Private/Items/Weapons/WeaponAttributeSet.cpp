@@ -14,7 +14,6 @@ UWeaponAttributeSet::UWeaponAttributeSet()
 
 void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	Debug::Print("test");
 	if (Data.EvaluatedData.Attribute == GetCurrentAmmoAttribute())
 	{
 		float NewAmmo = GetCurrentAmmo();
