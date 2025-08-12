@@ -32,4 +32,6 @@ public:
 	void HandleCurrentAmmoChanged(float NewAmmo);
 	UFUNCTION(BlueprintCallable)
 	void HandleStartCooldown(FName UseItemName, float CooldownDuration);
+	UFUNCTION(BlueprintCallable)
+	void HandleShooterDead();
 };
