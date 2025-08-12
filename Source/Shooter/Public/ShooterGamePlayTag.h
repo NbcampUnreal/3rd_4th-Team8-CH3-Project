@@ -20,7 +20,7 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_OpenInventory);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Fire);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_Reload);
-	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_EquipWeapon);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_EquipWeapon);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Weapon_UnequipWeapon);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_UseItemBase);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ConsumableItem_HealingItem);
@@ -50,6 +50,9 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Equip_Rifle);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Unequip_Rifle);
 
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_HealingCooldown);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_GrenadeCooldown);
+
 	/* Shared */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_Death);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
@@ -78,4 +81,5 @@ namespace ShooterGamePlayTags
 
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);
 }

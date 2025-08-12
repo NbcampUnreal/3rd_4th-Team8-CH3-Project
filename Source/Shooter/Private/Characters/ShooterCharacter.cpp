@@ -15,6 +15,7 @@
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AlsCharacter.h"
 #include "ALSCamera/Public/AlsCameraComponent.h"
+#include "Shooter/ShooterDebugHelper.h"
 #include "Utility/AlsGameplayTags.h"
 #include "Utility/AlsVector.h"
 
@@ -41,8 +42,8 @@ AShooterCharacter::AShooterCharacter()
 
 	// 공용 컴포넌트 (플레이어도 보유)
 	ShooterAbilitySystemComponent = CreateDefaultSubobject<UShooterAbilitySystemComponent>(TEXT("ShooterAbilitySystemComponent"));
-	ShooterAttributeSet           = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
-
+	ShooterAttributeSet = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
+  
 	ShooterCombatComponent = CreateDefaultSubobject<UShooterCombatComponent>(TEXT("ShooterCombatComponent"));
 	ShooterUIComponent = CreateDefaultSubobject<UShooterUIComponent>(TEXT("ShooterUIComponent"));
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("ShooterInventoryComponent"));
@@ -169,7 +170,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	ShooterInputComponent->BindNativeInputAction(
 		InputConfigDataAsset,
-		ShooterGamePlayTags::InputTag_Weapon_EquipWeapon,
+		ShooterGamePlayTags::InputTag_EquipWeapon,
 		ETriggerEvent::Started,
 		 this,
 		 &ThisClass::Input_EquipWeapon
@@ -198,6 +199,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		 this,
 		 &ThisClass::Input_SwitchShoulder
 		 );
+
+	ShooterInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		ShooterGamePlayTags::InputTag_OpenInventory,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_OpenIventory
+	);
 
 	ShooterInputComponent->BindAbilityInputAction(
 		InputConfigDataAsset,
@@ -328,6 +337,8 @@ void AShooterCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& View
 #pragma region Weapon
 void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 {
+	const bool bIsAiming = InputActionValue.Get<bool>();
+	
 	if (GetOverlayMode() == AlsOverlayModeTags::Rifle)
 	{
 		SetDesiredAiming(InputActionValue.Get<bool>());
@@ -335,6 +346,20 @@ void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("You Can Aiming only Hold Weapon"));
+	}
+
+	if (UShooterAbilitySystemComponent* ASC = ShooterAbilitySystemComponent)
+	{
+		if (bIsAiming)
+		{
+			// 조준을 시작하면 태그 부여
+			ASC->AddLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+		}
+		else
+		{
+			// 조준을 시작하면 태그 삭제
+			ASC->RemoveLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+		}
 	}
 }
 
@@ -381,10 +406,26 @@ void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValu
 		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
 	}
 }
+void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionValue)
+{
+	if (InputActionValue.Get<bool>())
+	{
+		if (UInventoryComponent* InvComp = FindComponentByClass<UInventoryComponent>())
+		{
+			InvComp->RequestToggleInventory();
+			UE_LOG(LogTemp, Warning, TEXT("ShowIventory"));
+		}
+	}
+}
 #pragma endregion
 
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *InInputTag.GetTagName().ToString());
+	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_EquipWeapon))
+	{
+		SetOverlayMode(AlsOverlayModeTags::Rifle, true);
+	}
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 
