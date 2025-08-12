@@ -27,6 +27,11 @@
 		{
 			"Name": "GameplayAbilities",
 			"Enabled": true
+		},
+		{
+			"Name": "ALS",
+			"Enabled": true
 		}
+		
 	]
 }
