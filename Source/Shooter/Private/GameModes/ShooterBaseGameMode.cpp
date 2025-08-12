@@ -114,7 +114,7 @@ void AShooterBaseGameMode::StartWave()
 	}
 
 	GS->SetAliveEnemyCount(SpawnCount);
-	OnWaveStarted.Broadcast(CurrentWave);
+	OnWaveStarted.Broadcast(GameInstance->GetCurrentWave());
 	
 }
 

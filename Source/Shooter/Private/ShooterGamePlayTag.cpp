@@ -42,6 +42,7 @@ namespace ShooterGamePlayTags
 
 	/* Weapon Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Rifle, "Player.Weapon.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon_Baton, "Enemy.Weapon.Baton");
 
 	/* SetByCaller Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Shoot, "Player.SetByCaller.AttackType.Shoot");
@@ -78,6 +79,7 @@ namespace ShooterGamePlayTags
 	/* Enemy Ability Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Projectile, "Enemy.Ability.Projectile");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_End, "Enemy.Ability.Melee.End");
 
 	/* Enemy Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
