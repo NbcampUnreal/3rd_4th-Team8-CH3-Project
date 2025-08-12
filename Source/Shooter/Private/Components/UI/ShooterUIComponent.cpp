@@ -15,3 +15,8 @@ void UShooterUIComponent::HandleStartCooldown(FName UseItemName, float CooldownD
 {
     OnItemCooldownStart.Broadcast(UseItemName, CooldownDuration);
 }
+
+void UShooterUIComponent::HandleShooterDead()
+{
+    OnShooterDead.Broadcast();
+}
