@@ -237,6 +237,20 @@ void AShooterCharacter::PossessedBy(AController* NewController)
 #pragma region InputMoving
 void AShooterCharacter::Input_Sprint(const FInputActionValue& InputActionValue)
 {
+	bIsSprint = InputActionValue.Get<bool>();
+	if (UShooterAbilitySystemComponent* ASC = ShooterAbilitySystemComponent)
+	{
+		if (bIsSprint)
+		{
+			// 스프린트 시작하면 태그 부여
+			ASC->AddLooseGameplayTag(ShooterGamePlayTags::InputTag_Sprint);
+		}
+		else
+		{
+			// 스프린트 종료하면 태그 삭제
+			ASC->RemoveLooseGameplayTag(ShooterGamePlayTags::InputTag_Sprint);
+		}
+	}
 	SetDesiredGait(InputActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
 }
 
@@ -338,7 +352,6 @@ void AShooterCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& View
 void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 {
 	const bool bIsAiming = InputActionValue.Get<bool>();
-	
 	if (GetOverlayMode() == AlsOverlayModeTags::Rifle)
 	{
 		SetDesiredAiming(InputActionValue.Get<bool>());
@@ -406,6 +419,7 @@ void AShooterCharacter::Input_StartFire(const FInputActionValue& InputActionValu
 		UE_LOG(LogTemp, Warning, TEXT("Player Not Hold Weapon!!"))
 	}
 }
+
 void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionValue)
 {
 	if (InputActionValue.Get<bool>())
@@ -422,10 +436,17 @@ void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionV
 void AShooterCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *InInputTag.GetTagName().ToString());
+	
+	if (GetLocomotionAction() == AlsLocomotionActionTags::Rolling)
+	{
+		return;
+	}
+	
 	if (InInputTag.MatchesTag(ShooterGamePlayTags::InputTag_EquipWeapon))
 	{
 		SetOverlayMode(AlsOverlayModeTags::Rifle, true);
 	}
+	
 	ShooterAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
 }
 
