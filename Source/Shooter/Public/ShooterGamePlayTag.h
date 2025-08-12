@@ -40,6 +40,7 @@ namespace ShooterGamePlayTags
 
 	/* Weapon Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Rifle);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon_Baton);
 
 	/* SetByCaller Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_SetByCaller_AttackType_Shoot);
@@ -76,6 +77,7 @@ namespace ShooterGamePlayTags
 	/* Enemy Ability Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Projectile);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee_End);
 
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);
