@@ -12,6 +12,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPortalSpawned, ATeleportPortal*, Te
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveStarted, int32, WaveNumber);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveEnded, int32, WaveNumber);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameOver, bool, bClear);
+
 UCLASS()
 class SHOOTER_API AShooterBaseGameMode : public AGameModeBase
 {
@@ -38,6 +40,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Wave")
 	FOnWaveEnded OnWaveEnded;
 
+	UPROPERTY(BlueprintAssignable, Category = "GameState")
+	FOnGameOver OnGameOver;
+
 protected:
 
 	virtual void StartPlay() override;
@@ -46,6 +51,15 @@ protected:
 	void StartGame();
 
 	void EndGame(bool bIsWin);
+
+	UFUNCTION(BlueprintCallable)
+	void RetryGame();
+
+	UFUNCTION(BlueprintCallable)
+	void ResetGame();
+
+	UFUNCTION()
+	void AfterDelay();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Portal")
 	TSubclassOf<ATeleportPortal> PortalClass;

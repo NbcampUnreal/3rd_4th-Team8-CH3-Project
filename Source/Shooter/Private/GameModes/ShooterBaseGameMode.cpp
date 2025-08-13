@@ -3,6 +3,7 @@
 #include "GameModes/Spawner.h"
 #include "GameModes/ShooterGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Controllers/ShooterController.h"
 #include "Characters/ShooterCharacter.h"
 #include "GameModes/TeleportPortal.h"
@@ -86,35 +87,31 @@ void AShooterBaseGameMode::StartWave()
 	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[CurrentWave];
 	const TArray<TSubclassOf<ACharacter>>& EnemyTypes = WaveData.EnemyClasses;
 	const int32 SpawnCount = WaveData.TotalEnemyCount;
+	const FName LevelName = WaveData.LevelName;
 
-	TArray<AActor*> SpawnerActors;
-	UGameplayStatics::GetAllActorsOfClass(this, ASpawner::StaticClass(), SpawnerActors);
+	ASpawner* Spawner = Cast<ASpawner>(UGameplayStatics::GetActorOfClass(this, ASpawner::StaticClass()));
 
-	for (AActor* Actor : SpawnerActors)
+	if(Spawner)
 	{
-		if (ASpawner* Spawner = Cast<ASpawner>(Actor))
+		Spawner->GetOnSpawnFinished().AddLambda([SpawnCount, GS](int32 FinishedSpawnCount)
 		{
-			Spawner->GetOnSpawnFinished().AddLambda([SpawnCount, GS](int32 FinishedSpawnCount)
+			if (SpawnCount == FinishedSpawnCount)
 			{
-				if (SpawnCount == FinishedSpawnCount)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("All spawns completed"));
-				}
-				else
-				{
-					UE_LOG(LogTemp, Warning, TEXT("Some spawns failed (%d / %d)"), FinishedSpawnCount, SpawnCount);
-					GS->SetAliveEnemyCount(FinishedSpawnCount);
-				}
-				
-			});
+				UE_LOG(LogTemp, Warning, TEXT("All spawns completed"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Some spawns failed (%d / %d)"), FinishedSpawnCount, SpawnCount);
+				GS->SetAliveEnemyCount(FinishedSpawnCount);
+			}
+			
+		});
 
-			Spawner->SpawnEnemies(EnemyTypes, SpawnCount);
-
-		}
+		Spawner->SpawnEnemies(EnemyTypes, SpawnCount, LevelName);
 	}
 
 	GS->SetAliveEnemyCount(SpawnCount);
-	OnWaveStarted.Broadcast(CurrentWave);
+	OnWaveStarted.Broadcast(GameInstance->GetCurrentWave());
 	
 }
 
@@ -146,8 +143,19 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 			UWorld* World = GetWorld();
 			if (World)
 			{
+				const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[GameInstance->GetCurrentWave() - 1];
+				const FName SubLevelName = WaveData.LevelName;
+
+				ULevelStreaming* LS = UGameplayStatics::GetStreamingLevel(this, SubLevelName);
+				if (!LS || !LS->IsLevelLoaded())
+				{
+					return;
+				}
+
 				FActorSpawnParameters SpawnParams;
 				SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+				SpawnParams.OverrideLevel = LS->GetLoadedLevel();
+
 				ATeleportPortal* Portal = World->SpawnActor<ATeleportPortal>(
 					PortalClass,
 					CalculationPortalLocation(),
@@ -156,6 +164,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 				);
 
 				PortalSpawned.Broadcast(Portal);
+
 			}
 		}
 	}
@@ -205,6 +214,47 @@ void AShooterBaseGameMode::EndGame(bool bIsWin)
 	{
 		return;
 	}
-	GameInstance->SetCurrentWave(0);
+
 	//게임 종료 시 이겼나 졌나로 분기처리하여 플레이어에게 보여줄 화면?
+	//true : 플레이어 승리,  false : 플레이어 사망
+	//OnGameOver.Broadcast(bIsWin);
+	
+}
+
+void AShooterBaseGameMode::RetryGame()
+{
+	UE_LOG(LogTemp, Warning, TEXT("RetryGame"));
+	if (!GameInstance)
+	{
+		return;
+	}
+
+	GameInstance->UnloadStreamLevel();
+	GameInstance->SetCurrentWave(GameInstance->GetCurrentWave() - 1);
+
+	FLatentActionInfo LatentInfo;
+	LatentInfo.CallbackTarget = this;
+	LatentInfo.ExecutionFunction = FName("AfterDelay");
+	LatentInfo.Linkage = 0;
+	LatentInfo.UUID = FMath::Rand();
+
+	UKismetSystemLibrary::Delay(this, 0.05f, LatentInfo);
+	
+}
+
+void AShooterBaseGameMode::AfterDelay()
+{
+	GameInstance->LoadWaveLevel();
+}
+
+void AShooterBaseGameMode::ResetGame()
+{
+	UE_LOG(LogTemp, Warning, TEXT("ResetGame"));
+	if (!GameInstance)
+	{
+		return;
+	}
+
+	GameInstance->UnloadStreamLevel();
+	GameInstance->SetCurrentWave(0);
 }
