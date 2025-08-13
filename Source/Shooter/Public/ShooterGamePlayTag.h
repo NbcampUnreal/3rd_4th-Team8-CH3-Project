@@ -63,6 +63,8 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_HitReact_Right);
 
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Dead);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_LowHealth);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Status_Invincible);
 
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Data_ReloadAmount);
 
@@ -78,10 +80,15 @@ namespace ShooterGamePlayTags
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Projectile);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee_End);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee_Special);
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee_Special_Projectile);
 
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);
+
+	/* Boss Tags */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Boss_Status_Phase2);
 
 	/* Enemy GamplayCue Sounds Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_Sounds_Death_Enemy_Scout);

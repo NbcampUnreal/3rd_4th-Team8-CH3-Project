@@ -7,8 +7,10 @@
 #include "ShooterFunctionLibrary.h"
 #include "ShooterGamePlayTag.h"
 #include "Abilities/GameplayAbilityTypes.h"
+#include "Characters/ShooterCharacter.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -82,6 +84,22 @@ void AShooterProjectileBase::OnHit(
 
 	Destroy();
 	OnProjectileHit.Broadcast(Hit);
+}
+
+void AShooterProjectileBase::InitializeHoming(USceneComponent* HomingTargetComponent)
+{
+	if (ProjectileMovementComponent && HomingTargetComponent)
+	{
+		// 1. 호밍 기능 활성화
+		ProjectileMovementComponent->bIsHomingProjectile = true;
+        
+		// 2. 추적할 대상 컴포넌트 지정 (보통 캐릭터의 RootComponent나 Mesh)
+		ProjectileMovementComponent->HomingTargetComponent = HomingTargetComponent;
+	
+        
+		// 3. 유도 세기 (높을수록 더 급격하게 방향을 꺾어 추적)
+		ProjectileMovementComponent->HomingAccelerationMagnitude = HomingMagnitude; 
+	}
 }
 
 /**

@@ -42,6 +42,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = Projectile)
 	FOnProjectileHit OnProjectileHit;
 
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void InitializeHoming(USceneComponent* HomingTargetComponent);
+
 protected:
 	//콜리전 컴포넌트
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
@@ -63,6 +66,10 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On Spawn Projectile Hit FX"))
 	void BP_OnSpawnProjectileHiFX(const FVector& HitLocation);
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	float HomingMagnitude = 2000.f;
 
 private:
 	void HandleApplyProjectileDamage(APawn* InHitPawn, const FGameplayEventData& InPayload);
