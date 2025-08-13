@@ -19,7 +19,7 @@ public:
 	ASpawner();
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount);
+	void SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount, FName LevelName);
 
 	FOnSpawnFinished& GetOnSpawnFinished() { return OnSpawnFinished; }
 
@@ -48,8 +48,10 @@ private:
 
 	int32 MaxSpawnCount;
 	int32 SpawnedCount;
-	int32 SpawnRty = 0;
+	int32 SpawnTry = 0;
+	int32 MultiSpawn;
 	TArray<TSubclassOf<ACharacter>> CacheEnemyType;
+	FName SubLevelName;
 	FTimerHandle SpawnTimerHandle;
 
 };
