@@ -34,6 +34,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadWaveLevel();
 
+	void UnloadStreamLevel();
+
 	int32 GetCurrentWave() const { return CurrentWave; }
 	
 	void SetCurrentWave(int32 SetWave) { CurrentWave = SetWave;}
