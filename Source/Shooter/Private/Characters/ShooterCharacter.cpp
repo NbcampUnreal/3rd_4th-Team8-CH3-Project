@@ -367,11 +367,19 @@ void AShooterCharacter::Input_Aim(const FInputActionValue& InputActionValue)
 		{
 			// 조준을 시작하면 태그 부여
 			ASC->AddLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+			if (ShooterUIComponent)
+			{
+				ShooterUIComponent->OnStartZoom.Broadcast();
+			}
 		}
 		else
 		{
 			// 조준을 시작하면 태그 삭제
 			ASC->RemoveLooseGameplayTag(ShooterGamePlayTags::InputTag_Weapon_Aim);
+			if (ShooterUIComponent)
+			{
+				ShooterUIComponent->OnEndZoom.Broadcast();
+			}
 		}
 	}
 }
@@ -424,9 +432,9 @@ void AShooterCharacter::Input_OpenIventory(const FInputActionValue& InputActionV
 {
 	if (InputActionValue.Get<bool>())
 	{
-		if (UInventoryComponent* InvComp = FindComponentByClass<UInventoryComponent>())
+		if (InventoryComponent)
 		{
-			InvComp->RequestToggleInventory();
+			InventoryComponent->RequestToggleInventory();
 			UE_LOG(LogTemp, Warning, TEXT("ShowIventory"));
 		}
 	}
