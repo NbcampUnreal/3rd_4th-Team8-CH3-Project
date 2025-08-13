@@ -22,23 +22,6 @@ UShooterAttributeSet::UShooterAttributeSet()
 
 void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-	// TODO: ui 변경에 대한 로직 작성 필요
-	// if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
-	// {
-	// 	float NewPercent = GetCurrentHealth() / GetMaxHealth();
-	// 	// Actor 소유자 가져오기
-	// 	AActor* OwnerActor = GetOwningActor();
-	// 	if (!OwnerActor) return;
-	//
-	// 	// UI 컴포넌트 가져오기
-	// 	UPawnUIComponent* UIComponent = OwnerActor->FindComponentByClass<UPawnUIComponent>();
-	// 	if (!UIComponent) return;
-	//
-	// 	// 체력 변경 알림 보내기
-	// 	UIComponent->HandleCurrentHealthChanged(NewPercent);
-	// }
-
-
 	if (!CachedPawnUIInterface.IsValid())
 	{
 		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
@@ -93,20 +76,23 @@ void UShooterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 		const float NewCurrentHealth = FMath::Clamp(PreviousHealth - DamageDone, 0.f, GetMaxHealth());
 		SetCurrentHealth(NewCurrentHealth);
 
-		const FString DebugString = FString::Printf(
-			TEXT("이전체력: %f, 데미지 완료: %f"),
-			PreviousHealth,
-			DamageDone
-		);
+		// 갱신된 체력을 기준으로 비율을 계산
+		const float HealthPercentage = GetCurrentHealth() / GetMaxHealth(); 
+		AActor* TargetActor = Data.Target.GetAvatarActor();
 
-		Debug::Print(DebugString, FColor::Green);
+		if (HealthPercentage <= 0.5f)
+		{
+		   // 체력이 50% 이하면 "체력 낮음" 태그를 추가
+		   UShooterFunctionLibrary::AddGameplayTagToActorIfNone(TargetActor, ShooterGamePlayTags::Shared_Status_LowHealth);
+		   UShooterFunctionLibrary::AddGameplayTagToActorIfNone(TargetActor, ShooterGamePlayTags::Boss_Status_Phase2);
+		}
 
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 
 		if (GetCurrentHealth() <= 0.f)
 		{
 			UShooterFunctionLibrary::AddGameplayTagToActorIfNone(
-				Data.Target.GetAvatarActor(),
+				TargetActor,
 				ShooterGamePlayTags::Shared_Status_Dead
 			);		
 		}

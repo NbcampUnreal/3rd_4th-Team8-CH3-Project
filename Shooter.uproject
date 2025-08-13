@@ -31,7 +31,10 @@
 		{
 			"Name": "ALS",
 			"Enabled": true
+		},
+		{
+			"Name": "MotionWarping",
+			"Enabled": true
 		}
-		
 	]
 }

@@ -22,7 +22,8 @@ public class Shooter : ModuleRules
 			"UMG",
 			"AnimGraphRuntime",
 			"ALS",
-			"ALSCamera"
+			"ALSCamera",
+			"MotionWarping"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
