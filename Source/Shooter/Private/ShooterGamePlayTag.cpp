@@ -65,6 +65,8 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right, "Shared.Status.HitReact.Right");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead, "Shared.Status.Dead");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_LowHealth, "Shared.Status.LowHealth");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Invincible, "Shared.Status.Invincible");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Data_ReloadAmount, "Shared.Data.ReloadAmount");
 
@@ -80,8 +82,13 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Projectile, "Enemy.Ability.Projectile");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_End, "Enemy.Ability.Melee.End");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special, "Enemy.Ability.Melee.Special");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special_Projectile, "Enemy.Ability.Melee.Special.Projectile");
 
 	/* Enemy Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing, "Enemy.Status.Strafing");
+	
+	/* Boss Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Boss_Status_Phase2, "Boss.Status.Phase2");
 }

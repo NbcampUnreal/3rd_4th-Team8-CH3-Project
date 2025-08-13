@@ -4,6 +4,7 @@
 #include "Characters/ShooterBaseCharacter.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
+#include "MotionWarpingComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AShooterBaseCharacter::AShooterBaseCharacter()
@@ -15,6 +16,7 @@ AShooterBaseCharacter::AShooterBaseCharacter()
 		TEXT("ShooterAbilitySystemComponent"));
 
 	ShooterAttributeSet = CreateDefaultSubobject<UShooterAttributeSet>(TEXT("ShooterAttributeSet"));
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 
 	GetMesh()->bReceivesDecals = true;
 }
