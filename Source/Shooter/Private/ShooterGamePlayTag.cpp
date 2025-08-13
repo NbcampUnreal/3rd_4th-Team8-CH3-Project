@@ -91,4 +91,7 @@ namespace ShooterGamePlayTags
 	
 	/* Boss Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Boss_Status_Phase2, "Boss.Status.Phase2");
+
+	/* Enemy GamplayCue Sounds Tags */
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Sounds_Death_Enemy_Scout, "GameplayCue.Sounds.Death.Enemy.Scout");
 }

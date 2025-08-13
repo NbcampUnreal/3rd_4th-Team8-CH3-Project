@@ -89,4 +89,7 @@ namespace ShooterGamePlayTags
 
 	/* Boss Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Boss_Status_Phase2);
+
+	/* Enemy GamplayCue Sounds Tags */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_Sounds_Death_Enemy_Scout);
 }
