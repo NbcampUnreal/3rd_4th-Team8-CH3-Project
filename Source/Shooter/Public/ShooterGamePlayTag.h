@@ -82,4 +82,7 @@ namespace ShooterGamePlayTags
 	/* Enemy Status Tags */
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_UnderAttack);
 	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Status_Strafing);
+
+	/* Enemy GamplayCue Sounds Tags */
+	SHOOTER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayCue_Sounds_Death_Enemy_Scout);
 }

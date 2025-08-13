@@ -84,4 +84,7 @@ namespace ShooterGamePlayTags
 	/* Enemy Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing, "Enemy.Status.Strafing");
+
+	/* Enemy GamplayCue Sounds Tags */
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Sounds_Death_Enemy_Scout, "GameplayCue.Sounds.Death.Enemy.Scout");
 }
