@@ -173,7 +173,14 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 }
 
 FVector AShooterBaseGameMode::CalculationPortalLocation()
-{
+{	
+	if (!GameInstance)
+	{
+		return DefaultPortalLocation;
+	}
+	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[GameInstance->GetCurrentWave() - 1];
+	DefaultPortalLocation = WaveData.PortalLocation;
+
 	UWorld* World = GetWorld();
 	if (!World)
 	{
