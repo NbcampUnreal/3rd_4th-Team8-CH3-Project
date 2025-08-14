@@ -8,6 +8,8 @@
 #include "Characters/ShooterCharacter.h"
 #include "GameModes/TeleportPortal.h"
 #include "GameFramework/Character.h"
+#include "NavigationSystem.h"
+#include "NavMesh/NavMeshBoundsVolume.h"
 
 AShooterBaseGameMode::AShooterBaseGameMode()
 {
@@ -30,23 +32,6 @@ void AShooterBaseGameMode::StartPlay()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 24)"));
 		return;
 	}
-	/*
-	FString CleanMapName = UGameplayStatics::GetCurrentLevelName(this, true);
-	if (CleanMapName.Equals("MenuLevel"))
-	{
-		GetWorldTimerManager().SetTimer(
-			StartTime,
-			this,
-			&AShooterBaseGameMode::StartGame,
-			3.0f,
-			false
-		);
-	}
-	else
-	{
-		StartWave();
-	}
-	*/
 }
 
 void AShooterBaseGameMode::StartGame()
@@ -109,6 +94,28 @@ void AShooterBaseGameMode::StartWave()
 		});
 
 		Spawner->SpawnEnemies(EnemyTypes, SpawnCount, LevelName);
+	}
+	
+
+	ULevelStreaming* LS = UGameplayStatics::GetStreamingLevel(this, LevelName);
+	if (!LS) return;
+	UWorld* World = LS->GetWorld();
+	if (!World) return;
+
+	if (UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(World))
+	{
+		if (ULevel* L = LS->GetLoadedLevel())
+		{
+			for (AActor* A : L->Actors)
+			{
+				if (auto* Bounds = Cast<ANavMeshBoundsVolume>(A))
+				{
+					NavSys->OnNavigationBoundsUpdated(Bounds);
+				}
+			}
+
+			NavSys->Build();
+		}
 	}
 
 	GS->SetAliveEnemyCount(SpawnCount);
@@ -173,7 +180,14 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 }
 
 FVector AShooterBaseGameMode::CalculationPortalLocation()
-{
+{	
+	if (!GameInstance)
+	{
+		return DefaultPortalLocation;
+	}
+	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[GameInstance->GetCurrentWave() - 1];
+	DefaultPortalLocation = WaveData.PortalLocation;
+
 	UWorld* World = GetWorld();
 	if (!World)
 	{
