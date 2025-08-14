@@ -85,10 +85,16 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special, "Enemy.Ability.Melee.Special");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special_Projectile, "Enemy.Ability.Melee.Special.Projectile");
 
+	/* Player Status Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_NoAmmo, "Player.Status.NoAmmo");
+
 	/* Enemy Status Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
 	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing, "Enemy.Status.Strafing");
 	
 	/* Boss Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Boss_Status_Phase2, "Boss.Status.Phase2");
+
+	/* Enemy GamplayCue Sounds Tags */
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Sounds_Death_Enemy_Scout, "GameplayCue.Sounds.Death.Enemy.Scout");
 }

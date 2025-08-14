@@ -71,10 +71,9 @@ void ATeleportPortal::OnOverlapBegin(
 
 void ATeleportPortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	OnPlayerOutPortal.Broadcast();
-
 	if (OtherActor && OtherActor == OverlapActor)
 	{
+		OnPlayerOutPortal.Broadcast();
 		ResetPortalState();
 	}
 }

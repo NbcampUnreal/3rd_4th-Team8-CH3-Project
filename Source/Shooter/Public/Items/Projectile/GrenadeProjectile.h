@@ -6,7 +6,8 @@
 #include "Items/Projectile/ShooterProjectileBase.h"
 #include "GrenadeProjectile.generated.h"
 
-class AShooterBaseCharacter;
+class AShooterEnemyCharacter;
+class AShooterCharacter;
 class UGameplayEffect;
 
 /**
@@ -21,7 +22,7 @@ public:
 	AGrenadeProjectile();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grenade")
-	AShooterBaseCharacter* InstigatorCharacter;
+	AShooterCharacter* InstigatorCharacter;
 protected:
 
 	virtual void BeginPlay() override;
@@ -30,7 +31,7 @@ protected:
 	USphereComponent* ExplosionCollision;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Grenade")
-	TArray<AShooterBaseCharacter*> OverlappingCharacters;
+	TArray<AShooterEnemyCharacter*> OverlappingCharacters;
 
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 

@@ -30,7 +30,7 @@ void AShooterBaseGameMode::StartPlay()
 		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 24)"));
 		return;
 	}
-
+	/*
 	FString CleanMapName = UGameplayStatics::GetCurrentLevelName(this, true);
 	if (CleanMapName.Equals("MenuLevel"))
 	{
@@ -46,11 +46,12 @@ void AShooterBaseGameMode::StartPlay()
 	{
 		StartWave();
 	}
+	*/
 }
 
 void AShooterBaseGameMode::StartGame()
 {
-	GetWorldTimerManager().ClearTimer(StartTime);
+	//GetWorldTimerManager().ClearTimer(StartTime);
 	if (!GameInstance)
 	{
 		UE_LOG(LogTemp, Error, TEXT("GameInstance not found! (GameMode : Line 50)"));
@@ -80,7 +81,7 @@ void AShooterBaseGameMode::StartWave()
 	int32 CurrentWave = GameInstance->GetCurrentWave();
 	GameInstance->SetCurrentWave(CurrentWave + 1);
 	
-	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), CurrentWave + 1);
+	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), GameInstance->GetCurrentWave());
 	
 	if (!GameInstance->GetWaveConfigs().IsValidIndex(CurrentWave)) return;
 
@@ -131,6 +132,7 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 	if (GameInstance->GetCurrentWave() >= GameInstance->GetMaxWave())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Clear all waves"));
+		OnWaveEnded.Broadcast(GameInstance->GetCurrentWave());
 		EndGame(true);
 	}
 	else
@@ -171,7 +173,14 @@ void AShooterBaseGameMode::OnAllEnemiesDefeated()
 }
 
 FVector AShooterBaseGameMode::CalculationPortalLocation()
-{
+{	
+	if (!GameInstance)
+	{
+		return DefaultPortalLocation;
+	}
+	const FWaveConfig& WaveData = GameInstance->GetWaveConfigs()[GameInstance->GetCurrentWave() - 1];
+	DefaultPortalLocation = WaveData.PortalLocation;
+
 	UWorld* World = GetWorld();
 	if (!World)
 	{
@@ -228,7 +237,7 @@ void AShooterBaseGameMode::RetryGame()
 	{
 		return;
 	}
-
+	UE_LOG(LogTemp, Warning, TEXT("Wave %d Start"), GameInstance->GetCurrentWave());
 	GameInstance->UnloadStreamLevel();
 	GameInstance->SetCurrentWave(GameInstance->GetCurrentWave() - 1);
 

@@ -9,6 +9,10 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoChangedDelegate, float, NewAmmo);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemCooldownStartDelegate, FName, UseItemName, float, CooldwonDuration);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShooterDeadDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStartZoomDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEndZoomDelegate);
+/**
+ *
 /**
  * 
  */
@@ -25,6 +29,11 @@ class SHOOTER_API UShooterUIComponent : public UPawnUIComponent
 
 	
 public:
+	UPROPERTY(BlueprintAssignable)
+	FOnStartZoomDelegate  OnStartZoom;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnEndZoomDelegate  OnEndZoom;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnShooterDeadDelegate OnShooterDead;

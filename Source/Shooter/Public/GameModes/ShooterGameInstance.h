@@ -19,6 +19,9 @@ struct FWaveConfig : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 TotalEnemyCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector PortalLocation;
 };
 
 UCLASS()
