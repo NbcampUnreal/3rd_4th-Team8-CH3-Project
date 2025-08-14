@@ -3,6 +3,7 @@
 
 #include "Items/Weapons/WeaponAttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "ShooterGamePlayTag.h"
 #include "Components/UI/ShooterUIComponent.h"
 #include "Shooter/ShooterDebugHelper.h"
 
@@ -20,6 +21,28 @@ void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
         SetCurrentAmmo(NewAmmo);
 
         Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
+
+        // ASC 가져오기
+        UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent();
+        if (ASC)
+        {
+            const bool bHasNoAmmoTag = ASC->HasMatchingGameplayTag(ShooterGamePlayTags::Player_Status_NoAmmo);
+
+            if (NewAmmo <= 0)
+            {
+                if (!bHasNoAmmoTag)
+                {
+                    ASC->AddLooseGameplayTag(ShooterGamePlayTags::Player_Status_NoAmmo);
+                }
+            }
+            else
+            {
+                if (bHasNoAmmoTag)
+                {
+                    ASC->RemoveLooseGameplayTag(ShooterGamePlayTags::Player_Status_NoAmmo);
+                }
+            }
+        }
 
 		// Actor 소유자 가져오기
 		AActor* OwnerActor = GetOwningActor();

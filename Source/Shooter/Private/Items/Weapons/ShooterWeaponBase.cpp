@@ -8,7 +8,7 @@
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "Items/Weapons/WeaponAttributeSet.h"
 #include "ShooterGamePlayTag.h"
-#include "Characters/ShooterBaseCharacter.h"
+#include "Characters/ShooterCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Shooter/ShooterDebugHelper.h"
 
@@ -36,45 +36,76 @@ AShooterWeaponBase::AShooterWeaponBase()
 
 void AShooterWeaponBase::GiveAbilityToOwner(AActor* NewOwner)
 {
-	if (!NewOwner)
-	{
-		return;
-	}
+    if (!NewOwner)
+    {
+        return;
+    }
 
-	AShooterBaseCharacter* OwnwerCharacter = Cast<AShooterBaseCharacter>(NewOwner);
-	if (!OwnwerCharacter)
-	{
-		return;
-	}
+    AShooterCharacter* OwnerCharacter = Cast<AShooterCharacter>(NewOwner);
+    if (!OwnerCharacter)
+    {
+        return;
+    }
 
-	UShooterAbilitySystemComponent* OwnerASC = OwnwerCharacter->GetShooterAbilitySystemComponent();
-	if (!OwnerASC)
-	{
-		return;
-	}
+    UAbilitySystemComponent* OwnerASC = OwnerCharacter->GetAbilitySystemComponent();
+    if (!OwnerASC)
+    {
+        return;
+    }
 
-	for (const auto& Pair : WeaponAbilityMap)
-	{
-		TSubclassOf<UShooterGameplayAbility> AbilityClass = Pair.Key;
-		FGameplayTag InputTag = Pair.Value;
-		if (AbilityClass && OwnerASC->GetOwner()->HasAuthority())
-		{
-			FGameplayAbilitySpec Spec(AbilityClass, 1, INDEX_NONE, OwnerASC);
-			Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
-			OwnerASC->GiveAbility(Spec);
+    if (!OwnerASC->GetOwner() || !OwnerASC->GetOwner()->HasAuthority())
+    {
+        return;
+    }
 
-			UE_LOG(LogTemp, Warning, TEXT("Ability given: %s with tag: %s"), *AbilityClass->GetName(),
-			       *InputTag.ToString());
-		}
-	}
+    // 능력 부여
+    for (const auto& Pair : WeaponAbilityMap)
+    {
+        TSubclassOf<UShooterGameplayAbility> AbilityClass = Pair.Key;
+        FGameplayTag InputTag = Pair.Value;
 
-	if (WeaponAttributeSetClass)
-	{
-		UWeaponAttributeSet* WeaponAttrSet = NewObject<UWeaponAttributeSet>(NewOwner, WeaponAttributeSetClass);
-		OwnerASC->AddSpawnedAttribute(WeaponAttrSet);
+        if (!AbilityClass)
+        {
+            continue;
+        }
 
-		UE_LOG(LogTemp, Warning, TEXT("WeaponAttrSet Give Owner"));
-	}
+        // 중복 방지: 이미 같은 AbilityClass가 있는지 검사
+        bool bAlreadyGranted = false;
+        for (const FGameplayAbilitySpec& ExistingSpec : OwnerASC->GetActivatableAbilities())
+        {
+            if (ExistingSpec.Ability && ExistingSpec.Ability->GetClass() == AbilityClass)
+            {
+                bAlreadyGranted = true;
+                break;
+            }
+        }
+
+        if (bAlreadyGranted)
+        {
+            continue;
+        }
+
+        FGameplayAbilitySpec Spec(AbilityClass, 1, INDEX_NONE, OwnerASC);
+        Spec.GetDynamicSpecSourceTags().AddTag(InputTag);
+        OwnerASC->GiveAbility(Spec);
+    }
+
+    // AttributeSet 부여
+    if (WeaponAttributeSetClass)
+    {
+        // 중복 방지: 이미 같은 AttributeSet 클래스가 있는지 검사
+        bool bAlreadyHasSet = (OwnerASC->GetSet<UWeaponAttributeSet>() != nullptr);
+
+        if (!bAlreadyHasSet)
+        {
+            UWeaponAttributeSet* WeaponAttrSet = NewObject<UWeaponAttributeSet>(NewOwner, WeaponAttributeSetClass);
+            if (WeaponAttrSet)
+            {
+                OwnerASC->AddSpawnedAttribute(WeaponAttrSet);
+            }
+        }
+    }
+
 }
 
 void AShooterWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
