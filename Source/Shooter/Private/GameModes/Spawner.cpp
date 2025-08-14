@@ -2,6 +2,8 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/UI/EnemyUIComponent.h"
+#include "Characters/ShooterEnemyCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 ASpawner::ASpawner()
@@ -94,6 +96,11 @@ void ASpawner::MultiSpawnEnemy()
 			SpawnedCount++;
 			SpawnTry++;
 			RetryCount = 0;
+			AShooterEnemyCharacter* EnemyCh = Cast<AShooterEnemyCharacter>(SpawnedEnemy);
+			if (UEnemyUIComponent* UIComp = EnemyCh->GetEnemyUIComponent())
+			{
+				UIComp->OnEnemyUISpawned.Broadcast(EnemyCh);
+			}
 		}
 		else
 		{
