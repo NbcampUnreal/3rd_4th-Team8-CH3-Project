@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -23,8 +23,9 @@ public class Shooter : ModuleRules
 			"AnimGraphRuntime",
 			"ALS",
 			"ALSCamera",
-			"MotionWarping"
-		});
+			"MotionWarping",
+            "NavigationSystem"
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
