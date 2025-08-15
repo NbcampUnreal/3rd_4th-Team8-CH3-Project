@@ -22,7 +22,7 @@ public:
 
     // 아이템 드랍 함수
     UFUNCTION(BlueprintCallable, Category = "Item")
-    void DropItem(const FVector& DropLocation);
+    void DropSetting();
 
     UFUNCTION(BlueprintCallable, Category = "Item")
     FName GetRowName() const { return ItemRowName; }
@@ -64,9 +64,6 @@ protected:
     // 아이템 외형 컴포넌트
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item|Mesh")
     UStaticMeshComponent* ItemMesh;
-
-    UPROPERTY(EditAnywhere, Category = "Item")
-    int32 PlusItemCount = 1;
 
     UPROPERTY(EditAnywhere, Category = "Item")
     FName ItemRowName;

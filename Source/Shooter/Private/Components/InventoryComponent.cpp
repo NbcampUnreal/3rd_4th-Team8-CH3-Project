@@ -22,9 +22,9 @@ void UInventoryComponent::BeginPlay()
     
 }
 
-bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, int32 Amount)
+bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass)
 {
-    if (!ItemClass || Amount <= 0)
+    if (!ItemClass)
     {
         return false;
     }
@@ -33,6 +33,7 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
     FName RowName = DefaultItem->GetRowName();
 
     int32 MaxAmountPerSlot = 99; // 기본값
+    int32 Amount = 1;
     bool bItemAdded = false;
 
     if (ItemDataTable)
@@ -43,7 +44,7 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
         if (Row)
         {
             MaxAmountPerSlot = Row->MaxStackSize;
-            UE_LOG(LogTemp, Warning, TEXT("MaxStackSize: %d"), MaxAmountPerSlot);
+            Amount = FMath::RandRange(Row->DropAmountMin, Row->DropAmountMax);
         }
     }
 
