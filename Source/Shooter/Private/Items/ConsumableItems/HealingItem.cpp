@@ -36,3 +36,8 @@ void AHealingItem::PickupItem(AShooterCharacter* Picker)
 		}
 	}
 }
+
+void AHealingItem::BeginPlay()
+{
+	Super::BeginPlay();
+}

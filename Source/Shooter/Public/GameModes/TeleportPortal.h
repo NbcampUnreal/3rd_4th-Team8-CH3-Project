@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCountDown, int32, CountDownTime);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerInPortal);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerOutPortal);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDestroyPortal);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPortalDestroyed, AActor*, Actor);
 UCLASS()
 class SHOOTER_API ATeleportPortal : public AActor
 {
@@ -31,8 +31,11 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnPlayerOutPortal OnPlayerOutPortal;
 
+	UPROPERTY(BlueprintAssignable)
 	FOnDestroyPortal OnDestroyPortal;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnPortalDestroyed OnPortalDestroyed;
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Timer")

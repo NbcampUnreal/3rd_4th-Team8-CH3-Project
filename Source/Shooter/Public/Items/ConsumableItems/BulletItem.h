@@ -15,4 +15,5 @@ class SHOOTER_API ABulletItem : public AConsumableItembase
 	GENERATED_BODY()
 public:
 	ABulletItem();
+	void BeginPlay() override;
 };
