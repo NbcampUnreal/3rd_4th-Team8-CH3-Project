@@ -7,3 +7,8 @@ ABulletItem::ABulletItem()
 {
 	ItemRowName = "BulletItem";
 }
+
+void ABulletItem::BeginPlay()
+{
+	Super::BeginPlay();
+}

@@ -32,7 +32,6 @@ void ATeleportPortal::BeginPlay()
 
 
 	CountTime = CountDownTimer;
-	
 }
 
 
@@ -101,6 +100,7 @@ void ATeleportPortal::TeleportHandle()
 		{
 			OnDestroyPortal.Broadcast();
 			GI->LoadWaveLevel();
+			OnPortalDestroyed.Broadcast(this);
 			Destroy();
 		}
 	}	

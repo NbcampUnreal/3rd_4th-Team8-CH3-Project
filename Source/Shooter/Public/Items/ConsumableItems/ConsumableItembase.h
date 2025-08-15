@@ -11,6 +11,9 @@ class UShooterGameplayAbility;
 class USphereComponent;
 class AShooterCharacter;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemDestroyed, AActor*, Actor);
+
+
 UCLASS()
 class SHOOTER_API AConsumableItembase : public AActor
 {
@@ -26,6 +29,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "Item")
     FName GetRowName() const { return ItemRowName; }
+
+    UPROPERTY(BlueprintAssignable, Category = "Events")
+    FOnItemDestroyed OnActorDestroyed;
 
 protected:
 

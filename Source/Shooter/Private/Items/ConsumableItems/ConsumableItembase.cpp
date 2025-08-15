@@ -119,7 +119,8 @@ void AConsumableItembase::PickupItem(AShooterCharacter* Picker)
     PickerInventory->AddItem(ItemClass);
 
     GiveAbilityToOwner(Picker);
-    
+
+    OnActorDestroyed.Broadcast(this);
     Destroy(); // 아이템 제거
 }
 

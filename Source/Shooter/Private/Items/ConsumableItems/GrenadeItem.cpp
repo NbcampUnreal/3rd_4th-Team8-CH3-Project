@@ -33,3 +33,8 @@ void AGrenadeItem::PickupItem(AShooterCharacter* Picker)
 		}
 	}
 }
+
+void AGrenadeItem::BeginPlay()
+{
+	Super::BeginPlay();
+}

@@ -20,7 +20,7 @@ public:
 
 protected:
 	void PickupItem(AShooterCharacter* Picker) override;
-
+	void BeginPlay() override;
 	// 선택 가능한 AttributeSet 클래스 (블루프린트에서 지정)
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item|GAS")
 	TSubclassOf<UHealingItemAttributeSet> HealingItemAttributeSetClass;
