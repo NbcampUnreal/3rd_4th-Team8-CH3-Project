@@ -1,10 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Characters/ShooterBaseCharacter.h"
 #include "GameplayEffectTypes.h"
+#include "Items/Structs/ItemDataStruct.h"
 #include "ShooterEnemyCharacter.generated.h"
 
 
@@ -35,6 +36,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float CurWalkSpeed;
+
+	/** 아이템 데이터 테이블 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ItemDataTable")
+	UDataTable* ItemDataTable;
 
 protected:
 	virtual void BeginPlay() override;
@@ -82,6 +87,9 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult
 	);
+
+	UFUNCTION(BlueprintCallable)
+	void DropItem();
 
 private:
 	void InitEnemyStartUpData();

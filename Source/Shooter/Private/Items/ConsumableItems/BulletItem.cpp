@@ -5,6 +5,5 @@
 
 ABulletItem::ABulletItem()
 {
-	PlusItemCount = 5;
 	ItemRowName = "BulletItem";
 }

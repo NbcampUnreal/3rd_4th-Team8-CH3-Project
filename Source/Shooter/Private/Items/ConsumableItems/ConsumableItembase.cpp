@@ -34,12 +34,13 @@ AConsumableItembase::AConsumableItembase()
 
 //적이 죽을 때 해당 위치에 아이템 드랍
 //적이 새로운 아이템을 월드에 스폰하고 해당 아이템의 DropItem 호출
-void AConsumableItembase::DropItem(const FVector& DropLocation)
+void AConsumableItembase::DropSetting()
 {
-    SetActorLocation(DropLocation);
-    SetActorHiddenInGame(false);
-    SetActorEnableCollision(true);
-
+    UPrimitiveComponent* RootComp = Cast<UPrimitiveComponent>(GetRootComponent());
+    if (RootComp)
+    {
+        RootComp->SetSimulatePhysics(false);
+    }
     //필요시 요소 추가(파티클, 오디오)
 }
 
@@ -48,6 +49,22 @@ void AConsumableItembase::BeginPlay()
     Super::BeginPlay();
     SetActorTickEnabled(false);
     UE_LOG(LogTemp, Warning, TEXT("Tick Enabled: %s"), IsActorTickEnabled() ? TEXT("true") : TEXT("false"));
+
+    UPrimitiveComponent* RootComp = Cast<UPrimitiveComponent>(GetRootComponent());
+    if (RootComp)
+    {
+        RootComp->SetSimulatePhysics(true);
+
+        // 3초 뒤 물리 끄기
+        FTimerHandle TimerHandle;
+        GetWorldTimerManager().SetTimer(
+            TimerHandle,
+            this,
+            &AConsumableItembase::DropSetting,
+            3.0f,
+            false
+        );
+    }
 }
 
 void AConsumableItembase::OnOverlapCheckBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -85,7 +102,7 @@ void AConsumableItembase::PickupItem(AShooterCharacter* Picker)
     bIsMovingToPlayer = false;
     SetActorTickEnabled(false);
     TargetCharacter = nullptr;
-    if (!Picker) return;
+
     if (!Picker)
     {
         return;
@@ -99,7 +116,7 @@ void AConsumableItembase::PickupItem(AShooterCharacter* Picker)
 
 
     TSubclassOf<AConsumableItembase> ItemClass = GetClass();
-    PickerInventory->AddItem(ItemClass, PlusItemCount);
+    PickerInventory->AddItem(ItemClass);
 
     GiveAbilityToOwner(Picker);
     
