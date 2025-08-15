@@ -44,16 +44,7 @@ void AGrenadeProjectile::BeginPlay()
 		if (AShooterCharacter* ShooterChar = Cast<AShooterCharacter>(InstigatorActor))
 		{
 			InstigatorCharacter = ShooterChar;
-			UE_LOG(LogTemp, Log, TEXT("Instigator 캐릭터 할당 성공: %s"), *ShooterChar->GetName());
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Instigator가 ShooterBaseCharacter가 아님"));
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Instigator가 없음"));
 	}
 }
 

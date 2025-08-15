@@ -43,4 +43,15 @@ public:
     // 최대 스택 수
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
     int32 MaxStackSize;
+
+    // 드랍 확률
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    float DropChance;
+
+    // 드롭 수량 (랜덤 범위 가능)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    int32 DropAmountMin;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+    int32 DropAmountMax;
 };

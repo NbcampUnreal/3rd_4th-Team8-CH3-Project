@@ -39,7 +39,7 @@ public:
 
     /** 아이템 추가 */
     UFUNCTION(BlueprintCallable, Category = "Inventory")
-    bool AddItem(TSubclassOf<AConsumableItembase> ItemClass, int32 Amount);
+    bool AddItem(TSubclassOf<AConsumableItembase> ItemClass);
 
     /** 아이템 제거 */
     UFUNCTION(BlueprintCallable, Category = "Inventory")

@@ -1,4 +1,4 @@
-#include "Characters/ShooterEnemyCharacter.h"
+﻿#include "Characters/ShooterEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
@@ -10,6 +10,7 @@
 #include "Components/WidgetComponent.h"
 #include "Components/Combat/ShooterEnemyCombatComponent.h"
 #include "Components/UI/EnemyUIComponent.h"
+#include "Items/ConsumableItems/ConsumableItembase.h"
 #include "Engine/AssetManager.h"
 
 AShooterEnemyCharacter::AShooterEnemyCharacter()
@@ -129,6 +130,45 @@ void AShooterEnemyCharacter::OnBodyCollisionBoxBeginOverlap(
 		if (UShooterFunctionLibrary::IsTargetPawnHostile(this, HitPawn))
 		{
 			ShooterEnemyCombatComponent->OnHitTargetActor(HitPawn);
+		}
+	}
+}
+
+void AShooterEnemyCharacter::DropItem()
+{
+	if (!ItemDataTable) return;
+
+	// 데이터 테이블 모든 Row 가져오기
+	static const FString ContextString(TEXT("ItemDropContext"));
+	TArray<FItemDataStruct*> AllRows;
+	ItemDataTable->GetAllRows(ContextString, AllRows);
+
+	for (FItemDataStruct* Row : AllRows)
+	{
+		if (!Row || !Row->ItemClass) continue;
+
+		// 랜덤 확률 체크
+		float RandomValue = FMath::FRand(); // 0.0 ~ 1.0
+		if (RandomValue <= Row->DropChance)
+		{
+			// 아이템 스폰
+			// X,Y 방향으로 랜덤 이동 (반경 50~100 정도)
+			FVector SpawnLocation = GetActorLocation();
+
+			FVector RandomOffset = FVector(
+				FMath::FRandRange(-50.f, 50.f),
+				FMath::FRandRange(-50.f, 50.f),
+				0.f
+			);
+
+			FVector FinalLocation = SpawnLocation + RandomOffset;
+
+			GetWorld()->SpawnActor<AActor>(
+				Row->ItemClass,
+				FinalLocation,
+				FRotator::ZeroRotator
+			);
+
 		}
 	}
 }
