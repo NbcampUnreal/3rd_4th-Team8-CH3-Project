@@ -8,6 +8,9 @@
 #include "Characters/ShooterCharacter.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 AGrenadeProjectile::AGrenadeProjectile()
 {
@@ -23,12 +26,13 @@ AGrenadeProjectile::AGrenadeProjectile()
 	ProjectileMovementComponent->Bounciness = 0.5f;
 	ProjectileMovementComponent->ProjectileGravityScale = 1.5f;
 
+	CascadeEffectComponent->bAutoActivate = false;
 }
 
 void AGrenadeProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	// 3초 뒤에 OnExplode 함수 실행
 	GetWorldTimerManager().SetTimer(
 		ExplosionTimerHandle,
@@ -92,8 +96,26 @@ void AGrenadeProjectile::OnExplosion()
 	UE_LOG(LogTemp, Warning, TEXT("[Grenade] InstigatorCharacter: %s"),
 		InstigatorCharacter ? *InstigatorCharacter->GetName() : TEXT("None"));
 
-
+	if (CascadeEffectComponent && CascadeEffectComponent->Template)
+	{
+		// 월드 위치에 새로운 파티클 스폰
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), CascadeEffectComponent->Template, GetActorLocation());
+	}
 	
+	if (InstigatorCharacter)
+	{
+		UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InstigatorCharacter);
+		if (ASC)
+		{
+			// 폭발 위치를 TargetData로 생성
+			FGameplayCueParameters CueParams;
+			CueParams.Location = GetActorLocation();
+			CueParams.Instigator = InstigatorCharacter;
+
+			// Cue 실행
+			ASC->ExecuteGameplayCue(FGameplayTag::RequestGameplayTag(FName("GameplayCue.Sounds.Item.GreanadeExplosion")), CueParams);
+		}
+	}
 
 	for (int32 i = 0; i < OverlappingCharacters.Num(); i++)
 	{

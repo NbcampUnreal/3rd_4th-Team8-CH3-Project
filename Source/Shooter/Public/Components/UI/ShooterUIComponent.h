@@ -11,6 +11,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemCooldownStartDelegate, FName
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShooterDeadDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStartZoomDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEndZoomDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShooterFireDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShooterReloadDelegate);
 /**
  *
 /**
@@ -38,9 +40,21 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnShooterDeadDelegate OnShooterDead;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnShooterFireDelegate  OnShooterFire;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnShooterReloadDelegate OnShooterReload;
+
 	void HandleCurrentAmmoChanged(float NewAmmo);
 	UFUNCTION(BlueprintCallable)
 	void HandleStartCooldown(FName UseItemName, float CooldownDuration);
 	UFUNCTION(BlueprintCallable)
 	void HandleShooterDead();
+
+	UFUNCTION(BlueprintCallable)
+	void HandleShooterFire();
+
+	UFUNCTION(BlueprintCallable)
+	void HandleShooterReload();
 };

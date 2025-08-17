@@ -20,3 +20,13 @@ void UShooterUIComponent::HandleShooterDead()
 {
     OnShooterDead.Broadcast();
 }
+
+void UShooterUIComponent::HandleShooterFire()
+{
+    OnShooterFire.Broadcast();
+}
+
+void UShooterUIComponent::HandleShooterReload()
+{
+    OnShooterReload.Broadcast();
+}
