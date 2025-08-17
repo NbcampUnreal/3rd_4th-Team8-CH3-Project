@@ -20,8 +20,6 @@ void UWeaponAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
         const float NewAmmo = FMath::Clamp(GetCurrentAmmo(), 0.f, GetMaxAmmo());
         SetCurrentAmmo(NewAmmo);
 
-        Debug::Print(FString::Printf(TEXT("현재 총알: %.0f"), NewAmmo), FColor::Green);
-
         // ASC 가져오기
         UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent();
         if (ASC)
