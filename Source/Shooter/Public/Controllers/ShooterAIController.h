@@ -34,14 +34,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	TObjectPtr<UBehaviorTreeComponent> BehaviorTreeComp;
 
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
-	// UAIPerceptionComponent* PerceptionComponent;
-
 	UFUNCTION()
 	virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTreeAsset;
+
+private:
+	FName LastKnownLocationKey = TEXT("LastKnownLocation");
+	
 public:
 	virtual void Tick(float DeltaSeconds) override;
 };

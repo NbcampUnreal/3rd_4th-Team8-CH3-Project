@@ -122,6 +122,10 @@ void AShooterAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus S
 		// 만약 타겟을 '잃었다면' (Stimulus가 성공적이지 않다면), 블랙보드 값을 비움.
 		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
 		{
+			const FVector LastLocation = Stimulus.StimulusLocation.IsNearlyZero() && Actor ? Actor->GetActorLocation() : Stimulus.StimulusLocation;
+
+			BlackboardComponent->SetValueAsVector(LastKnownLocationKey, LastLocation);
+			
 			BlackboardComponent->ClearValue(TEXT("TargetActor"));
 			// 포커스를 해제.
 			ClearFocus(EAIFocusPriority::Gameplay);
