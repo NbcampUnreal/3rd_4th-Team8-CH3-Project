@@ -2,6 +2,9 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/UI/EnemyUIComponent.h"
+#include "Characters/ShooterEnemyCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 ASpawner::ASpawner()
 {
@@ -15,11 +18,13 @@ ASpawner::ASpawner()
 }
 
 
-void ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount)
+void ASpawner::SpawnEnemies(const TArray<TSubclassOf<ACharacter>>& EnemyTypes, int32 TotalCount, FName LevelName)
 {
 	CacheEnemyType = EnemyTypes;
 	MaxSpawnCount = TotalCount;
 	SpawnedCount = 0;
+	SubLevelName = LevelName;
+	MultiSpawn = MultipleSpawn;
 	
 	if (CacheEnemyType.Num() == 0 || MaxSpawnCount <= 0)
 	{
@@ -54,13 +59,13 @@ void ASpawner::MultiSpawnEnemy()
 	}
 
 	//n마리씩 스폰하고 남은 수만큼 MultipleSpawn 변경
-	if ((MaxSpawnCount - SpawnedCount) < MultipleSpawn)
+	if ((MaxSpawnCount - SpawnedCount) < MultiSpawn)
 	{
-		MultipleSpawn = (MaxSpawnCount - SpawnedCount) % MultipleSpawn;
+		MultiSpawn = (MaxSpawnCount - SpawnedCount) % MultiSpawn;
 	}
 
-	int32 RetryCount = RetrySpawn;
-	for (int32 Spawning = 0; Spawning < MultipleSpawn; ++Spawning)
+	int32 RetryCount = 0;
+	for (int32 Spawning = 0; Spawning < MultiSpawn; ++Spawning)
 	{
 		int32 Index = FMath::RandRange(0, CacheEnemyType.Num() - 1);
 		TSubclassOf<ACharacter> EnemyClass = CacheEnemyType[Index];
@@ -68,34 +73,46 @@ void ASpawner::MultiSpawnEnemy()
 
 		FVector SpawnLocation = GetRandomPointInVolume(EnemyClass);
 
+		ULevelStreaming* LS = UGameplayStatics::GetStreamingLevel(this, SubLevelName);
+		if (!LS || !LS->IsLevelLoaded())
+		{
+			return;
+		}
+
 		//스폰 충돌 시 위치를 조절하여 스폰하도록 설정
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+		SpawnParams.OverrideLevel = LS->GetLoadedLevel();
 
 		ACharacter* SpawnedEnemy = World->SpawnActor<ACharacter>(
 			EnemyClass,
 			SpawnLocation,
 			FRotator::ZeroRotator,
 			SpawnParams
-
 		);
 
 		if (SpawnedEnemy)
 		{
 			SpawnedCount++;
-			SpawnRty++;
-			RetryCount = RetrySpawn;
+			SpawnTry++;
+			RetryCount = 0;
+			AShooterEnemyCharacter* EnemyCh = Cast<AShooterEnemyCharacter>(SpawnedEnemy);
+			if (UEnemyUIComponent* UIComp = EnemyCh->GetEnemyUIComponent())
+			{
+				UIComp->OnEnemyUISpawned.Broadcast(EnemyCh);
+			}
 		}
 		else
 		{
 			RetryCount++;
-			if (RetryCount > 3)
+			if (RetryCount > RetrySpawn)
 			{
-				SpawnRty++;
-				RetryCount = RetrySpawn;
+				SpawnTry++;
+				RetryCount = 0;
 			}
 		}
-		if (SpawnRty >= MaxSpawnCount)
+
+		if (SpawnTry >= MaxSpawnCount)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Random spawned success %d enemies from %d types"), SpawnedCount, CacheEnemyType.Num());
 			GetWorld()->GetTimerManager().ClearTimer(SpawnTimerHandle);

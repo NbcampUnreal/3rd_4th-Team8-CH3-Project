@@ -19,6 +19,9 @@ struct FWaveConfig : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 TotalEnemyCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector PortalLocation;
 };
 
 UCLASS()
@@ -33,6 +36,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LoadWaveLevel();
+
+	void UnloadStreamLevel();
 
 	int32 GetCurrentWave() const { return CurrentWave; }
 	

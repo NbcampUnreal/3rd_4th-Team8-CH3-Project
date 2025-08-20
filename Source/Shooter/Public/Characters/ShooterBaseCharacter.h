@@ -3,20 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "GameFramework/Character.h" // ALS 통합
-#include "AlsCharacter.h" // ALS플러그인 관련 헤더파일입니다.
+#include "GameFramework/Character.h"  
 #include "AbilitySystemInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "Interfaces/PawnUIInterface.h"
 #include "ShooterBaseCharacter.generated.h"
 
 class UShooterAttributeSet;
+class UMotionWarpingComponent;
 class UDataAsset_StartUpDataBase;
 class UShooterAbilitySystemComponent;
 
 UCLASS()
 class SHOOTER_API AShooterBaseCharacter :
-	public AAlsCharacter,
+	public ACharacter,
 	public IAbilitySystemInterface,
 	public IPawnCombatInterface,
 	public IPawnUIInterface
@@ -49,6 +49,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UShooterAttributeSet* ShooterAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	UMotionWarpingComponent* MotionWarpingComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;

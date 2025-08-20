@@ -17,12 +17,19 @@ class SHOOTER_API UShooterEnemyGameplayAbility : public UShooterGameplayAbility
 {
 	GENERATED_BODY()
 
-
+public:
 	UFUNCTION(BlueprintPure, Category = "Shooter|Ability", meta = (AllowPrivateAccess = "true"))
 	AShooterEnemyCharacter* GetEnemyCharacterFromActorInfo();
 
 	UFUNCTION(BlueprintPure, Category = "Shooter|Ability", meta = (AllowPrivateAccess = "true"))
 	UShooterEnemyCombatComponent* GetEnemyCombatComponentFromActorInfo();
 
+	UFUNCTION(BlueprintPure, Category = "Shooter|Ability")
+	FGameplayEffectSpecHandle MakeEnemyDamageEffectSpecHandle(
+		TSubclassOf<UGameplayEffect> EffectClass,
+		const FScalableFloat& InDamageScalableFloat
+	);
+
+private:
 	TWeakObjectPtr<AShooterEnemyCharacter> CachedShooterEnemyCharacter;
 };

@@ -14,16 +14,17 @@ TArray<FInventorySlot> UInventoryComponent::GetAllSlots() const
     return InventorySlots;
 }
 
+
+
 void UInventoryComponent::BeginPlay()
 {
     Super::BeginPlay();
-
-
+    
 }
 
-bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, int32 Amount)
+bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass)
 {
-    if (!ItemClass || Amount <= 0)
+    if (!ItemClass)
     {
         return false;
     }
@@ -32,6 +33,8 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
     FName RowName = DefaultItem->GetRowName();
 
     int32 MaxAmountPerSlot = 99; // 기본값
+    int32 Amount = 1;
+    bool bItemAdded = false;
 
     if (ItemDataTable)
     {
@@ -41,6 +44,7 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
         if (Row)
         {
             MaxAmountPerSlot = Row->MaxStackSize;
+            Amount = FMath::RandRange(Row->DropAmountMin, Row->DropAmountMax);
         }
     }
 
@@ -55,10 +59,12 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
             Slot.Amount += Addable;
             RemainingAmount -= Addable;
 
+            bItemAdded = true;
             if (RemainingAmount <= 0)
             {
-                OnItemAdded.Broadcast(ItemClass);
+                OnItemAdded.Broadcast(RowName);
                 OnInventoryChanged.Broadcast(InventorySlots);
+                OnChangeTotalCount.Broadcast(RowName, GetItemCount(RowName));
                 return true;
             }
         }
@@ -75,19 +81,25 @@ bool UInventoryComponent::AddItem(TSubclassOf<AConsumableItembase> ItemClass, in
             Slot.ItemName = Slot.ItemClass->GetDefaultObject<AConsumableItembase>()->GetRowName();
 
             RemainingAmount -= Addable;
+            bItemAdded = true;
 
             if (RemainingAmount <= 0)
             {
-                OnItemAdded.Broadcast(ItemClass);
+                OnItemAdded.Broadcast(RowName);
                 OnInventoryChanged.Broadcast(InventorySlots);
+                OnChangeTotalCount.Broadcast(RowName, GetItemCount(RowName));
                 return true;
             }
         }
     }
 
-    // 아직도 남아 있다면 슬롯이 부족해서 못 넣은 것
-    OnItemAdded.Broadcast(ItemClass); // 일부라도 추가되었으면 알림
-    OnInventoryChanged.Broadcast(InventorySlots);
+    if (bItemAdded)
+    {
+        OnItemAdded.Broadcast(RowName);
+        OnInventoryChanged.Broadcast(InventorySlots);
+        OnChangeTotalCount.Broadcast(RowName, GetItemCount(RowName));
+    }
+    
     return false;
 }
 
@@ -106,6 +118,7 @@ bool UInventoryComponent::RemoveItem(TSubclassOf<AConsumableItembase> ItemClass,
             if (Slot.Amount >= Amount)
             {
                 Slot.Amount -= Amount;
+                OnChangeTotalCount.Broadcast(Slot.ItemName, GetItemCount(Slot.ItemName));
                 if (Slot.Amount <= 0)
                 {
                     Slot.ItemClass = nullptr;
@@ -113,6 +126,7 @@ bool UInventoryComponent::RemoveItem(TSubclassOf<AConsumableItembase> ItemClass,
                     Slot.ItemName = TEXT("NoneItem");
                 }
                 OnInventoryChanged.Broadcast(InventorySlots);
+                
                 return true;
             }
         }
@@ -121,18 +135,13 @@ bool UInventoryComponent::RemoveItem(TSubclassOf<AConsumableItembase> ItemClass,
     return false;
 }
 
-int32 UInventoryComponent::GetItemCount(TSubclassOf<AConsumableItembase> ItemClass) const
+int32 UInventoryComponent::GetItemCount(FName CountItemName) const
 {
-    if (!ItemClass)
-    {
-        return 0;
-    }
-
     int32 TotalAmount = 0;
 
     for (const FInventorySlot& Slot : InventorySlots)
     {
-        if (Slot.ItemClass == ItemClass)
+        if (Slot.ItemName == CountItemName)
         {
             TotalAmount += Slot.Amount;
         }

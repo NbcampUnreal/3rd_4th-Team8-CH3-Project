@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -49,10 +49,6 @@ void UShooterInputComponent::BindNativeInputAction(
 	{
 		BindAction(FoundAction, TriggerEvent, ContextObject, Callback);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Input Error %s"), *InputTag.ToString())
-	}
 }
 
 template <class UserObject, typename CallbackFunction>
@@ -79,6 +75,15 @@ void UShooterInputComponent::BindAbilityInputAction(
 			InputPressedFunc,
 			AbilityInputActionConfig.InputTag
 		);
+
+		BindAction(
+			AbilityInputActionConfig.InputAction,
+			ETriggerEvent::Triggered,
+			ContextObject,
+			InputPressedFunc,
+			AbilityInputActionConfig.InputTag
+		);
+
 		BindAction(
 			AbilityInputActionConfig.InputAction,
 			ETriggerEvent::Completed,

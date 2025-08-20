@@ -10,3 +10,23 @@ void UShooterUIComponent::HandleCurrentAmmoChanged(float NewAmmo)
     // HUD 위젯에 알리기 위해 브로드캐스트
     OnCurrentAmmoChanged.Broadcast(NewAmmo);
 }
+
+void UShooterUIComponent::HandleStartCooldown(FName UseItemName, float CooldownDuration)
+{
+    OnItemCooldownStart.Broadcast(UseItemName, CooldownDuration);
+}
+
+void UShooterUIComponent::HandleShooterDead()
+{
+    OnShooterDead.Broadcast();
+}
+
+void UShooterUIComponent::HandleShooterFire()
+{
+    OnShooterFire.Broadcast();
+}
+
+void UShooterUIComponent::HandleShooterReload()
+{
+    OnShooterReload.Broadcast();
+}

@@ -75,8 +75,7 @@ UPawnCombatComponent* UShooterGameplayAbility::GetPawnCombatComponentFromActorIn
  * @param InSpecHandle        적용할 준비된 GameplayEffectSpec을 담고 있는 핸들
  * @return                    적용된 액티브 효과의 핸들
  */
-FActiveGameplayEffectHandle UShooterGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor,
-	const FGameplayEffectSpecHandle& InSpecHandle)
+FActiveGameplayEffectHandle UShooterGameplayAbility::NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle)
 {
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
@@ -117,13 +116,13 @@ UShooterAbilitySystemComponent* UShooterGameplayAbility::GetShooterAbilitySystem
  * 
  * @return FActiveGameplayEffectHandle  적용된 효과의 핸들을 반환. (실패 시 Invalid 핸들일 수 있음)
  */
-FActiveGameplayEffectHandle UShooterGameplayAbility::BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor,
-	const FGameplayEffectSpecHandle& InSpecHandle, EShooterSuccessType& OutSuccessType)
+FActiveGameplayEffectHandle UShooterGameplayAbility::BP_ApplyEffectSpecHandleToTarget(
+	AActor* TargetActor,
+	const FGameplayEffectSpecHandle& InSpecHandle,
+	EShooterSuccessType& OutSuccessType
+)
 {
-	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(
-		TargetActor,
-		InSpecHandle
-	);
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
 
 	OutSuccessType =
 		ActiveGameplayEffectHandle.WasSuccessfullyApplied()

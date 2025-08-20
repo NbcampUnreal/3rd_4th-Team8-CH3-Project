@@ -5,6 +5,10 @@
 
 ABulletItem::ABulletItem()
 {
-	PlusItemCount = 5;
 	ItemRowName = "BulletItem";
+}
+
+void ABulletItem::BeginPlay()
+{
+	Super::BeginPlay();
 }

@@ -42,19 +42,7 @@ void UShooterGameInstance::Init()
 void UShooterGameInstance::LoadWaveLevel()
 {
 	//이전 레벨 언로드
-	if (WaveConfigs.IsValidIndex(CurrentWave - 1))
-	{
-		FName PreviousLevel = WaveConfigs[CurrentWave - 1].LevelName;
-
-		UGameplayStatics::UnloadStreamLevel(
-			this,													//함수에 호출될 월드 this나 GetWolrd
-			PreviousLevel,											//언로드할 레벨 이름
-			FLatentActionInfo(),									// 완료 후 호출될 콜백 설정, 필요 없다면 기본값 (FLatentActionInfo())을 사용
-			false													//언로드를 동기화할지 여부 (true : 언로드가 끝날때까지 멈춤)
-		);
-
-		UE_LOG(LogTemp, Warning, TEXT("Unload PrevLevel: %s"), *PreviousLevel.ToString());
-	}
+	UnloadStreamLevel();
 	
 	//다음레벨 로드
 	FName LevelToLoad = WaveConfigs[CurrentWave].LevelName;
@@ -74,6 +62,44 @@ void UShooterGameInstance::LoadWaveLevel()
 	);
 
 	UE_LOG(LogTemp, Warning, TEXT("Started loading level: %s"), *LevelToLoad.ToString());
+}
+
+void UShooterGameInstance::UnloadStreamLevel()
+{
+
+	for (int32 WaveNum = 0; WaveNum < GetWaveConfigs().Num(); WaveNum++)
+	{
+		FName LevelName = GetWaveConfigs()[WaveNum].LevelName;
+		ULevelStreaming* StreamingLevel = UGameplayStatics::GetStreamingLevel(GetWorld(), LevelName);
+		if (!StreamingLevel)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("StreamingLevel not found!"));
+			continue;
+		}
+
+		bool bLoaded = StreamingLevel->IsLevelLoaded();    // 메모리에 로드되었는지
+		bool bVisible = StreamingLevel->IsLevelVisible();   // 화면에 보이는 상태인지
+		UE_LOG(LogTemp, Log, TEXT("Level%d  Loaded: %d, Visible: %d"), WaveNum, bLoaded, bVisible);
+
+		if (bLoaded && bVisible)
+		{
+			FLatentActionInfo Latent;
+			Latent.CallbackTarget = this;
+			Latent.ExecutionFunction = NAME_None;
+			Latent.Linkage = 0;
+			Latent.UUID = FMath::Rand(); // 각 호출마다 다른 UUID
+
+			UGameplayStatics::UnloadStreamLevel(
+				this,
+				LevelName,
+				Latent,
+				true
+			);
+			
+			UE_LOG(LogTemp, Warning, TEXT("Unload PrevLevel: %s"), *LevelName.ToString());
+		}
+
+	}
 }
 
 void UShooterGameInstance::LoadLevelComplete()

@@ -20,4 +20,7 @@ public:
 
 private:
 	void TriggerGameplayEvent(const FGameplayTag EventTag, const FGameplayEventData& EventData);
+
+protected:
+	virtual void ToggleBodyCollisionBoxCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType) override;
 };

@@ -5,7 +5,7 @@
 
 namespace ShooterGamePlayTags
 {
-	/** Input **/
+	/** Input Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, "InputTag.Move");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Mouse, "InputTag.Look.Mouse");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look_Gamepad, "InputTag.Look.Gamepad");
@@ -13,15 +13,20 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Crouch, "InputTag.Crouch");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Walk, "InputTag.Walk");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Sprint, "InputTag.Sprint");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Roll, "InputTag.Roll");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_SwitchShoulder, "InputTag.SwitchShoulder");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Aim, "InputTag.Weapon.Aim");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_OpenInventory, "InputTag.OpenInventory");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Fire, "InputTag.Weapon.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_Reload, "InputTag.Weapon.Reload");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.Weapon.EquipWeapon");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_EquipWeapon, "InputTag.EquipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Weapon_UnequipWeapon, "InputTag.Weapon.UnequipWeapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_UseItemBase, "InputTag.ConsumableItem.UseItemBase");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_HealingItem, "InputTag.ConsumableItem.HealingItem");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_ConsumableItem_GrenadeItem, "InputTag.ConsumableItem.GrenadeItem");
+
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_EquipWeapon, "InputTag.EquipWeapon");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipWeapon, "InputTag.UnequipWeapon");
 
 	/** Ability Tags**/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Weapon_Equip, "Player.Ability.Weapon.Equip");
@@ -37,6 +42,7 @@ namespace ShooterGamePlayTags
 
 	/* Weapon Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Rifle, "Player.Weapon.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon_Baton, "Enemy.Weapon.Baton");
 
 	/* SetByCaller Tags */
 	UE_DEFINE_GAMEPLAY_TAG(Player_SetByCaller_AttackType_Shoot, "Player.SetByCaller.AttackType.Shoot");
@@ -45,6 +51,9 @@ namespace ShooterGamePlayTags
 	/*Event Tags*/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Rifle, "Player.Event.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Rifle, "Player.Event.Unequip.Rifle");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_HealingCooldown, "Player.Status.HealingCooldown");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_GrenadeCooldown, "Player.Status.GrenadeCooldown");
 
 	/* Shared */
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");
@@ -55,11 +64,37 @@ namespace ShooterGamePlayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Back, "Shared.Status.HitReact.Back");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_HitReact_Right, "Shared.Status.HitReact.Right");
 
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead, "Shared.Status.Dead");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_LowHealth, "Shared.Status.LowHealth");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Invincible, "Shared.Status.Invincible");
+
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Data_ReloadAmount, "Shared.Data.ReloadAmount");
 
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_MeleeHit, "Shared.Event.MeleeHit");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact, "Shared.Event.HitReact");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_Shoot, "Shared.Event.Shoot");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_SpawnProjectile, "Shared.Event.SpawnProjectile");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_BaseDamage, "Shared.SetByCaller.BaseDamage");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_ChargeShootDamage, "Shared.SetByCaller.ChargeShootDamage");
+
+	/* Enemy Ability Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee, "Enemy.Ability.Melee");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Projectile, "Enemy.Ability.Projectile");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_End, "Enemy.Ability.Melee.End");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special, "Enemy.Ability.Melee.Special");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Melee_Special_Projectile, "Enemy.Ability.Melee.Special.Projectile");
+
+	/* Player Status Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_NoAmmo, "Player.Status.NoAmmo");
+
+	/* Enemy Status Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_UnderAttack, "Enemy.Status.UnderAttack");
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Status_Strafing, "Enemy.Status.Strafing");
+	
+	/* Boss Tags */
+	UE_DEFINE_GAMEPLAY_TAG(Boss_Status_Phase2, "Boss.Status.Phase2");
+
+	/* Enemy GamplayCue Sounds Tags */
+	UE_DEFINE_GAMEPLAY_TAG(GameplayCue_Sounds_Death_Enemy_Scout, "GameplayCue.Sounds.Death.Enemy.Scout");
 }

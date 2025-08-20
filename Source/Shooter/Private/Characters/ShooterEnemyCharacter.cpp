@@ -1,11 +1,17 @@
-#include "Characters/ShooterEnemyCharacter.h"
+﻿#include "Characters/ShooterEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystem/ShooterAbilitySystemComponent.h"
 #include "AbilitySystem/ShooterAttributeSet.h"
 #include "AbilitySystem/Abilities/ShooterGameplayAbility.h"
 #include "DataAssets/StartUpDatas/DataAsset_StartUpDataBase.h"
 #include "AIController.h"
+#include "ShooterFunctionLibrary.h"
+#include "Components/BoxComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Components/Combat/ShooterEnemyCombatComponent.h"
+#include "Components/UI/EnemyUIComponent.h"
+#include "Items/ConsumableItems/ConsumableItembase.h"
+#include "Engine/AssetManager.h"
 
 AShooterEnemyCharacter::AShooterEnemyCharacter()
 {
@@ -17,6 +23,25 @@ AShooterEnemyCharacter::AShooterEnemyCharacter()
 	Movement->MaxWalkSpeed = CurWalkSpeed;
 	Movement->RotationRate = FRotator(0.0f, 100.0f, 0.0f);
 	Movement->AirControl = 0.2f;
+
+	ShooterEnemyCombatComponent = CreateDefaultSubobject<UShooterEnemyCombatComponent>(TEXT("EnemyCombatComponent"));
+	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyUIComponent"));
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidgetComponent"));
+
+	LeftHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("LeftHandCollisionBox");
+	LeftHandCollisionBox->SetupAttachment(GetMesh());
+	LeftHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
+
+	RightHandCollisionBox = CreateDefaultSubobject<UBoxComponent>("RightHandCollisionBox");
+	RightHandCollisionBox->SetupAttachment(GetMesh());
+	RightHandCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RightHandCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
+
+	HeadCollisionBox = CreateDefaultSubobject<UBoxComponent>("HeadCollisionBox");
+	HeadCollisionBox->SetupAttachment(GetMesh());
+	HeadCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	HeadCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnBodyCollisionBoxBeginOverlap);
 }
 
 UPawnCombatComponent* AShooterEnemyCharacter::GetPawnCombatComponent() const
@@ -24,16 +49,27 @@ UPawnCombatComponent* AShooterEnemyCharacter::GetPawnCombatComponent() const
 	return ShooterEnemyCombatComponent;
 }
 
+UPawnUIComponent* AShooterEnemyCharacter::GetPawnUIComponent() const
+{
+	return EnemyUIComponent;
+}
+
+UEnemyUIComponent* AShooterEnemyCharacter::GetEnemyUIComponent() const
+{
+	return EnemyUIComponent;
+}
+
 void AShooterEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
 	ensureMsgf(AIControllerClass, TEXT("AIControllerClass is null!"));
-	
+
 	if (ShooterAbilitySystemComponent)
 	{
 		ShooterAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-			ShooterAttributeSet->GetCurrentHealthAttribute()).AddUObject(this, &AShooterEnemyCharacter::OnHealthAttributeChanged);
+			ShooterAttributeSet->GetCurrentHealthAttribute()).AddUObject(
+			this, &AShooterEnemyCharacter::OnHealthAttributeChanged);
 	}
 
 	if (!CharacterStartUpData.IsNull())
@@ -42,13 +78,6 @@ void AShooterEnemyCharacter::BeginPlay()
 		{
 			LoadedData->GiveToAbilitySystemComponent(ShooterAbilitySystemComponent);
 			UE_LOG(LogTemp, Warning, TEXT("AddStartUp Successed!"));
-		}
-
-		// StartupEffect�� ����� ���� RunBehaviorTree�� ȣ���Ͽ� BTService���� �ʱ�ȭ�� �Ӽ��� ����� �� �ְ���
-		AAIController* AIController = Cast<AAIController>(GetController());
-		if (AIController && BehaviorTreeAsset)
-		{
-			AIController->RunBehaviorTree(BehaviorTreeAsset);
 		}
 	}
 	else
@@ -70,4 +99,101 @@ void AShooterEnemyCharacter::BeginPlay()
 void AShooterEnemyCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data)
 {
 	OnHealthChanged(Data.OldValue, Data.NewValue);
+}
+
+void AShooterEnemyCharacter::PostEditChangeChainProperty(struct FPropertyChangedChainEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeChainProperty(PropertyChangedEvent);
+
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, LeftHandCollisionBoxAttachBoneName))
+	{
+		LeftHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, LeftHandCollisionBoxAttachBoneName);
+	}
+
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, RightHandCollisionBoxAttachBoneName))
+	{
+		RightHandCollisionBox->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, RightHandCollisionBoxAttachBoneName);
+	}
+}
+
+void AShooterEnemyCharacter::OnBodyCollisionBoxBeginOverlap(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult
+)
+{
+	if (APawn* HitPawn = Cast<APawn>(OtherActor))
+	{
+		if (UShooterFunctionLibrary::IsTargetPawnHostile(this, HitPawn))
+		{
+			ShooterEnemyCombatComponent->OnHitTargetActor(HitPawn);
+		}
+	}
+}
+
+void AShooterEnemyCharacter::DropItem()
+{
+	if (!ItemDataTable) return;
+
+	// 데이터 테이블 모든 Row 가져오기
+	static const FString ContextString(TEXT("ItemDropContext"));
+	TArray<FItemDataStruct*> AllRows;
+	ItemDataTable->GetAllRows(ContextString, AllRows);
+
+	for (FItemDataStruct* Row : AllRows)
+	{
+		if (!Row || !Row->ItemClass) continue;
+
+		// 랜덤 확률 체크
+		float RandomValue = FMath::FRand(); // 0.0 ~ 1.0
+		if (RandomValue <= Row->DropChance)
+		{
+			// 아이템 스폰
+			// X,Y 방향으로 랜덤 이동 (반경 50~100 정도)
+			FVector SpawnLocation = GetActorLocation();
+
+			FVector RandomOffset = FVector(
+				FMath::FRandRange(-50.f, 50.f),
+				FMath::FRandRange(-50.f, 50.f),
+				0.f
+			);
+
+			FVector FinalLocation = SpawnLocation + RandomOffset;
+
+			GetWorld()->SpawnActor<AActor>(
+				Row->ItemClass,
+				FinalLocation,
+				FRotator::ZeroRotator
+			);
+
+		}
+	}
+}
+
+void AShooterEnemyCharacter::InitEnemyStartUpData()
+{
+	// 만약 CharacterStartUpData가 null이라면 (즉, 설정된 에셋이 없다면), 함수 종료
+	if (CharacterStartUpData.IsNull())
+	{
+		return;
+	}
+
+	// 에셋 매니저를 통해 소프트 오브젝트 경로를 비동기로 로드
+	UAssetManager::GetStreamableManager().RequestAsyncLoad(
+		CharacterStartUpData.ToSoftObjectPath(), // 로드할 에셋의 경로 지정
+		FStreamableDelegate::CreateLambda( // 로드 완료 시 호출할 콜백 람다 함수 정의
+			[this]() // 현재 객체(this)를 캡처하여 멤버에 접근할 수 있도록 설정
+			{
+				// 로드가 완료되었으므로 실제 데이터 에셋 객체 포인터를 가져옴
+				if (UDataAsset_StartUpDataBase* LoadData = CharacterStartUpData.Get())
+				{
+					// 로드된 스타트업 데이터를 사용해 AbilitySystemComponent에 능력 부여
+					LoadData->GiveToAbilitySystemComponent(ShooterAbilitySystemComponent);
+				}
+			}
+		)
+	);
 }

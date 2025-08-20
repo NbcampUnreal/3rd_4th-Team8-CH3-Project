@@ -15,7 +15,7 @@ void AHealingItem::PickupItem(AShooterCharacter* Picker)
 {
 	Super::PickupItem(Picker);
 
-	UShooterAbilitySystemComponent* PickerASC = Picker->GetShooterAbilitySystemComponent();
+	UShooterAbilitySystemComponent* PickerASC = Cast<UShooterAbilitySystemComponent>(Picker->GetAbilitySystemComponent());
 	if (!PickerASC)
 	{
 		return;
@@ -35,4 +35,9 @@ void AHealingItem::PickupItem(AShooterCharacter* Picker)
 			UE_LOG(LogTemp, Warning, TEXT("HealingItemAttrSet Already Give Owner"));
 		}
 	}
+}
+
+void AHealingItem::BeginPlay()
+{
+	Super::BeginPlay();
 }

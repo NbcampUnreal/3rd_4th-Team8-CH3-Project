@@ -11,6 +11,9 @@ class UShooterGameplayAbility;
 class USphereComponent;
 class AShooterCharacter;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemDestroyed, AActor*, Actor);
+
+
 UCLASS()
 class SHOOTER_API AConsumableItembase : public AActor
 {
@@ -22,10 +25,13 @@ public:
 
     // 아이템 드랍 함수
     UFUNCTION(BlueprintCallable, Category = "Item")
-    void DropItem(const FVector& DropLocation);
+    void DropSetting();
 
     UFUNCTION(BlueprintCallable, Category = "Item")
     FName GetRowName() const { return ItemRowName; }
+
+    UPROPERTY(BlueprintAssignable, Category = "Events")
+    FOnItemDestroyed OnActorDestroyed;
 
 protected:
 
@@ -64,9 +70,6 @@ protected:
     // 아이템 외형 컴포넌트
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item|Mesh")
     UStaticMeshComponent* ItemMesh;
-
-    UPROPERTY(EditAnywhere, Category = "Item")
-    int32 PlusItemCount = 1;
 
     UPROPERTY(EditAnywhere, Category = "Item")
     FName ItemRowName;

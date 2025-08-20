@@ -15,7 +15,7 @@ void AGrenadeItem::PickupItem(AShooterCharacter* Picker)
 {
 	Super::PickupItem(Picker);
 
-	UShooterAbilitySystemComponent* PickerASC = Picker->GetShooterAbilitySystemComponent();
+	UShooterAbilitySystemComponent* PickerASC = Cast<UShooterAbilitySystemComponent>(Picker->GetAbilitySystemComponent());
 	if (!PickerASC)
 	{
 		return;
@@ -32,4 +32,9 @@ void AGrenadeItem::PickupItem(AShooterCharacter* Picker)
 			UE_LOG(LogTemp, Warning, TEXT("GrenadeAttributeSet Give Owner"));
 		}
 	}
+}
+
+void AGrenadeItem::BeginPlay()
+{
+	Super::BeginPlay();
 }

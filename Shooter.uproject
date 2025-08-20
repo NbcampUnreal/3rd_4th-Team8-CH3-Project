@@ -29,11 +29,23 @@
 			"Enabled": true
 		},
 		{
-			"Name": "CascadeToNiagaraConverter",
+			"Name": "ALS",
 			"Enabled": true
 		},
 		{
-			"Name": "ALS",
+			"Name": "MotionWarping",
+			"Enabled": true
+		},
+		{
+			"Name": "PCG",
+			"Enabled": true
+		},
+		{
+			"Name": "Landmass",
+			"Enabled": true
+		},
+		{
+			"Name": "LandscapePatch",
 			"Enabled": true
 		}
 	]
