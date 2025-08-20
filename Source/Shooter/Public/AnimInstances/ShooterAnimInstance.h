@@ -7,7 +7,7 @@
 #include "ShooterAnimInstance.generated.h"
 
 
-class AShooterCharacter;
+class AShooterBaseCharacter;
 class UCharacterMovementComponent;
 /**
  * 
@@ -19,11 +19,11 @@ class SHOOTER_API UShooterAnimInstance : public UShooterBaseAnimInstance
 
 public:
 	virtual void NativeInitializeAnimation() override;
-	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds);
+	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
 	UPROPERTY()
-	AShooterCharacter* OwningCharacter;
+	AShooterBaseCharacter* OwningCharacter;
 
 	UPROPERTY()
 	UCharacterMovementComponent* OwningMovementComponent;
@@ -43,4 +43,24 @@ protected:
 	/* 가속도가 있는지 여부 */
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
 	bool bHasAcceleration;
+
+	// 캐릭터 에임 Roll 값
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
+	float Roll;
+
+	// 캐릭터 에임 Pitch 값
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
+	float Pitch;
+
+	// 캐릭터 에임 Yaw 값
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
+	float Yaw;
+
+	// 캐릭터 YawDelta 값
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
+	float YawDelta;
+
+	// 캐릭터 FullBody bool
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
+	bool bFullBody;
 };
